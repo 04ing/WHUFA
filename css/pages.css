@@ -1,0 +1,197 @@
+/* 轮播图样式 */
+.carousel {
+    position: relative;
+    margin: var(--spacing-xl) 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-item {
+    position: relative;
+    display: none;
+    width: 100%;
+    transition: transform var(--transition-slow);
+}
+
+.carousel-item.active {
+    display: block;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.carousel-item:hover img {
+    transform: scale(1.05);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    border: none;
+    cursor: pointer;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-control-prev {
+    left: var(--spacing-md);
+}
+
+.carousel-control-next {
+    right: var(--spacing-md);
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: var(--spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-full);
+    border: none;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.carousel-indicators button.active {
+    background-color: var(--text-light);
+    width: 30px;
+}
+
+/* 赛事开展部分样式 */
+#section1 {
+    background-color: var(--dark);
+    color: var(--text-light);
+    padding: var(--spacing-xxl) var(--spacing-md);
+}
+
+#section1 h2 {
+    color: var(--text-light);
+    margin-bottom: var(--spacing-lg);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+#section1 p.lead {
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xl);
+    font-size: 1.25rem;
+    line-height: 1.7;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 赛事卡片样式 */
+#section1 .card {
+    background-color: var(--wuda-blue);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    border: 1px solid var(--wuda-blue-light);
+}
+
+#section1 .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.15);
+}
+
+#section1 .card-title {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    font-size: 1.3rem;
+}
+
+#section1 .card-text {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.7;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+#section1 .card-body {
+    padding: var(--spacing-xl);
+}
+
+#section1 .card img {
+    margin-bottom: var(--spacing-md);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5px;
+}
+
+#section1 .btn-primary {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#section1 .btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+#section1 .btn {
+    margin-top: var(--spacing-md);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+
+/* 确保卡片中的图片清晰 */
+#section1 .card img {
+    border: 3px solid var(--light-dark);
+    background-color: var(--light);
+}
+
+/* 确保按钮在卡片中清晰可见 */
+#section1 .btn-primary {
+    background-color: var(--wuda-blue-light);
+    color: var(--text-light);
+    font-weight: 500;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-normal);
+}
+
+#section1 .btn-primary:hover {
+    background-color: var(--wuda-blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}

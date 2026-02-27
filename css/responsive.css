@@ -1,0 +1,123 @@
+/* 响应式设计 */
+@media (max-width: 768px) {
+    /* 网格系统响应式 */
+    .col-md,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-8,
+    .col-md-12,
+    .col-lg-3 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* 导航栏响应式 */
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -300px;
+        width: 300px;
+        height: 100vh;
+        background-color: var(--wuda-blue);
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: var(--spacing-xl);
+        gap: var(--spacing-lg);
+        box-shadow: var(--shadow-xl);
+        z-index: 1000;
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+    
+    .nav-link {
+        width: 100%;
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+    }
+    
+    .dropdown-menu {
+        position: static;
+        min-width: 100%;
+        box-shadow: none;
+        margin-top: var(--spacing-sm);
+    }
+    
+    .d-md-block {
+        display: none !important;
+    }
+    
+    /* 容器响应式 */
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    /* 间距响应式 */
+    .p-5 {
+        padding: var(--spacing-xl) !important;
+    }
+    
+    /* 字体大小响应式 */
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .lead {
+        font-size: 1.1rem;
+    }
+    
+    /* 轮播图响应式 */
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 40px;
+        height: 40px;
+    }
+    
+    /* 卡片响应式 */
+    .card-body {
+        padding: var(--spacing-lg);
+    }
+}
+
+/* 小屏幕设备 */
+@media (max-width: 576px) {
+    .nav-container {
+        padding: var(--spacing-sm);
+    }
+    
+    .nav-brand {
+        font-size: 1.25rem;
+    }
+    
+    .p-5 {
+        padding: var(--spacing-lg) !important;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+    }
+}
+
+/* 大屏幕设备 */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}

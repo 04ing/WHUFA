@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2024振兴杯男子超级组数据查询</title>
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="custom-nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">武汉大学足球协会</a>
+
+      <div class="nav-links">
+        <a href="../index.html" class="nav-link">首页</a>
+        <a href="../pages/about.html" class="nav-link">社团介绍</a>
+        <a href="../pages/events.html" class="nav-link">赛事开展</a>
+        <a href="../pages/departments.html" class="nav-link">部门介绍</a>
+        <a href="../pages/contact.html" class="nav-link">联系我们</a>
+        <div class="nav-dropdown">
+          <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
+          <div class="dropdown-menu">
+            <a href="../pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
+            <a href="../pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
+            <a href="../pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
+            <a href="../pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
+            <a href="../pages/match-results.html" class="dropdown-item">赛果更新</a>
+          </div>
+        </div>
+        <a href="../pages/register.html" class="nav-link">登录/注册</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="p-5 pt-20 bg-light text-dark">
+    <div class="container">
+      <h1 class="text-center mb-5">查找武大2024振兴杯男子超级组数据</h1>
+      <div class="text-center mb-5">
+        <img
+          src="../img/2024振兴杯男子超级组.png"
+          alt="2024振兴杯男子超级组"
+          class="w-50 d-none d-md-block mb-5"
+          height="200px"
+        />
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <h2 class="text-center mb-4">通过球队名查询</h2>
+          <div class="d-flex justify-content-center mb-5">
+            <input type="text" class="form-input w-50 mr-2" id="searchInput1" placeholder="请输入球队名">
+            <button class="btn btn-primary" onclick="search1()">查找</button>
+          </div>
+          <div id="result1" class="result bg-white p-4 border rounded shadow-lg mb-5"></div>
+
+          <h2 class="text-center mb-4">通过裁判员查询</h2>
+          <div class="d-flex justify-content-center mb-5">
+            <input type="text" class="form-input w-50 mr-2" id="searchInput2" placeholder="请输入裁判员姓名">
+            <button class="btn btn-primary" onclick="search2()">查找</button>
+          </div>
+          <div id="result2" class="result bg-white p-4 border rounded shadow-lg"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="p-5 bg-dark text-white text-center">
+    <div class="container">
+      <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
+    </div>
+  </footer>
+
+  <script>
+    let jsonData = []; // 用于存储加载的JSON 数据
+
+    // 加载 JSON 文件
+    async function loadJsonData() {
+      try {
+        const response = await fetch('../json/Super2024.json'); // JSON 文件路径
+        if (!response.ok) {
+          throw new Error('无法加载 JSON 文件');
+        }
+        jsonData = await response.json();
+        console.log('JSON 数据已加载：', jsonData); // 调试信息
+      } catch (error) {
+        console.error('加载 JSON 文件失败', error);
+      }
+    }
+
+    // 根据球队名查询
+    function search1() {
+      const keyword1 = document.getElementById('searchInput1').value.trim().toLowerCase();
+      const resultDiv1 = document.getElementById('result1');
+
+      if (!keyword1) {
+        resultDiv1.innerText = '请输入球队名';
+        return;
+      }
+
+      // 根据球队名查询
+      const matches1 = jsonData.filter(item => {
+        const home = item.Home ? String(item.Home).toLowerCase() : '';
+        const away = item.Away ? String(item.Away).toLowerCase() : '';
+        return home.includes(keyword1)||away.includes(keyword1);
+      });
+
+      // 显示结果
+      if (matches1.length > 0) {
+        resultDiv1.innerHTML = `已找到${matches1.length} 个符合条件的对象<br><br>` +matches1.map(item => `
+          <div>
+            <strong>日期:</strong> ${item.Date}<br> 
+            <strong>场序:</strong> ${item.Number}<br> 
+            <strong>主队:</strong> ${item.Home}<br> 
+            <strong>客队:</strong> ${item.Away}<br> 
+            <strong>场地:</strong> ${item.Field}<br>
+            <strong>时间:</strong> ${item.Time}<br>
+            <strong>组别:</strong> ${item.Group}<br>
+            <strong>类型:</strong> ${item.Class}<br>
+            <strong>赛果:</strong> ${item.Result}<br>
+            <br>
+          </div>
+        `).join('');
+      } else {
+        resultDiv1.innerText = '未找到匹配的数据';
+      }
+    }
+
+    // 根据裁判员查询
+    function search2() {
+      const keyword2 = document.getElementById('searchInput2').value.trim().toLowerCase();
+      const resultDiv2 = document.getElementById('result2');
+
+      if (!keyword2) {
+        resultDiv2.innerText = '请输入裁判员姓名';
+        return;
+      }
+
+      // 根据裁判员查询
+      const matches2 = jsonData.filter(item => {
+        const r = item.R ? String(item.R).toLowerCase() : '';
+        const ar1 = item.AR1 ? String(item.AR1).toLowerCase() : '';
+        const ar2 = item.AR2? String(item.AR2).toLowerCase() : '';
+        return r.includes(keyword2)||ar1.includes(keyword2)||ar2.includes(keyword2);
+      });
+
+      // 显示结果
+      if (matches2.length > 0) {
+        resultDiv2.innerHTML = `已找到${matches2.length} 个符合条件的对象<br><br>` +matches2.map(item => `
+          <div>
+            <strong>日期:</strong> ${item.Date}<br> 
+            <strong>场序:</strong> ${item.Number}<br> 
+            <strong>主队:</strong> ${item.Home}<br> 
+            <strong>客队:</strong> ${item.Away}<br> 
+            <strong>场地:</strong> ${item.Field}<br>
+            <strong>时间:</strong> ${item.Time}<br>
+            <strong>组别:</strong> ${item.Group}<br>
+            <strong>类型:</strong> ${item.Class}<br>
+            <strong>裁判员:</strong> ${item.R}<br>
+            <strong>助理裁判1:</strong> ${item.AR1}<br>
+            <strong>助理裁判2:</strong> ${item.AR2} <br>
+            <strong>赛果:</strong> ${item.Result}<br>
+            <br>
+          </div>
+        `).join('');
+      } else {
+        resultDiv2.innerText = '未找到匹配的数据';
+      }
+    }
+
+    // 页面加载时加载 JSON 数据
+    window.onload = loadJsonData;
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

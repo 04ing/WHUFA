@@ -1,0 +1,103 @@
+[
+  {
+    "id": "match_1772202638409",
+    "date": "2025/10/31",
+    "time": "16:00",
+    "type": "2025新生杯决赛",
+    "referee": "邱弋添",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "谢承志",
+    "fourthOfficial": "陈思平",
+    "homeTeam": "资环",
+    "awayTeam": "口腔",
+    "homeScore": "6",
+    "awayScore": "0",
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "37"
+      },
+      {
+        "type": "goal",
+        "player": "木那尔",
+        "number": "19",
+        "minute": "41"
+      },
+      {
+        "type": "goal",
+        "player": "熊林枫",
+        "number": "3",
+        "minute": "43"
+      },
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "48"
+      },
+      {
+        "type": "penalty",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "55"
+      },
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "60"
+      }
+    ],
+    "awayEvents": []
+  },
+  {
+    "id": "match_1772203053337",
+    "date": "2025/10/17",
+    "time": "12:30",
+    "type": "新生杯小组赛",
+    "referee": "何百川",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "史坤锋",
+    "fourthOfficial": "凌瑞晨",
+    "homeTeam": "网安",
+    "awayTeam": "城设",
+    "homeScore": "1",
+    "awayScore": "3",
+    "homeEvents": [
+      {
+        "type": "ownGoal",
+        "player": "郝子介",
+        "number": "5",
+        "minute": "44"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "蔡鸿敬",
+        "number": "10",
+        "minute": "22"
+      },
+      {
+        "type": "goal",
+        "player": "蔡鸿敬",
+        "number": "10",
+        "minute": "24"
+      },
+      {
+        "type": "doubleYellow",
+        "player": "杜倬钰",
+        "number": "78",
+        "minute": "36"
+      },
+      {
+        "type": "goal",
+        "player": "姜沛涵",
+        "number": "66",
+        "minute": "55"
+      }
+    ]
+  }
+]

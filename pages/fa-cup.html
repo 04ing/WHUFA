@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>足协杯- 武汉大学足球协会</title>
+        <link rel="stylesheet" href="../css/base.css" />
+        <link rel="stylesheet" href="../css/layout.css" />
+        <link rel="stylesheet" href="../css/components.css" />
+        <link rel="stylesheet" href="../css/pages.css" />
+        <link rel="stylesheet" href="../css/responsive.css" />
+    </head>
+    <body>
+        <nav class="custom-nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-brand">武汉大学足球协会</a>
+                
+                <!-- 移动端汉堡菜单按钮 -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span class="menu-icon"></span>
+                    <span class="menu-icon"></span>
+                    <span class="menu-icon"></span>
+                </button>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="../index.html" class="nav-link">首页</a>
+                    <a href="../pages/about.html" class="nav-link">社团介绍</a>
+                    <a href="../pages/events.html" class="nav-link">赛事开展</a>
+                    <a href="../pages/departments.html" class="nav-link">部门介绍</a>
+                    <a href="../pages/contact.html" class="nav-link">联系我们</a>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
+                        <div class="dropdown-menu">
+                            <a href="../pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
+                            <a href="../pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
+                            <a href="../pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
+                            <a href="../pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
+                            <a href="../pages/match-results.html" class="dropdown-item">赛果更新</a>
+                        </div>
+                    </div>
+                    <a href="../pages/register.html" class="nav-link">登录/注册</a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- 移动端菜单覆盖层 -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+        <section class="p-5 pt-20 bg-dark text-light text-center text-sm-start">
+            <div class="container">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="text-center">
+                        <h1 class="mt-20">
+                            足协<span class="text-warning">杯</span>
+                        </h1>
+                        <p class="my-4">
+                            足协杯是组队形式最自由的比赛，是校园足球的欢乐盛宴
+                        </p>
+                    </div>
+                    <img
+                        src="../img/足协杯.png"
+                        alt="足协杯"
+                        class="w-25 d-none d-md-block mb-5"
+                        height="200px"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">赛事介绍</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="lead">
+                            足协杯举办在每年4-5月，是组队形式最自由的比赛。可以在全校范围内自由组队，且没有报名限制。足协杯旨在丰富武大学子课外生活，活跃我校大学生体育文化氛围，弘扬百年武大优秀体育风貌，给广大同学一个享受足球、参与比赛的平台和机遇，每年都有很多支队伍报名参加。                        </p>
+                        <p>
+                            足协杯是武汉大学足球协会自主举办的品牌赛事，是校园足球的欢乐盛宴。通过足协杯，同学们可以自由组队，与好友一起享受足球带来的快乐，展现自己的足球才华。                        </p>
+                        <p>
+                            比赛采用分组循环赛制，最终决出冠亚军。赛事期间，我们会为每场比赛提供专业裁判，确保比赛的公平公正。                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="../img/足协杯开幕.png" alt="足协杯开幕" class="img-fluid rounded shadow-lg" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-dark text-light">
+            <div class="container">
+                <h2 class="text-center mb-5">参赛要求</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body">
+                                <h3 class="card-title">参赛资格</h3>
+                                <ul class="list-unstyled">
+                                    <li>• 武汉大学在校学生</li>
+                                    <li>• 身体健康，适合参加足球比赛</li>
+                                    <li>• 可自由组队，无院系限制</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body">
+                                <h3 class="card-title">报名要求</h3>
+                                <ul class="list-unstyled">
+                                    <li>• 每队可报8-15名球员</li>
+                                    <li>• 需提交球员身份证和学生证复印件</li>
+                                    <li>• 需签署安全责任书</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body">
+                                <h3 class="card-title">比赛规则</h3>
+                                <ul class="list-unstyled">
+                                    <li>• 采用国际足联最新足球规则</li>
+                                    <li>• 每场比赛90分钟，上下半场各45分钟</li>
+                                    <li>• 小组赛积分制，淘汰赛单场决胜</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">赛程安排</h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>2024年足协杯赛程安排</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <h4>3月下旬</h4>
+                                        <p>报名截止</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4>4月上旬</h4>
+                                        <p>分组抽签仪式</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4>4月中旬-5月上旬</h4>
+                                        <p>小组赛阶段</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4>5月中旬</h4>
+                                        <p>淘汰赛阶段</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4>5月下旬</h4>
+                                        <p>决赛及颁奖仪式</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-dark text-light">
+            <div class="container">
+                <h2 class="text-center mb-5">精彩瞬间</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <img src="../img/比赛集锦1.png" alt="比赛集锦1" class="w-100 rounded mb-3" />
+                            <h3>自由组队</h3>
+                            <p>同学们自由组队，与好友一起享受足球带来的快乐</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <img src="../img/比赛集锦2.png" alt="比赛集锦2" class="w-100 rounded mb-3" />
+                            <h3>欢乐竞技</h3>
+                            <p>足协杯氛围轻松愉快，球员们在场上尽情享受比赛</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <img src="../img/颁奖.png" alt="颁奖" class="w-100 rounded mb-3" />
+                            <h3>荣耀时刻</h3>
+                            <p>冠军球队捧起足协杯冠军奖杯，为大学生活留下美好回忆</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">赛事特色</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h3 class="card-title">组队自由</h3>
+                                <p class="card-text">
+                                    可以跨院系、跨年级自由组队，与好友一起征战                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h3 class="card-title">参与广泛</h3>
+                                <p class="card-text">
+                                    没有报名限制，更多同学可以参与到足球运动中来
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h3 class="card-title">氛围轻松</h3>
+                                <p class="card-text">
+                                    足协杯氛围轻松愉快，注重参与感和趣味性                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">历届冠军</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card text-center bg-white">
+                            <div class="card-body text-dark">
+                                <h3 class="card-title">2026</h3>
+                                <p class="card-text">待更新</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center bg-white">
+                            <div class="card-body text-dark">
+                                <h3 class="card-title">2025</h3>
+                                <p class="card-text">谦江月足球队</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center bg-white">
+                            <div class="card-body text-dark">
+                                <h3 class="card-title">2024</h3>
+                                <p class="card-text">谦江月足球队</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center bg-white">
+                            <div class="card-body text-dark">
+                                <h3 class="card-title">2023</h3>
+                                <p class="card-text">俞华信</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="p-5 bg-dark text-white text-center">
+            <div class="container">
+                <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
+            </div>
+        </footer>
+
+        <script></script>
+            // 移动端菜单控制
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.classList.toggle('menu-open');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            });
+            
+            // 下拉菜单控制
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    dropdownMenu.classList.toggle('active');
+                });
+            });
+            
+            // 点击其他地方关闭下拉菜单
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-dropdown')) {
+                    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+                    dropdownMenus.forEach(menu => {
+                        menu.classList.remove('active');
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+

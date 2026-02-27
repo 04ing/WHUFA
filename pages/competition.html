@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>竞赛部- 武汉大学足球协会</title>
+        <link rel="stylesheet" href="../css/base.css" />
+        <link rel="stylesheet" href="../css/layout.css" />
+        <link rel="stylesheet" href="../css/components.css" />
+        <link rel="stylesheet" href="../css/pages.css" />
+        <link rel="stylesheet" href="../css/responsive.css" />
+    </head>
+    <body>
+        <nav class="custom-nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-brand">武汉大学足球协会</a>
+                
+                <!-- 移动端汉堡菜单按钮 -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span class="menu-icon"></span>
+                    <span class="menu-icon"></span>
+                    <span class="menu-icon"></span>
+                </button>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="../index.html" class="nav-link">首页</a>
+                    <a href="../pages/about.html" class="nav-link">社团介绍</a>
+                    <a href="../pages/events.html" class="nav-link">赛事开展</a>
+                    <a href="../pages/departments.html" class="nav-link">部门介绍</a>
+                    <a href="../pages/contact.html" class="nav-link">联系我们</a>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
+                        <div class="dropdown-menu">
+                            <a href="../pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
+                            <a href="../pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
+                            <a href="../pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
+                            <a href="../pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
+                            <a href="../pages/match-results.html" class="dropdown-item">赛果更新</a>
+                        </div>
+                    </div>
+                    <a href="../pages/register.html" class="nav-link">登录/注册</a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- 移动端菜单覆盖层 -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+        <section class="p-5 pt-20 bg-dark text-light text-center text-sm-start">
+            <div class="container">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="text-center">
+                        <h1 class="mt-20">
+                            竞赛<span class="text-warning">部</span>
+                        </h1>
+                        <p class="my-4">
+                            竞赛部是武大足协的技术核心，负责赛事的赛程安排和数据统计
+                        </p>
+                    </div>
+                    <img
+                        src="../img/24海报.png"
+                        alt="竞赛部海报"
+                        class="w-25 d-none d-md-block mb-5"
+                        height="200px"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">部门介绍</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="lead">
+                            竞赛部是武汉大学足球协会的重要部门之一，主要负责赛事的赛程安排、数据统计与排名、赛事成绩公示等工作。竞赛部拥有一支严谨细致、责任心强的团队，成员们具备良好的逻辑思维能力和数据处理能力。
+                        </p>
+                        <p>
+                            竞赛部是足协赛事顺利开展的技术保障，通过科学合理的赛程安排，确保各项赛事能够有序进行。同时，竞赛部还负责收集和整理赛事数据，及时更新赛事排名，保证赛事的公平公正和透明度。
+                        </p>
+                        <p>
+                            此外，竞赛部还与其他部门密切配合，共同完成赛事的组织和执行工作。竞赛部的工作虽然繁琐，但对于赛事的成功举办至关重要，是武大足协不可或缺的一部分。
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="../img/2024新生杯分组.png" alt="竞赛部工作" class="img-fluid rounded shadow-lg" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-dark text-light">
+            <div class="container">
+                <h2 class="text-center mb-5">部门职责</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body">
+                                <h3 class="card-title">赛程安排</h3>
+                                <p class="card-text">
+                                    根据赛事规则和参赛队伍情况，制定科学合理的赛程安排
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body">
+                                <h3 class="card-title">数据统计</h3>
+                                <p class="card-text">
+                                    收集和整理赛事数据，包括进球、助攻、红黄牌等技术统计
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body">
+                                <h3 class="card-title">成绩公示</h3>
+                                <p class="card-text">
+                                    及时更新赛事排名，公示赛事成绩，保证赛事的透明度
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">工作内容</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="../img/2024振兴杯男子超级组.png" alt="数据统计" class="img-fluid rounded shadow-lg" />
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="mb-3">具体工作</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-light">
+                                <h4>赛程制定</h4>
+                                <p>根据参赛队伍数量、场地情况和时间安排，制定详细的赛程表，确保赛事能够有序进行</p>
+                            </li>
+                            <li class="list-group-item bg-light">
+                                <h4>数据收集</h4>
+                                <p>收集每场比赛的技术统计数据，包括进球、助攻、红黄牌、控球率等</p>
+                            </li>
+                            <li class="list-group-item bg-light">
+                                <h4>排名更新</h4>
+                                <p>根据赛事规则，及时更新球队和球员的排名，保证赛事的公平公正</p>
+                            </li>
+                            <li class="list-group-item bg-light">
+                                <h4>成绩公示</h4>
+                                <p>通过公众号、官网等渠道公示赛事成绩，提高赛事的透明度</p>
+                            </li>
+                            <li class="list-group-item bg-light">
+                                <h4>赛事总结</h4>
+                                <p>赛事结束后，撰写赛事总结报告，分析赛事数据，为后续赛事提供参考</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-dark text-light">
+            <div class="container">
+                <h2 class="text-center mb-5">工作流程</h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body">
+                                <h3 class="text-center mb-4">赛事工作流程</h3>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <h4>赛前准备</h4>
+                                            <p>收集参赛队伍信息，制定赛程安排，准备比赛所需的表格和文件</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <h4>赛中执行</h4>
+                                            <p>收集比赛数据，更新赛事排名，处理比赛中的特殊情况</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <h4>赛后处理</h4>
+                                            <p>整理赛事数据，公示比赛结果，撰写赛事总结</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <h4>经验总结</h4>
+                                            <p>分析赛事数据，总结工作经验，为后续赛事提供参考</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">技术要求</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h3 class="card-title">数据处理能力</h3>
+                                <p class="card-text">
+                                    具备良好的数据收集、整理和分析能力，能够熟练使用Excel等办公软件
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h3 class="card-title">逻辑思维能力</h3>
+                                <p class="card-text">
+                                    具备较强的逻辑思维能力，能够根据赛事规则正确计算积分和排名
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h3 class="card-title">责任心</h3>
+                                <p class="card-text">
+                                    工作认真负责，细致严谨，确保数据的准确性和赛事的公平公正
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-dark text-light">
+            <div class="container">
+                <h2 class="text-center mb-5">常见问题</h2>
+                <div class="custom-accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                                如何加入竞赛部？
+                            </button>
+                        </div>
+                        <div class="accordion-body">
+                            竞赛部每年都会在招新季招收新成员，只要你对数据处理、赛程安排等工作感兴趣，就可以报名参加。招新时会注重成员的逻辑思维能力、数据处理能力和责任心。
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                                加入竞赛部需要具备什么技能？
+                            </button>
+                        </div>
+                        <div class="accordion-body">
+                            加入竞赛部不需要具备专业技能，我们更看重成员的学习能力和工作态度。如果你具备一定的Excel使用能力和数据处理能力，会更容易上手工作，但即使没有这些技能，只要你愿意学习，我们也会提供培训和指导。
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                                竞赛部的工作时间如何安排？
+                            </button>
+                        </div>
+                        <div class="accordion-body">
+                            竞赛部的工作时间主要集中在赛事期间，一般是周末和课余时间。在赛事筹备阶段，需要制定赛程安排；在赛事进行阶段，需要收集和整理比赛数据；在赛事结束后，需要撰写赛事总结。具体工作时间会根据赛事安排进行调整。
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                                加入竞赛部有什么收获？
+                            </button>
+                        </div>
+                        <div class="accordion-body">
+                            加入竞赛部可以学到数据处理、赛程安排等实用技能，提升自己的逻辑思维能力和责任心，结交志同道合的朋友，还可以获得实践经验，为未来的职业发展打下基础。更重要的是，通过竞赛部的工作，你可以为校园足球赛事的顺利开展做出贡献，体验到工作的成就感和乐趣。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="p-5 bg-dark text-white text-center">
+            <div class="container">
+                <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
+            </div>
+        </footer>
+
+        <script>
+            // 移动端菜单控制
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    mobileMenuOverlay.classList.toggle('active');
+                    document.body.classList.toggle('menu-open');
+                });
+            }
+            
+            if (mobileMenuOverlay) {
+                mobileMenuOverlay.addEventListener('click', function() {
+                    navLinks.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                });
+            }
+            
+            // 下拉菜单控制
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    dropdownMenu.classList.toggle('active');
+                });
+            });
+            
+            // 点击其他地方关闭下拉菜单
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-dropdown')) {
+                    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+                    dropdownMenus.forEach(menu => {
+                        menu.classList.remove('active');
+                    });
+                }
+            });
+            
+            // 手风琴控制
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const accordionItem = this.closest('.accordion-item');
+                    const accordionBody = accordionItem.querySelector('.accordion-body');
+                    
+                    if (accordionBody) {
+                        // 关闭所有其他手风琴
+                        const allAccordionItems = document.querySelectorAll('.accordion-item');
+                        allAccordionItems.forEach(item => {
+                            if (item !== accordionItem) {
+                                const body = item.querySelector('.accordion-body');
+                                const btn = item.querySelector('.accordion-button');
+                                if (body) {
+                                    body.style.display = 'none';
+                                }
+                                if (btn) {
+                                    btn.classList.remove('active');
+                                }
+                            }
+                        });
+                        
+                        // 切换当前手风琴
+                        if (accordionBody.style.display === 'block') {
+                            accordionBody.style.display = 'none';
+                            this.classList.remove('active');
+                        } else {
+                            accordionBody.style.display = 'block';
+                            this.classList.add('active');
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+

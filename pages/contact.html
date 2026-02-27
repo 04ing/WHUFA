@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>联系我们 - 武汉大学足球协会</title>
+        <link rel="stylesheet" href="../css/base.css" />
+        <link rel="stylesheet" href="../css/layout.css" />
+        <link rel="stylesheet" href="../css/components.css" />
+        <link rel="stylesheet" href="../css/pages.css" />
+        <link rel="stylesheet" href="../css/responsive.css" />
+    </head>
+    <body>
+        <!-- 导航栏-->
+        <nav class="custom-nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-brand">武汉大学足球协会</a>
+
+                <div class="nav-links">
+                    <a href="../index.html" class="nav-link">首页</a>
+                    <a href="../pages/about.html" class="nav-link">社团介绍</a>
+                    <a href="../pages/events.html" class="nav-link">赛事开展</a>
+                    <a href="../pages/departments.html" class="nav-link">部门介绍</a>
+                    <a href="../pages/contact.html" class="nav-link">联系我们</a>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
+                        <div class="dropdown-menu">
+                            <a href="../pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
+                            <a href="../pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
+                            <a href="../pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
+                            <a href="../pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
+                            <a href="../pages/match-results.html" class="dropdown-item">赛果更新</a>
+                        </div>
+                    </div>
+                    <div id="userInfo" style="display: none;">
+                        <div class="nav-dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="userNameDisplay">用户</a>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item" onclick="logout()">登出</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="../pages/register.html" class="nav-link" id="loginRegisterLink">登录/注册</a>
+                </div>
+            </div>
+        </nav>
+
+        <section class="p-5 pt-20 bg-dark text-light text-center text-sm-start">
+            <div class="container">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="text-center">
+                        <h1 class="mt-20">
+                            联系<span class="text-warning">我们</span>
+                        </h1>
+                        <p class="my-4">
+                            武汉大学足球协会期待与您的联系，欢迎加入我们的大家庭
+                        </p>
+                    </div>
+                    <img
+                        src="../img/联系方式.png"
+                        alt="联系我们"
+                        class="w-25 d-none d-md-block mb-5"
+                        height="200px"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">联系方式</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="lead">
+                            武汉大学足球协会（学生），简称武大足协，成立于1997年，是武汉大学历史最悠久的学生社团之一，曾获得“全国百佳校园足球社团”，“湖北省高校联盟优秀裁判奖”等荣誉。现隶属于武汉大学体育部管辖，现任指导教师为郭浩洋。
+                        </p>
+                        <p>
+                            社团与校外各高校足协及湖北省、武汉市足协交流密切，现有国家一级裁判员3名、国家二级、三级裁判员十余名，业务能力和素质超强。校内每年的足球比赛新生杯约30场、振兴杯80场、五人制50场、足协杯40场，每年参与的比赛近300场。
+                        </p>
+                        <p>
+                            武大足协积极运作公众媒体，公众号本年度共发表活动推文40篇，篇均浏览量超500次，另有微信视频号和抖音账号对各项赛事进行直播，保障覆盖学年的品牌足球赛事举办，单篇公众号推文阅读量最高超1500次，单场赛事直播点赞数最高超1000次。
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title text-center mb-4">联系方式</h3>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <h4>QQ官号</h4>
+                                        <p>武汉大学足球协会（学生）</p>
+                                        <p>QQ号：3374985171</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4>微信公众号</h4>
+                                        <p>武大足协</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4>微信视频号</h4>
+                                        <p>武大足协</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4>抖音号</h4>
+                                        <p>武大足协</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h4>招新群</h4>
+                                        <p>2025武大足协招新群</p>
+                                        <p>群号：787929951</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-dark text-light">
+            <div class="container">
+                <h2 class="text-center mb-5">联系表单</h2>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <form>
+                            <div class="form-group">
+                                <label for="name" class="form-label">姓名</label>
+                                <input type="text" class="form-input" id="name" placeholder="请输入您的姓名">
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">邮箱</label>
+                                <input type="email" class="form-input" id="email" placeholder="请输入您的邮箱">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="form-label">电话</label>
+                                <input type="tel" class="form-input" id="phone" placeholder="请输入您的电话">
+                            </div>
+                            <div class="form-group">
+                                <label for="message" class="form-label">留言</label>
+                                <textarea class="form-textarea" id="message" rows="5" placeholder="请输入您的留言"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-light btn-lg btn-block">提交</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">地理位置</h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title text-center mb-4">武汉大学</h3>
+                                <p class="text-center">地址：湖北省武汉市武昌区八一路299号</p>
+                                <div class="text-center">
+                                    <p>我们的办公室位于武汉大学体育部内，欢迎前来参观交流！</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-dark text-light">
+            <div class="container">
+                <h2 class="text-center mb-5">招新信息</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="../img/24海报.png" alt="招新海报" class="img-fluid rounded shadow-lg" />
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="mb-3">2025年招新</h3>
+                        <p class="lead">
+                            武汉大学足球协会2025年招新工作即将开始，欢迎对足球相关工作感兴趣的同学们加入我们。
+                        </p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-dark text-light">
+                                <h4>招新对象</h4>
+                                <p>武汉大学全体在校学生（本科生、研究生等）</p>
+                            </li>
+                            <li class="list-group-item bg-dark text-light">
+                                <h4>招新部门</h4>
+                                <p>裁判部、组织部、竞赛部</p>
+                            </li>
+                            <li class="list-group-item bg-dark text-light">
+                                <h4>招新要求</h4>
+                                <p>热爱足球，有责任心，具备团队协作精神，学习能力强</p>
+                            </li>
+                            <li class="list-group-item bg-dark text-light">
+                                <h4>招新流程</h4>
+                                <p>1. 填写招新报名表</p>
+                                <p>2. 参加面试</p>
+                                <p>3. 试用期考核</p>
+                                <p>4. 正式加入</p>
+                            </li>
+                            <li class="list-group-item bg-dark text-light">
+                                <h4>招新群</h4>
+                                <p>2025武大足协招新群</p>
+                                <p>群号：787929951</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">常见问题</h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                                如何加入武大足协？                            </button>
+                        </div>
+                        <div class="accordion-body">
+                            武大足协每年都会在招新季招收新成员，你可以通过以下方式加入：                            1. 关注武大足协公众号，获取招新信息
+2. 加入招新群（群号：787929951）                            3. 填写招新报名表并参加面试
+4. 通过试用期考核后正式加入                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                                加入武大足协需要具备什么条件？
+                            </button>
+                        </div>
+                        <div class="accordion-body">
+                            加入武大足协不需要具备专业技能，我们更看重成员的以下品质：                            1. 热爱足球，对足球相关工作有热情                            2. 有责任心，能够认真完成分配的任务
+                            3. 具备团队协作精神，能够与其他成员良好配合
+                            4. 学习能力强，愿意不断提升自己
+                            5. 时间充裕，能够参与社团活动                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                                武大足协的活动时间是什么时候？
+                            </button>
+                        </div>
+                        <div class="accordion-body">
+                            武大足协的活动时间主要集中在以下几个时间段：
+                            1. 新生杯：每年9-10月                            2. 振兴杯：每年11-12月                            3. 五人制足球赛：每年3-4月                            4. 足协杯：每年4-5月                            此外，我们还会在课余时间组织社团会议、培训和团建活动。具体活动时间会根据赛事安排和成员时间进行调整。                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                                加入武大足协有什么收获？
+                            </button>
+                        </div>
+                        <div class="accordion-body">
+                            加入武大足协可以获得以下收获：                            1. 专业技能：学习足球裁判、新媒体运营、赛事组织等专业技能                            2. 实践经验：参与校园足球赛事的组织和执行，积累实践经验
+                            3. 团队协作：在团队中学习如何与他人合作，提升团队协作能力                            4. 社交网络：结识志同道合的朋友，扩展社交网络                            5. 个人成长：通过参与社团活动，提升自己的沟通能力、组织能力和领导能力
+                            6. 足球文化：深入了解足球文化，享受足球带来的快乐                        </div>
+                    </div>
+                </div>
+                <script>
+                    // 手风琴功能                   
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const accordionButtons = document.querySelectorAll('.accordion-button');
+                        
+                        accordionButtons.forEach(button => {
+                            button.addEventListener('click', function() {
+                                const accordionBody = this.parentElement.nextElementSibling;
+                                
+                                // 切换当前手风琴项
+                                accordionBody.classList.toggle('show');
+                            });
+                        });
+                    })
+                </script>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="p-5 bg-dark text-white text-center">
+            <div class="container">
+                <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
+            </div>
+        </footer>
+
+        <script>
+            // 检查用户登录状态
+            function checkLoginStatus() {
+                const userId = localStorage.getItem('userId');
+                const userName = localStorage.getItem('userName');
+                
+                if (userId && userName) {
+                    // 用户已登录，显示用户信息和登出按钮
+                    document.getElementById('userInfo').style.display = 'block';
+                    document.getElementById('userNameDisplay').textContent = userName;
+                    document.getElementById('loginRegisterLink').style.display = 'none';
+                } else {
+                    // 用户未登录，显示登录/注册链接
+                    document.getElementById('userInfo').style.display = 'none';
+                    document.getElementById('loginRegisterLink').style.display = 'block';
+                }
+            }
+            
+            // 登出功能
+            function logout() {
+                // 清除本地存储中的用户信息
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userName');
+                
+                // 更新导航栏显示
+                checkLoginStatus();
+                
+                // 跳转到首页
+                window.location.href = '../index.html';
+            }
+            
+            // 页面加载时检查登录状态
+            window.onload = function() {
+                checkLoginStatus();
+            };
+        </script>
+
+    </body>
+</html>
+
+
+
+
+
+
+

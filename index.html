@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="武汉大学足球协会官方网站，提供赛事信息、社团介绍、部门信息等" />
+        <meta name="keywords" content="武汉大学,足球协会,武大足协,校园足球,赛事" />
+        <title>武汉大学足球协会</title>
+        <!-- 预加载关键资源 -->
+        <link rel="preload" href="css/base.css" as="style" />
+        <link rel="preload" href="css/layout.css" as="style" />
+        <link rel="preload" href="css/components.css" as="style" />
+        <link rel="preload" href="css/pages.css" as="style" />
+        <link rel="preload" href="css/responsive.css" as="style" />
+        <link rel="preload" href="./img/武大足协logo.png" as="image" />
+        <link rel="stylesheet" href="css/base.css" />
+        <link rel="stylesheet" href="css/layout.css" />
+        <link rel="stylesheet" href="css/components.css" />
+        <link rel="stylesheet" href="css/pages.css" />
+        <link rel="stylesheet" href="css/responsive.css" />
+    </head>
+    <body>
+        <nav class="custom-nav">
+            <div class="nav-container">
+                <a href="index.html" class="nav-brand">武汉大学足球协会</a>
+                
+                <!-- 移动端汉堡菜单按钮 -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span class="menu-icon"></span>
+                    <span class="menu-icon"></span>
+                    <span class="menu-icon"></span>
+                </button>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="pages/about.html" class="nav-link">社团介绍</a>
+                    <a href="pages/events.html" class="nav-link">赛事开展</a>
+                    <a href="pages/departments.html" class="nav-link">部门介绍</a>
+                    <a href="pages/contact.html" class="nav-link">联系我们</a>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
+                        <div class="dropdown-menu">
+                            <a href="pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
+                            <a href="pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
+                            <a href="pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
+                            <a href="pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
+                            <a href="pages/match-results.html" class="dropdown-item">赛果更新</a>
+                        </div>
+                    </div>
+                    <div id="userInfo" style="display: none;">
+                        <div class="nav-dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="userNameDisplay">用户</a>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item" onclick="logout()">登出</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="pages/register.html" class="nav-link" id="loginRegisterLink">登录/注册</a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- 移动端菜单覆盖层 -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+        
+        <script>
+            // 移动端菜单控制
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.classList.toggle('menu-open');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            });
+            
+            // 下拉菜单控制
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    dropdownMenu.classList.toggle('active');
+                });
+            });
+            
+            // 点击其他地方关闭下拉菜单
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-dropdown')) {
+                    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+                    dropdownMenus.forEach(menu => {
+                        menu.classList.remove('active');
+                    });
+                }
+            });
+            
+            // 检查用户登录状态
+            function checkLoginStatus() {
+                const userId = localStorage.getItem('userId');
+                const userName = localStorage.getItem('userName');
+                
+                if (userId && userName) {
+                    // 用户已登录，显示用户信息和登出按钮
+                    document.getElementById('userInfo').style.display = 'block';
+                    document.getElementById('userNameDisplay').textContent = userName;
+                    document.getElementById('loginRegisterLink').style.display = 'none';
+                } else {
+                    // 用户未登录，显示登录/注册链接
+                    document.getElementById('userInfo').style.display = 'none';
+                    document.getElementById('loginRegisterLink').style.display = 'block';
+                }
+            }
+            
+            // 登出功能
+            function logout() {
+                // 清除本地存储中的用户信息
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userName');
+                
+                // 更新导航栏显示
+                checkLoginStatus();
+                
+                // 跳转到首页
+                window.location.href = 'index.html';
+            }
+            
+            // 页面加载时检查登录状态
+            window.onload = function() {
+                checkLoginStatus();
+            };
+            
+            // 轮播图控制
+            document.addEventListener('DOMContentLoaded', function() {
+                const carousel = document.getElementById('carouselExampleCaptions');
+                if (carousel) {
+                    const items = carousel.querySelectorAll('.carousel-item');
+                    const indicators = carousel.querySelectorAll('.carousel-indicators button');
+                    const prevBtn = carousel.querySelector('.carousel-control-prev');
+                    const nextBtn = carousel.querySelector('.carousel-control-next');
+                    let currentIndex = 0;
+                    
+                    function showSlide(index) {
+                        items.forEach((item, i) => {
+                            item.classList.remove('active');
+                            indicators[i].classList.remove('active');
+                        });
+                        items[index].classList.add('active');
+                        indicators[index].classList.add('active');
+                        currentIndex = index;
+                    }
+                    
+                    prevBtn.addEventListener('click', function() {
+                        let newIndex = currentIndex - 1;
+                        if (newIndex < 0) {
+                            newIndex = items.length - 1;
+                        }
+                        showSlide(newIndex);
+                    });
+                    
+                    nextBtn.addEventListener('click', function() {
+                        let newIndex = currentIndex + 1;
+                        if (newIndex >= items.length) {
+                            newIndex = 0;
+                        }
+                        showSlide(newIndex);
+                    });
+                    
+                    indicators.forEach((indicator, index) => {
+                        indicator.addEventListener('click', function() {
+                            showSlide(index);
+                        });
+                    });
+                    
+                    // 自动轮播
+                    setInterval(function() {
+                        let newIndex = currentIndex + 1;
+                        if (newIndex >= items.length) {
+                            newIndex = 0;
+                        }
+                        showSlide(newIndex);
+                    }, 5000);
+                }
+                
+                // 手风琴控制
+                const accordionButtons = document.querySelectorAll('.accordion-button');
+                accordionButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const accordionItem = this.closest('.accordion-item');
+                        const accordionBody = accordionItem.querySelector('.accordion-body');
+                        
+                        if (accordionBody) {
+                            // 关闭所有其他手风琴
+                            const allAccordionItems = document.querySelectorAll('.accordion-item');
+                            allAccordionItems.forEach(item => {
+                                if (item !== accordionItem) {
+                                    const body = item.querySelector('.accordion-body');
+                                    const btn = item.querySelector('.accordion-button');
+                                    if (body) {
+                                        body.style.display = 'none';
+                                    }
+                                    if (btn) {
+                                        btn.classList.remove('active');
+                                    }
+                                }
+                            });
+                            
+                            // 切换当前手风琴
+                            if (accordionBody.style.display === 'block') {
+                                accordionBody.style.display = 'none';
+                                this.classList.remove('active');
+                            } else {
+                                accordionBody.style.display = 'block';
+                                this.classList.add('active');
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <section class="p-5 pt-20 bg-dark text-light text-center text-sm-start">
+            <!--padding -->
+            <div class="container">
+                <div class="d-flex">
+                    <!--display flex-->
+                    <div>
+                        <h1>
+                            快速了解<span class="text-warning">武大足协</span>
+                        </h1>
+                        <p class="my-4">
+						   武汉大学足球协会 (学生) 成立于1997年，是武汉大学历史最悠久的学生社团之一，曾获得“全国百佳校园足球社团”，“湖北省高校联盟优秀裁判奖”等荣誉。现隶属于武汉大学体育部管辖，现任指导教师为郭浩洋。足协主要负责校园内足球赛事的组织、宣传和裁判工作，致力于营造良好的校园足球氛围。自足协创立至今，“武汉大学新生杯”和“武汉大学足协杯”足球联赛两项传统年度校级足球赛事一直都由足协承办。足协所参与的足球赛事还有校体组织的振兴杯、研究生赛、五人制大赛等，持续滋润着武大的足球土壤。上述的所有校级足球比赛，每届都有数百名学生球员参加，而裁判任务均由足协成员承担。
+                        </p>
+						<p class="my-4">
+						<p>这里是一起踢球一起聊球的最佳平台</p>
+						<p>这里是举办校园足球比赛的校级社团</p>
+						<p>这里是培养优秀足球裁判的大型工厂</p>
+						<p>这里是武大足协，一个温馨的大家庭</p>
+						</p>
+                        <!-- <button class="btn btn-primary btn-lg">
+                            开始编程之旅
+                        </button> -->
+                    </div>
+                    <img
+                        src="./img/武大足协logo.png"
+                        alt="showcase"
+                        class="w-50 d-none d-md-block"
+                        height="400px"
+                        loading="lazy"
+                    />
+                </div>
+            </div>
+        </section>
+        <section class="p-5" >
+            <div class="container">
+                <div class="row g-4">
+                    <!--gap-->
+                    <div class="col-md">
+                        <div class="card bg-dark text-light">
+                            <div class="card-body text-center">
+                                <div class="card-title">社团介绍</div>
+                                <div class="card-text">
+							武汉大学足球协会负责校园内足球赛事的组织、宣传和裁判工作。在足协，你将结识一群志同道合的伙伴，共同参与足球比赛的组织、宣传和裁判工作，体验团队协作的力量。
+                                </div>
+                                <a href="https://mp.weixin.qq.com/s/yhvnw42c3rt3OwhpT86o5Q" class="btn btn-primary mt-2"
+                                    >点此跳转</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="card bg-secondary text-light">
+                            <div class="card-body text-center">
+                                <div class="card-title">社团官微</div>
+                                <div class="card-text">
+                                    武汉大学足球协会官方微信公众号上包含各类赛事的前瞻、赛果和战报。推文更新频率和点击量都非常高，例如以下是武大2024新生杯决赛战报。
+                                </div>
+                                <a href="https://mp.weixin.qq.com/s/Dcn6mJU9hcFiuwtsmrv-hw" class="btn btn-primary mt-2"
+                                    >点此跳转</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="card bg-dark text-light">
+                            <div class="card-body text-center">
+                                <div class="card-title">官方视频号</div>
+                                <div class="card-text">
+                                    武汉大学足球协会官方视频号有比赛直播和回放，并配备专业解说人员。如若不能亲临现场，线上观看比赛直播也是很赞的。最近也有抖音号与视频号同步直播哦。
+                                </div>
+                                <a href="https://www.douyin.com/user/MS4wLjABAAAAXRfKu0NqTBHz7NXOluCTlKifeihHscIPVowAsH6uYmxCK1Xsj-ZaLfw54WFQ6VC8?from_tab_name=main" class="btn btn-primary mt-2"
+                                    >点此跳转</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- <section class="p-5 bg-light">
+           
+        </section> -->
+        <section class="p-5 bg-dark" id="section1">
+            <div class="container">
+                <h2 class="text-center text-light">赛事开展</h2>
+                <p class="lead text-center text-white mb-5">
+                    武大足协每年都会组织或协办新生杯（9-10月）、振兴杯（11-12月）、五人制足球赛（3-4月）和足协杯比赛（5-6月）。我们会为足协举办和负责的各项比赛提供专用裁判；为校足协在校外承办的比赛或武汉市的相关赛事提供必要的裁判人员支持；定时对裁判部的成员进行裁判培训，讲解足球比赛的基础专业知识；协调好比赛时比赛双方和裁判部的关系，并与参赛方进行交流沟通。
+                </p>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <img src="img/新生杯.png" height="100px" class="mb-3 rounded-circle" loading="lazy"/>
+                                <h3 class="card-title">新生杯</h3>
+                                <p class="card-text">
+                                   新生杯举办在每年的9-10月，只有本科的大一新生可以参加，作为新学年的开年赛事，新生杯既是本科新生首次亮相的舞台，也是新任裁判、新任教练团队展示风采的平台，更是各院队选拔优秀球员参加后续振兴杯的重要前提。武大足协及各院系都对新生杯寄予很高的关注与期望。	
+                                </p>				
+                            </div>
+							<a href="https://mp.weixin.qq.com/s/kqZEucZFBrVYpbAcw7Hy9A" class="btn btn-primary mt-2"
+									>点此跳转</a
+								>
+						</div>
+					</div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <img src="img/振兴杯.png"height="100px" class="mb-3 rounded-circle" loading="lazy"/>
+                                <h3 class="card-title">振兴杯</h3>
+                                <p class="card-text">
+                                    振兴杯举办在每年11-12月，是全校规模最大的比赛。由学院范围内自由组队，球员们代表学院的最高水平参加“振兴杯”足球赛是至高荣耀。一颗足球、一身球衣、一腔热血、一往无前。激情洋溢的瞬间，梦想与汗水交相映。无论你是飞驰如箭的前锋，还是守卫城池坚如磐石的后卫，这里是追逐梦想的舞台，将满足你对足球的所有幻想。
+                                </p>
+                            </div>
+							<a href="https://mp.weixin.qq.com/s/J22tfUY3UXLE1z57yVlA3w" class="btn btn-primary mt-2"
+									>点此跳转</a
+								>
+						</div>
+					</div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <img src="img/五人制.png" height="100px" class="mb-3 rounded-circle" loading="lazy"/>
+                                <h3 class="card-title">五人制</h3>
+                                <p class="card-text">
+                                   五人制足球赛举办在每年的3-4月，是参赛队伍最多的比赛，2024年有50支男足队伍和11支女足队伍参赛。春暖花开，天气逐渐回暖。人们期待武大樱花绽放在枝桠的同时，一年一度的五人制足球赛也同步打响。春意盎然，艳阳高照，绿茵场上等待着为青春挥洒汗水的身影！
+                                </p>
+                            </div>
+							<a href="https://mp.weixin.qq.com/s/ckBoVXYjdpKqRhzKUPjPDA" class="btn btn-primary mt-2"
+									>点此跳转</a
+								>
+						</div>
+					</div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <img src="img/足协杯.png"
+                                height="100px" class="mb-3 rounded-circle" loading="lazy"/>
+                                <h3 class="card-title">足协杯</h3>
+                                <p class="card-text">
+                                   足协杯举办在每年的4-5月，是组队形式最自由的比赛。可以在全校范围内自由组队，且没有报名限制。足协杯旨在丰富武大学子课外生活，活跃我校大学生体育文化氛围，弘扬百年武大优秀体育风貌，给广大同学一个享受足球、参与比赛的平台和机遇，每年都有很多支队伍报名参加。
+                                </p>
+                            </div>
+							<a href="https://mp.weixin.qq.com/s/ijey0Sc4hS7uv9oNTEHq7w" class="btn btn-primary mt-2"
+                                    >点此跳转</a
+						    </div>
+                        </div>
+                    </div>
+					      <p class="lead text-center text-white mb-5">
+                          以下是武大足协各部门介绍和活动图片
+                          </p>
+                </div>
+				          
+                <div class="container">  
+                 <div id="carouselExampleCaptions" class="carousel slide">
+                    <div class="carousel-indicators">
+                        <button type="button" class="active" data-slide="0" aria-label="Slide 1"></button>
+                        <button type="button" data-slide="1" aria-label="Slide 2"></button>
+                        <button type="button" data-slide="2" aria-label="Slide 3"></button>
+                        <button type="button" data-slide="3" aria-label="Slide 4"></button>
+                        <button type="button" data-slide="4" aria-label="Slide 5"></button>
+                        <button type="button" data-slide="5" aria-label="Slide 6"></button>
+                        <button type="button" data-slide="6" aria-label="Slide 7"></button>
+                        <button type="button" data-slide="7" aria-label="Slide 8"></button>
+                        <button type="button" data-slide="8" aria-label="Slide 9"></button>
+                        <button type="button" data-slide="9" aria-label="Slide 10"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="./img/裁判.png" class="d-block" alt="裁判" id="carousel_pic1" loading="lazy">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
+                            </div>
+                      
+                        <div class="carousel-item">
+                        <img src="./img/裁判培训.png" class="d-block" alt="裁判培训" id="carousel_pic2" loading="lazy">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                        </div>
+                        <div class="carousel-item">
+                        <img src="./img/现场观赛.png" class="d-block" alt="现场观赛" id="carousel_pic3" loading="lazy">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/推文.png" class="d-block" alt="推文" id="carousel_pic4" loading="lazy">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./img/裁判晋升.png" class="d-block" alt="裁判晋升" id="carousel_pic5" loading="lazy">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="./img/颁奖.png" class="d-block" alt="颁奖" id="carousel_pic6" loading="lazy">
+                                <div class="carousel-caption d-none d-md-block">
+                                </div>
+                             </div>
+                             <div class="carousel-item">
+                                <img src="./img/颁奖时刻.png" class="d-block" alt="颁奖时刻" id="carousel_pic7" loading="lazy">
+                                <div class="carousel-caption d-none d-md-block">
+                                </div>
+                             </div>
+                             <div class="carousel-item">
+                                <img src="./img/急救培训.png" class="d-block" alt="急救培训" id="carousel_pic8" loading="lazy">
+                                <div class="carousel-caption d-none d-md-block">
+                                </div>
+                             </div>
+                             <div class="carousel-item">
+                                <img src="./img/比赛集锦1.png" class="d-block" alt="比赛集锦1" id="carousel_pic9" loading="lazy">
+                                <div class="carousel-caption d-none d-md-block">
+                                </div>
+                             </div>
+                             <div class="carousel-item">
+                                <img src="./img/比赛集锦2.png" class="d-block" alt="比赛集锦2" id="carousel_pic10" loading="lazy">
+                                <div class="carousel-caption d-none d-md-block">
+                                </div>
+                             </div>
+                        <button class="carousel-control-prev" type="button" data-direction="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-direction="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                        </button>
+                </div>
+            </div>
+        </div>
+        </section>
+        <section class="p-5 bg-light text-dark" id="section2">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-md p-5">
+                        <h2>部门介绍</h2>
+                        <p class="lead">
+                           武大足协包含裁判部、组织部和竞赛部三个部门：
+                        </p>
+                        <p>⚽ 裁判部会定时对裁判部的成员进行裁判培训，讲解足球比赛的基础专业知识；</p>
+						<p>⚽ 为学校各项足球赛事提供裁判，包括由足协主办的新生杯、足协杯和足协参与举办的振兴杯、五人制等。 </p>
+                        <p>在绿茵场上，裁判与球员一样，是不可或缺的存在。手起哨落，指掌乾坤。裁判是绿茵场上的法度与威严，维持着比赛的公平与公正。从开学的新生杯开始，到最引人注目的振兴杯，以及之后的五人制和足协杯比赛，这些都是你作为裁判发光发热的舞台。<p>
+                        <p>足协裁判部会定期组织裁判培训，为你提供成长为独当一面的优秀裁判的机会。校内经验丰富的资深裁判将毫无保留地分享他们在实践中积累的宝贵经验。因此，即使你对裁判知识了解不多，也可以放心加入裁判部，逐步提升自己的裁判能力！</p>
+                        <p>⚽ 组织部负责运营“武大足协”公众号、视频号、抖音等平台，直播重要赛事，推送校内外各大赛事赛程赛果、活动新闻；</p>
+						<p>⚽ 设计制作足协所需的ppt、海报、宣传纪念品等；</p>
+						<p>⚽ 协调足协赛事和活动，管理经费，并与校方沟通会议记录、奖项申报和工作计划。</p>
+                        <p>⚽ 竞赛部主要负责竞赛赛程、赛事数据统计与排名、赛事成绩公示等。</p>
+                        <p>中超武汉三镇俱乐部设置了高校看台，为大学生球迷观赛提供优惠。在足协不仅可以在校内展现你的才能，更可以在中超看台上尽情释放你的热爱，和全武汉的球迷一起享受万人呐喊的激情澎湃。每到世界杯、欧冠等大型比赛的决赛，足协会组织集体观赛活动，大家一起在轰趴馆内欢乐团建，看球气氛拉满！</p>
+                    </div>
+
+                    <div class="col-md d-flex align-items-center">
+                        <img src="img/24海报.png" alt="24海报" class="img-fluid w-100 h-auto" loading="lazy" />
+                    </div>
+                </div>
+                <p class="lead text-center text-dark mb-5 mt-5">
+                      点击下列按钮跳转到相应推文介绍
+                      </p>
+				<div class="d-flex flex-wrap justify-content-center gap-3">
+					<a href="https://mp.weixin.qq.com/s/pACLpNJpCqA3oHrS_8w_AQ" class="btn btn-primary">裁判专题</a>
+					<a href="https://mp.weixin.qq.com/s/kvrBHyUzyAjumrF3AlUFaQ" class="btn btn-primary">数据盘点</a>
+					<a href="https://mp.weixin.qq.com/s/lxPhfO6NvSFO54p1ca_Qew" class="btn btn-primary">统一尺度</a>
+					<a href="https://mp.weixin.qq.com/s/JRr_-7sFfKrCNq-CwPyMiw" class="btn btn-primary">省赛直播</a>
+					<a href="https://mp.weixin.qq.com/s/sPgkeNv1EL7ga5x6tBg30Q" class="btn btn-primary">超级焦点</a>
+					<a href="https://mp.weixin.qq.com/s/V_MOT-ibvqicY0cMP_SPJg" class="btn btn-primary">赛前预热</a>
+					<a href="https://mp.weixin.qq.com/s/XAeR2aHe65GVC_Jqjk2sxA" class="btn btn-primary">急救培训</a>
+					<a href="https://mp.weixin.qq.com/s/qFP9Zp-iuVV2ACSaKWXYLw" class="btn btn-primary">成绩公示</a>
+				</div>
+            </div>
+        </section>
+        <section class="p-5 bg-dark text-light" id="section3">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-md">
+                        <img src="img/联系方式.png" 
+                          alt="联系方式" class="img-fluid" id="JNH_pic" loading="lazy"/>
+                    </div>
+                    <div class="col-md p-5">
+                        <h2>联系我们</h2>
+                        <p class="lead">
+                           武汉大学足球协会（学生），简称武大足协，成立于1997年，是武汉大学历史最悠久的学生社团之一，曾获得“全国百佳校园足球社团”，“湖北省高校联盟优秀裁判奖”等荣誉。现隶属于武汉大学体育部管辖，现任指导教师为郭浩洋。主要负责校园内足球赛事的组织、宣传和裁判工作，致力于营造良好的校园足球氛围。2024年招新后有裁判部70人，组织部30人左右，规模庞大。
+                        </p>
+                        <p>
+                            社团与校外各高校足协及湖北省、武汉市足协交流密切，现有国家一级裁判员3名、国家二级、三级裁判员十余名，业务能力和素质超强。校内每年的足球比赛新生杯约30场、振兴杯约90场、五人制约90场、足协杯约70场，每年参与的比赛近300场。武大足协积极运作公众媒体，公众号本年度共发表活动推文约50篇，篇均浏览量超500次，另有微信视频号和抖音账号对各项赛事进行直播，保障覆盖学年的品牌足球赛事举办，单篇公众号推文阅读量最高超1500次，单场赛事直播点赞数最高超1000次。
+                        </p>
+						<p>我们的联系平台包括QQ官号武汉大学足球协会（学生）（QQ号3374985171）、微信公众号武大足协、微信视频号武大足协、抖音号武大足协、2025武大足协的招新群群号787929951，欢迎对任何足球相关的项目感兴趣的同学们加入了解！。
+                        </p>
+                        <a href="https://mp.weixin.qq.com/s/yhvnw42c3rt3OwhpT86o5Q" class="btn btn-light">查看更多</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section class="p-5">
+            <div class="container">
+                <h2 class="text-center">常见问题</h2>
+                <div class="custom-accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button active">
+                                武大足协平时做什么？
+                            </button>
+                        </div>
+                        <div class="accordion-body" style="display: block;">
+                           武大足协主要负责校园内足球赛事的组织、宣传和裁判工作，致力于营造良好的校园足球氛围。自足协创立至今，“武汉大学新生杯”和“武汉大学足协杯”足球联赛两项传统年度校级足球赛事一直都由足协承办，同时足协还参与校内振兴杯、研究生赛、五人制大赛等足球比赛的裁判和部分组织工作。
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                               武大足协有哪些部门，分别做哪些工作？
+                            </button>
+                        </div>
+                        <div class="accordion-body">
+                            我们有组织部和裁判部，裁判部会定时对裁判部的成员进行裁判培训，并选派裁判执法校内赛事。
+							组织部负责运营“武大足协”公众号、视频号、抖音等平台，直播重要赛事，协调足协赛事和活动，管理经费，并与校方沟通会议记录、奖项申报和工作计划。
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <button class="accordion-button">
+                               在武大足协，你能得到什么？怎么加入？
+                            </button>
+                        </div>
+                        <div class="accordion-body">
+							<p>专业指导：我们邀请经验丰富的裁判团队，为你提供专业的足球裁判教学和训练，助你成为优秀裁判。</p>
+							<p>团队协作：在足协，你将结识一群志同道合的伙伴，共同参与足球比赛的组织、宣传和裁判工作，体验团队协作的力量。</p>
+							<p>丰富活动：我们定期举办各类团建、线上线下观赛活动，结交看球搭子，看球气氛拉满！</p>
+							<p>展示平台：足协为你提供广阔的展示平台，让你在全校师生面前展现自己的风采。</p>
+                            <p>2025武大足协的招新群群号787929951，欢迎对任何足球相关的项目感兴趣的同学们加入了解！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="p-5 bg-dark text-white text-center">
+            <div class="container">
+                <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
+            </div>
+        </footer>
+
+
+    </body>
+</html>
