@@ -4,6 +4,7 @@ const path = require('path');
 
 const PORT = 3000;
 const MATCHES_FILE = path.join(__dirname, 'data', 'matches.json');
+const CONTACTS_FILE = path.join(__dirname, 'data', 'contacts.json');
 
 // 确保 data 目录存在
 if (!fs.existsSync(path.join(__dirname, 'data'))) {
@@ -13,6 +14,11 @@ if (!fs.existsSync(path.join(__dirname, 'data'))) {
 // 确保 matches.json 文件存在
 if (!fs.existsSync(MATCHES_FILE)) {
     fs.writeFileSync(MATCHES_FILE, JSON.stringify([]), 'utf8');
+}
+
+// 确保 contacts.json 文件存在
+if (!fs.existsSync(CONTACTS_FILE)) {
+    fs.writeFileSync(CONTACTS_FILE, JSON.stringify([]), 'utf8');
 }
 
 // 处理静态文件请求
@@ -62,6 +68,8 @@ if (!fs.existsSync(USERS_FILE)) {
 
 // 处理 API 请求
 function handleApiRequest(req, res) {
+    // 确保 CONTACTS_FILE 在函数作用域内可用
+    const CONTACTS_FILE = path.join(__dirname, 'data', 'contacts.json');
     if (req.url === '/api/matches' && req.method === 'GET') {
         // 读取比赛数据
         fs.readFile(MATCHES_FILE, 'utf8', (err, data) => {
@@ -178,6 +186,69 @@ function handleApiRequest(req, res) {
                 res.end(JSON.stringify({ error: 'Invalid JSON data' }));
             }
         });
+    } else if (req.url === '/api/contacts' && req.method === 'POST') {
+        // 处理联系表单数据
+        console.log('Received contact form submission');
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            console.log('Request body:', body);
+            try {
+                const contactData = JSON.parse(body);
+                console.log('Parsed contact data:', contactData);
+                
+                // 读取现有联系数据
+                fs.readFile(CONTACTS_FILE, 'utf8', (err, data) => {
+                    if (err) {
+                        console.error('Error reading contacts file:', err);
+                        res.writeHead(500);
+                        res.end(JSON.stringify({ error: 'Failed to read contacts data' }));
+                        return;
+                    }
+                    
+                    try {
+                        const contacts = JSON.parse(data);
+                        console.log('Existing contacts:', contacts);
+                        
+                        // 创建新联系记录
+                        const newContact = {
+                            id: Date.now().toString(),
+                            name: contactData.name,
+                            email: contactData.email,
+                            phone: contactData.phone,
+                            message: contactData.message,
+                            createdAt: new Date().toISOString()
+                        };
+                        console.log('New contact:', newContact);
+                        
+                        // 保存新联系记录
+                        contacts.push(newContact);
+                        fs.writeFile(CONTACTS_FILE, JSON.stringify(contacts, null, 2), 'utf8', (err) => {
+                            if (err) {
+                                console.error('Error writing contacts file:', err);
+                                res.writeHead(500);
+                                res.end(JSON.stringify({ error: 'Failed to save contacts data' }));
+                                return;
+                            }
+                            
+                            console.log('Contact saved successfully');
+                            res.writeHead(200, { 'Content-Type': 'application/json' });
+                            res.end(JSON.stringify({ message: 'Contact form submitted successfully' }));
+                        });
+                    } catch (parseError) {
+                        console.error('Error parsing contacts data:', parseError);
+                        res.writeHead(500);
+                        res.end(JSON.stringify({ error: 'Failed to parse contacts data' }));
+                    }
+                });
+            } catch (error) {
+                console.error('Error processing contact form:', error);
+                res.writeHead(400);
+                res.end(JSON.stringify({ error: 'Invalid JSON data', details: error.message }));
+            }
+        });
     } else {
         res.writeHead(404);
         res.end('API endpoint not found');
@@ -217,8 +288,9 @@ const server = http.createServer((req, res) => {
 
 // 启动服务器
 server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`);
-    console.log(`API endpoints:`);
-    console.log(`  GET  http://localhost:${PORT}/api/matches`);
-    console.log(`  POST http://localhost:${PORT}/api/matches`);
+    console.log('Server running at http://localhost:' + PORT + '/');
+    console.log('API endpoints:');
+    console.log('  GET  http://localhost:' + PORT + '/api/matches');
+    console.log('  POST http://localhost:' + PORT + '/api/matches');
+    console.log('  POST http://localhost:' + PORT + '/api/contacts');
 });
