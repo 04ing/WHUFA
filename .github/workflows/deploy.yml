@@ -1,4 +1,4 @@
-name: Deploy Node.js App
+name: Run Node.js App
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  run:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -18,9 +18,7 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm run build
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    - name: Deploy to Vercel
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: |
-        npm install -g vercel
-        vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+    - name: Start Node.js server
+      run: npm start
+      env:
+        PORT: 3000
