@@ -11,51 +11,11 @@
   <link rel="stylesheet" href="../css/responsive.css" />
 </head>
 <body>
-  <!-- 导航栏-->
-  <nav class="custom-nav">
-    <div class="nav-container">
-      <a href="../index.html" class="nav-brand">武汉大学足球协会</a>
-      
-      <!-- 移动端汉堡菜单按钮 -->
-      <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <span class="menu-icon"></span>
-        <span class="menu-icon"></span>
-        <span class="menu-icon"></span>
-      </button>
-
-      <div class="nav-links" id="navLinks">
-        <a href="../index.html" class="nav-link">首页</a>
-        <a href="../pages/about.html" class="nav-link">社团介绍</a>
-        <a href="../pages/events.html" class="nav-link">赛事开展</a>
-        <a href="../pages/departments.html" class="nav-link">部门介绍</a>
-        <a href="../pages/news.html" class="nav-link">新闻公告</a>
-        <a href="../pages/contact.html" class="nav-link">联系我们</a>
-        <div class="nav-dropdown">
-          <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
-          <div class="dropdown-menu">
-            <a href="../pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
-            <a href="../pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
-            <a href="../pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
-            <a href="../pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
-            <a href="../pages/match-results.html" class="dropdown-item">赛果更新</a>
-          </div>
-        </div>
-        <div id="userInfo" style="display: none;">
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="userNameDisplay">用户</a>
-            <div class="dropdown-menu">
-              <a href="../pages/profile.html" class="dropdown-item">个人中心</a>
-              <a href="#" class="dropdown-item" onclick="logout()">登出</a>
-            </div>
-          </div>
-        </div>
-        <a href="../pages/register.html" class="nav-link" id="loginRegisterLink">登录/注册</a>
-      </div>
-    </div>
-  </nav>
+  <!-- 导航栏容器 -->
+  <div id="navbar-container"></div>
   
-  <!-- 移动端菜单覆盖层 -->
-  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <!-- 加载导航栏脚本 -->
+  <script src="../js/load-navbar.js"></script>
 
   <section class="p-5 pt-20">
     <div class="container">
@@ -65,16 +25,16 @@
       <div class="mb-5">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link active" href="#schedule" onclick="showTab('schedule')">比赛日程</a>
+            <a class="nav-link active" href="#schedule" onclick="showTab('schedule')" style="color: #00008B;">比赛日程</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#statistics" onclick="showTab('statistics')">赛事统计</a>
+            <a class="nav-link" href="#statistics" onclick="showTab('statistics')" style="color: #00008B;">赛事统计</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#teams" onclick="showTab('teams')">球队管理</a>
+            <a class="nav-link" href="#teams" onclick="showTab('teams')" style="color: #00008B;">球队管理</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#referees" onclick="showTab('referees')">裁判管理</a>
+            <a class="nav-link" href="#referees" onclick="showTab('referees')" style="color: #00008B;">裁判管理</a>
           </li>
         </ul>
       </div>
@@ -177,9 +137,9 @@
   <div class="modal" id="addTeamModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">添加球队</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header" style="background-color: #00008B; color: white;">
+          <h5 class="modal-title" style="color: white;">添加球队</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
         </div>
         <div class="modal-body">
           <form id="addTeamForm">
@@ -213,23 +173,15 @@
   <div class="modal" id="addRefereeModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">添加裁判</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header" style="background-color: #00008B; color: white;">
+          <h5 class="modal-title" style="color: white;">添加裁判</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
         </div>
         <div class="modal-body">
           <form id="addRefereeForm">
             <div class="mb-3">
               <label for="refereeName" class="form-label">姓名</label>
               <input type="text" class="form-control" id="refereeName" required>
-            </div>
-            <div class="mb-3">
-              <label for="refereeLevel" class="form-label">级别</label>
-              <input type="text" class="form-control" id="refereeLevel" required>
-            </div>
-            <div class="mb-3">
-              <label for="refereeExperience" class="form-label">经验</label>
-              <input type="text" class="form-control" id="refereeExperience">
             </div>
             <div class="mb-3">
               <label for="refereeCollege" class="form-label">学院</label>
@@ -253,9 +205,9 @@
   <div class="modal" id="editTeamModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">编辑球队</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header" style="background-color: #00008B; color: white;">
+          <h5 class="modal-title" style="color: white;">编辑球队</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
         </div>
         <div class="modal-body">
           <form id="editTeamForm">
@@ -290,9 +242,9 @@
   <div class="modal" id="editRefereeModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">编辑裁判</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header" style="background-color: #00008B; color: white;">
+          <h5 class="modal-title" style="color: white;">编辑裁判</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
         </div>
         <div class="modal-body">
           <form id="editRefereeForm">
@@ -300,14 +252,6 @@
             <div class="mb-3">
               <label for="editRefereeName" class="form-label">姓名</label>
               <input type="text" class="form-control" id="editRefereeName" required>
-            </div>
-            <div class="mb-3">
-              <label for="editRefereeLevel" class="form-label">级别</label>
-              <input type="text" class="form-control" id="editRefereeLevel" required>
-            </div>
-            <div class="mb-3">
-              <label for="editRefereeExperience" class="form-label">经验</label>
-              <input type="text" class="form-control" id="editRefereeExperience">
             </div>
             <div class="mb-3">
               <label for="editRefereeCollege" class="form-label">学院</label>
@@ -322,6 +266,68 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
           <button type="button" class="btn btn-primary" onclick="editReferee()">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 球员管理模态框 -->
+  <div class="modal" id="playersModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #00008B; color: white;">
+          <h5 class="modal-title" id="playersModalTitle" style="color: white;">球员管理</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-4">
+            <button class="btn btn-primary" onclick="showAddPlayerForm()">添加球员</button>
+          </div>
+          <div id="playersList">
+            <!-- 球员列表将通过JavaScript动态添加 -->
+            <div class="col-12 text-center">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">加载中...</span>
+              </div>
+              <p class="mt-2">加载球员中...</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 添加球员模态框 -->
+  <div class="modal" id="addPlayerModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #00008B; color: white;">
+          <h5 class="modal-title" style="color: white;">添加球员</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addPlayerForm">
+            <input type="hidden" id="addPlayerTeamId">
+            <div class="mb-3">
+              <label for="playerName" class="form-label">姓名</label>
+              <input type="text" class="form-control" id="playerName" required>
+            </div>
+            <div class="mb-3">
+              <label for="playerNumber" class="form-label">号码</label>
+              <input type="number" class="form-control" id="playerNumber" min="1" max="99" required>
+            </div>
+            <div class="mb-3">
+              <label for="playerStudentId" class="form-label">学号</label>
+              <input type="text" class="form-control" id="playerStudentId" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" onclick="addPlayer()">添加</button>
         </div>
       </div>
     </div>
@@ -727,8 +733,6 @@
     // 添加裁判
     async function addReferee() {
       const name = document.getElementById('refereeName').value;
-      const level = document.getElementById('refereeLevel').value;
-      const experience = document.getElementById('refereeExperience').value;
       const college = document.getElementById('refereeCollege').value;
       const grade = document.getElementById('refereeGrade').value;
       
@@ -738,7 +742,7 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ name, level, experience, college, grade })
+          body: JSON.stringify({ name, college, grade })
         });
         
         const data = await response.json();
@@ -762,24 +766,119 @@
     // 查看球队球员
     async function viewTeamPlayers(teamId) {
       try {
+        // 设置当前球队ID
+        window.currentTeamId = teamId;
+        
+        // 加载球队信息
+        const teamResponse = await fetch(`http://localhost:3000/api/teams/${teamId}`);
+        const team = await teamResponse.json();
+        
+        if (!teamResponse.ok) throw new Error(team.error || '获取球队数据失败');
+        
+        // 设置模态框标题
+        document.getElementById('playersModalTitle').textContent = `${team.name} - 球员管理`;
+        
+        // 加载球员列表
+        await loadPlayers(teamId);
+        
+        // 显示模态框
+        const modal = new bootstrap.Modal(document.getElementById('playersModal'));
+        modal.show();
+      } catch (err) {
+        console.error('获取球员数据失败:', err);
+        alert('获取球员数据失败');
+      }
+    }
+
+    // 显示添加球员表单
+    function showAddPlayerForm() {
+      // 设置球队ID
+      document.getElementById('addPlayerTeamId').value = window.currentTeamId;
+      
+      // 显示模态框
+      const modal = new bootstrap.Modal(document.getElementById('addPlayerModal'));
+      modal.show();
+    }
+
+    // 加载球员列表
+    async function loadPlayers(teamId) {
+      try {
         const response = await fetch(`http://localhost:3000/api/teams/${teamId}/players`);
         const players = await response.json();
         
         if (!response.ok) throw new Error(players.error || '获取球员数据失败');
         
-        // 显示球员列表
-        let playerList = '球员列表:\n';
-        if (players.length === 0) {
-          playerList += '暂无球员';
-        } else {
-          players.forEach(player => {
-            playerList += `${player.name} (${player.number}, ${player.position})\n`;
-          });
-        }
-        alert(playerList);
+        // 按号码排序
+        players.sort((a, b) => parseInt(a.number) - parseInt(b.number));
+        
+        displayPlayers(players);
       } catch (err) {
-        console.error('获取球员数据失败:', err);
-        alert('获取球员数据失败');
+        console.error('加载球员列表失败:', err);
+        document.getElementById('playersList').innerHTML = '<div class="col-12 text-center text-danger">加载球员列表失败</div>';
+      }
+    }
+
+    // 显示球员列表
+    function displayPlayers(players) {
+      const playersList = document.getElementById('playersList');
+      if (players.length === 0) {
+        playersList.innerHTML = '<div class="col-12 text-center">暂无球员</div>';
+        return;
+      }
+      
+      playersList.innerHTML = `
+        <table class="table">
+          <thead>
+            <tr>
+              <th>号码</th>
+              <th>姓名</th>
+              <th>学号</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${players.map(player => `
+              <tr>
+                <td>${player.number}</td>
+                <td>${player.name}</td>
+                <td>${player.studentId || '-'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // 添加球员
+    async function addPlayer() {
+      const teamId = document.getElementById('addPlayerTeamId').value;
+      const name = document.getElementById('playerName').value;
+      const number = document.getElementById('playerNumber').value;
+      const studentId = document.getElementById('playerStudentId').value;
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/players', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ teamId, name, number, studentId })
+        });
+        
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || '添加球员失败');
+        
+        // 关闭模态框
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addPlayerModal'));
+        modal.hide();
+        
+        // 重新加载球员列表
+        await loadPlayers(teamId);
+        
+        // 显示成功消息
+        alert('球员添加成功');
+      } catch (err) {
+        console.error('添加球员失败:', err);
+        alert('添加球员失败: ' + err.message);
       }
     }
     
@@ -818,8 +917,6 @@
         // 填充表单数据
         document.getElementById('editRefereeId').value = referee.id;
         document.getElementById('editRefereeName').value = referee.name;
-        document.getElementById('editRefereeLevel').value = referee.level;
-        document.getElementById('editRefereeExperience').value = referee.experience || '';
         document.getElementById('editRefereeCollege').value = referee.college || '';
         document.getElementById('editRefereeGrade').value = referee.grade || '';
         
@@ -871,8 +968,6 @@
     async function editReferee() {
       const id = document.getElementById('editRefereeId').value;
       const name = document.getElementById('editRefereeName').value;
-      const level = document.getElementById('editRefereeLevel').value;
-      const experience = document.getElementById('editRefereeExperience').value;
       const college = document.getElementById('editRefereeCollege').value;
       const grade = document.getElementById('editRefereeGrade').value;
       
@@ -882,7 +977,7 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ name, level, experience, college, grade })
+          body: JSON.stringify({ name, college, grade })
         });
         
         const data = await response.json();
@@ -953,9 +1048,8 @@
       }
     }
     
-    // 页面加载时检查登录状态
+    // 页面加载时
     window.onload = function() {
-      checkLoginStatus();
       // 设置默认日期为今天
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('scheduleDate').value = today;

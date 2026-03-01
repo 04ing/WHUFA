@@ -12,40 +12,13 @@
         <link rel="stylesheet" href="../css/responsive.css" />
     </head>
     <body>
-        <nav class="custom-nav">
-            <div class="nav-container">
-                <a href="../index.html" class="nav-brand">武汉大学足球协会</a>
-                
-                <!-- 移动端汉堡菜单按钮 -->
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <span class="menu-icon"></span>
-                    <span class="menu-icon"></span>
-                    <span class="menu-icon"></span>
-                </button>
-
-                <div class="nav-links" id="navLinks">
-                    <a href="../index.html" class="nav-link">首页</a>
-                    <a href="../pages/about.html" class="nav-link">社团介绍</a>
-                    <a href="../pages/events.html" class="nav-link">赛事开展</a>
-                    <a href="../pages/departments.html" class="nav-link">部门介绍</a>
-                    <a href="../pages/contact.html" class="nav-link">联系我们</a>
-                    <div class="nav-dropdown">
-                        <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
-                        <div class="dropdown-menu">
-                            <a href="../pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
-                            <a href="../pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
-                            <a href="../pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
-                            <a href="../pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
-                            <a href="../pages/match-results.html" class="dropdown-item">赛果更新</a>
-                        </div>
-                    </div>
-                    <a href="../pages/register.html" class="nav-link">登录/注册</a>
-                </div>
-            </div>
-        </nav>
-        
-        <!-- 移动端菜单覆盖层 -->
-        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+        <!-- 导航栏 -->
+        <div id="navbar-container"></div>
+        <script src="../js/load-navbar.js"></script>
+        <script>
+            // 加载导航栏
+            loadNavbar();
+        </script>
 
         <section class="p-5 pt-20 bg-dark text-light text-center text-sm-start">
             <div class="container">
