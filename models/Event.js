@@ -381,3 +381,5 @@ class Event {
         return Object.values(playerStats).sort((a, b) => (b.goals + b.penalties) - (a.goals + a.penalties));
     }
 }
+
+module.exports = Event;

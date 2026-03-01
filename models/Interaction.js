@@ -401,3 +401,5 @@ class Interaction {
         return statistics;
     }
 }
+
+module.exports = Interaction;

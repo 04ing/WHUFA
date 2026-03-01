@@ -115,3 +115,5 @@ class User {
         return userLevel >= requiredLevel;
     }
 }
+
+module.exports = User;
