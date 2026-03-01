@@ -365,3 +365,5 @@ class Content {
         return statistics;
     }
 }
+
+module.exports = Content;
