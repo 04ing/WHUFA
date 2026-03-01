@@ -25,3 +25,6 @@ Thumbs.db
 # 编译后的文件
 build/
 dist/
+
+# GitHub Actions runner
+actions-runner/
