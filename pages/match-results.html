@@ -701,7 +701,7 @@
                     const matchId = batchMatchIdInput ? batchMatchIdInput.value : '';
                     
                     // 从API获取比赛数据
-                    fetch('http://localhost:3000/api/matches')
+                    fetch('/api/matches')
                         .then(response => response.json())
                         .then(matches => {
                             // 找到当前比赛的数据
@@ -1442,7 +1442,7 @@
                     });
                     
                     // 发送数据到 API
-                    fetch('http://localhost:3000/api/matches', {
+                    fetch('/api/matches', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -1461,7 +1461,7 @@
                 
                 // 从 API 加载比赛数据      
                 function loadMatchesFromJson() {
-                    fetch('http://localhost:3000/api/matches')
+                    fetch('/api/matches')
                         .then(response => response.json())
                         .then(matches => {
                             // 找到表单元素的父容器，保存它
