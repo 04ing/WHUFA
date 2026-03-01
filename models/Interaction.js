@@ -354,10 +354,11 @@ class Interaction {
             id: Date.now().toString(),
             userId: feedbackData.userId || null,
             userName: feedbackData.userName || '匿名',
-            type: feedbackData.type, // bug, suggestion, question, complaint
+            type: feedbackData.type, // bug, suggestion, question, complaint, contact
             subject: feedbackData.subject,
             content: feedbackData.content,
             email: feedbackData.email,
+            phone: feedbackData.phone,
             status: feedbackData.status || 'pending', // pending, processing, resolved
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()

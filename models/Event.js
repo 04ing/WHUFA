@@ -106,7 +106,12 @@ class Event {
 
     // 比赛相关方法
     getAllMatches() {
-        return this.matches;
+        try {
+            return this.matches;
+        } catch (error) {
+            console.error('Error getting all matches:', error);
+            return [];
+        }
     }
 
     getMatchById(id) {
@@ -114,28 +119,82 @@ class Event {
     }
 
     createMatch(matchData) {
-        const newMatch = {
-            id: Date.now().toString(),
-            homeTeam: matchData.homeTeam,
-            awayTeam: matchData.awayTeam,
-            homeScore: matchData.homeScore || 0,
-            awayScore: matchData.awayScore || 0,
-            date: matchData.date,
-            time: matchData.time,
-            venue: matchData.venue,
-            referee: matchData.referee,
-            assistantReferee1: matchData.assistantReferee1,
-            assistantReferee2: matchData.assistantReferee2,
-            fourthOfficial: matchData.fourthOfficial,
-            type: matchData.type,
-            status: matchData.status || 'scheduled', // scheduled, in-progress, completed
-            events: matchData.events || [],
-            createdAt: new Date().toISOString()
-        };
-        
-        this.matches.push(newMatch);
-        this.saveMatches();
-        return newMatch;
+        // 处理数组形式的比赛数据
+        if (Array.isArray(matchData)) {
+            const savedMatches = [];
+            matchData.forEach(match => {
+                const newMatch = {
+                    id: match.id || Date.now().toString(),
+                    homeTeam: match.homeTeam,
+                    awayTeam: match.awayTeam,
+                    homeScore: match.homeScore || 0,
+                    awayScore: match.awayScore || 0,
+                    date: match.date,
+                    time: match.time,
+                    venue: match.venue,
+                    referee: match.referee,
+                    assistantReferee1: match.assistantReferee1,
+                    assistantReferee2: match.assistantReferee2,
+                    fourthOfficial: match.fourthOfficial,
+                    type: match.type,
+                    status: match.status || 'completed', // 默认为已完成
+                    events: match.events || [],
+                    homeEvents: match.homeEvents || [],
+                    awayEvents: match.awayEvents || [],
+                    createdAt: match.createdAt || new Date().toISOString()
+                };
+                
+                // 检查是否已存在相同ID的比赛
+                const existingIndex = this.matches.findIndex(m => m.id === newMatch.id);
+                if (existingIndex !== -1) {
+                    // 更新现有比赛
+                    this.matches[existingIndex] = newMatch;
+                } else {
+                    // 添加新比赛
+                    this.matches.push(newMatch);
+                }
+                
+                savedMatches.push(newMatch);
+            });
+            
+            this.saveMatches();
+            return savedMatches;
+        } else {
+            // 处理单个比赛对象
+            const newMatch = {
+                id: matchData.id || Date.now().toString(),
+                homeTeam: matchData.homeTeam,
+                awayTeam: matchData.awayTeam,
+                homeScore: matchData.homeScore || 0,
+                awayScore: matchData.awayScore || 0,
+                date: matchData.date,
+                time: matchData.time,
+                venue: matchData.venue,
+                referee: matchData.referee,
+                assistantReferee1: matchData.assistantReferee1,
+                assistantReferee2: matchData.assistantReferee2,
+                fourthOfficial: matchData.fourthOfficial,
+                type: matchData.type,
+                status: matchData.status || 'scheduled', // scheduled, in-progress, completed
+                events: matchData.events || [],
+                homeEvents: matchData.homeEvents || [],
+                awayEvents: matchData.awayEvents || [],
+                createdAt: matchData.createdAt || new Date().toISOString()
+            };
+            
+            // 检查是否已存在相同ID的比赛
+            const existingIndex = this.matches.findIndex(m => m.id === newMatch.id);
+            if (existingIndex !== -1) {
+                // 更新现有比赛
+                this.matches[existingIndex] = newMatch;
+            } else {
+                // 添加新比赛
+                this.matches.push(newMatch);
+            }
+            
+            this.saveMatches();
+            return newMatch;
+        }
     }
 
     updateMatch(id, matchData) {
@@ -221,6 +280,7 @@ class Event {
             id: Date.now().toString(),
             name: playerData.name,
             number: playerData.number,
+            studentId: playerData.studentId,
             position: playerData.position,
             teamId: playerData.teamId,
             college: playerData.college,

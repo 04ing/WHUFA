@@ -9,52 +9,14 @@
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="../css/pages.css" />
   <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 </head>
 <body>
-  <!-- 导航栏-->
-  <nav class="custom-nav">
-    <div class="nav-container">
-      <a href="../index.html" class="nav-brand">武汉大学足球协会</a>
-      
-      <!-- 移动端汉堡菜单按钮 -->
-      <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <span class="menu-icon"></span>
-        <span class="menu-icon"></span>
-        <span class="menu-icon"></span>
-      </button>
-
-      <div class="nav-links" id="navLinks">
-        <a href="../index.html" class="nav-link">首页</a>
-        <a href="../pages/about.html" class="nav-link">社团介绍</a>
-        <a href="../pages/events.html" class="nav-link">赛事开展</a>
-        <a href="../pages/departments.html" class="nav-link">部门介绍</a>
-        <a href="../pages/contact.html" class="nav-link">联系我们</a>
-        <div class="nav-dropdown">
-          <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
-          <div class="dropdown-menu">
-            <a href="../pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
-            <a href="../pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
-            <a href="../pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
-            <a href="../pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
-            <a href="../pages/match-results.html" class="dropdown-item">赛果更新</a>
-          </div>
-        </div>
-        <div id="userInfo" style="display: none;">
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="userNameDisplay">用户</a>
-            <div class="dropdown-menu">
-              <a href="../pages/profile.html" class="dropdown-item">个人中心</a>
-              <a href="#" class="dropdown-item" onclick="logout()">登出</a>
-            </div>
-          </div>
-        </div>
-        <a href="../pages/register.html" class="nav-link" id="loginRegisterLink">登录/注册</a>
-      </div>
-    </div>
-  </nav>
+  <!-- 导航栏容器 -->
+  <div id="navbar-container"></div>
   
-  <!-- 移动端菜单覆盖层 -->
-  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <!-- 加载导航栏脚本 -->
+  <script src="../js/load-navbar.js"></script>
 
   <section class="p-5 pt-20">
     <div class="container">
@@ -70,14 +32,24 @@
       
       <!-- 标签切换 -->
       <div class="mb-5">
-        <ul class="nav nav-tabs">
-          <li class="nav-item">
-            <a class="nav-link active" href="#news" onclick="showTab('news')">新闻</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#announcements" onclick="showTab('announcements')">公告</a>
-          </li>
-        </ul>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#news" onclick="showTab('news')" style="color: #00008B; font-weight: bold;">新闻</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#announcements" onclick="showTab('announcements')" style="color: #00008B; font-weight: bold;">公告</a>
+            </li>
+          </ul>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary" onclick="showAddNewsForm()">
+              <i class="bi bi-plus-circle"></i> 发布新闻
+            </button>
+            <button class="btn btn-primary" onclick="showAddAnnouncementForm()">
+              <i class="bi bi-bullhorn"></i> 发布公告
+            </button>
+          </div>
+        </div>
       </div>
       
       <!-- 新闻列表 -->
@@ -126,6 +98,81 @@
     </div>
   </div>
 
+  <!-- 发布新闻模态框 -->
+  <div class="modal" id="addNewsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">发布新闻</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addNewsForm">
+            <div class="mb-3">
+              <label for="newsTitle" class="form-label">标题</label>
+              <input type="text" class="form-control" id="newsTitle" required>
+            </div>
+            <div class="mb-3">
+              <label for="newsContent" class="form-label">内容</label>
+              <textarea class="form-control" id="newsContent" rows="5" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="newsImage" class="form-label">图片URL</label>
+              <input type="text" class="form-control" id="newsImage">
+            </div>
+            <div class="mb-3">
+              <label for="newsAuthor" class="form-label">作者</label>
+              <input type="text" class="form-control" id="newsAuthor">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" onclick="addNews()">发布</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 发布公告模态框 -->
+  <div class="modal" id="addAnnouncementModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">发布公告</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addAnnouncementForm">
+            <div class="mb-3">
+              <label for="announcementTitle" class="form-label">标题</label>
+              <input type="text" class="form-control" id="announcementTitle" required>
+            </div>
+            <div class="mb-3">
+              <label for="announcementContent" class="form-label">内容</label>
+              <textarea class="form-control" id="announcementContent" rows="5" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="announcementAuthor" class="form-label">作者</label>
+              <input type="text" class="form-control" id="announcementAuthor">
+            </div>
+            <div class="mb-3">
+              <label for="announcementPriority" class="form-label">优先级</label>
+              <select class="form-control" id="announcementPriority">
+                <option value="normal">普通</option>
+                <option value="high">重要</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" onclick="addAnnouncement()">发布</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="p-5 bg-dark text-white text-center">
     <div class="container">
       <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
@@ -133,73 +180,6 @@
   </footer>
 
   <script>
-    // 移动端菜单控制
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const navLinks = document.getElementById('navLinks');
-    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-    
-    mobileMenuBtn.addEventListener('click', function() {
-      navLinks.classList.toggle('active');
-      mobileMenuOverlay.classList.toggle('active');
-      document.body.classList.toggle('menu-open');
-    });
-    
-    mobileMenuOverlay.addEventListener('click', function() {
-      navLinks.classList.remove('active');
-      mobileMenuOverlay.classList.remove('active');
-      document.body.classList.remove('menu-open');
-    });
-    
-    // 下拉菜单控制
-    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-    dropdownToggles.forEach(toggle => {
-      toggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        const dropdownMenu = this.nextElementSibling;
-        dropdownMenu.classList.toggle('active');
-      });
-    });
-    
-    // 点击其他地方关闭下拉菜单
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.nav-dropdown')) {
-        const dropdownMenus = document.querySelectorAll('.dropdown-menu');
-        dropdownMenus.forEach(menu => {
-          menu.classList.remove('active');
-        });
-      }
-    });
-    
-    // 检查用户登录状态
-    function checkLoginStatus() {
-      const userId = localStorage.getItem('userId');
-      const userName = localStorage.getItem('userName');
-      
-      if (userId && userName) {
-        // 用户已登录，显示用户信息和登出按钮
-        document.getElementById('userInfo').style.display = 'block';
-        document.getElementById('userNameDisplay').textContent = userName;
-        document.getElementById('loginRegisterLink').style.display = 'none';
-      } else {
-        // 用户未登录，显示登录/注册链接
-        document.getElementById('userInfo').style.display = 'none';
-        document.getElementById('loginRegisterLink').style.display = 'block';
-      }
-    }
-    
-    // 登出功能
-    function logout() {
-      // 清除本地存储中的用户信息
-      localStorage.removeItem('userId');
-      localStorage.removeItem('userName');
-      
-      // 更新导航栏显示
-      checkLoginStatus();
-      
-      // 跳转到首页
-      window.location.href = '../index.html';
-    }
-    
     // 切换标签
     function showTab(tabName) {
       // 隐藏所有标签内容
@@ -379,9 +359,88 @@
       }
     }
     
-    // 页面加载时检查登录状态并加载新闻
+    // 显示发布新闻表单
+    function showAddNewsForm() {
+      const modal = new bootstrap.Modal(document.getElementById('addNewsModal'));
+      modal.show();
+    }
+
+    // 显示发布公告表单
+    function showAddAnnouncementForm() {
+      const modal = new bootstrap.Modal(document.getElementById('addAnnouncementModal'));
+      modal.show();
+    }
+
+    // 发布新闻
+    async function addNews() {
+      const title = document.getElementById('newsTitle').value;
+      const content = document.getElementById('newsContent').value;
+      const image = document.getElementById('newsImage').value;
+      const author = document.getElementById('newsAuthor').value;
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/news', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ title, content, image, author })
+        });
+        
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || '发布新闻失败');
+        
+        // 关闭模态框
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addNewsModal'));
+        modal.hide();
+        
+        // 重新加载新闻列表
+        loadNews();
+        
+        // 显示成功消息
+        alert('新闻发布成功');
+      } catch (err) {
+        console.error('发布新闻失败:', err);
+        alert('发布新闻失败: ' + err.message);
+      }
+    }
+
+    // 发布公告
+    async function addAnnouncement() {
+      const title = document.getElementById('announcementTitle').value;
+      const content = document.getElementById('announcementContent').value;
+      const author = document.getElementById('announcementAuthor').value;
+      const priority = document.getElementById('announcementPriority').value;
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/announcements', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ title, content, author, priority })
+        });
+        
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || '发布公告失败');
+        
+        // 关闭模态框
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addAnnouncementModal'));
+        modal.hide();
+        
+        // 重新加载公告列表
+        loadAnnouncements();
+        
+        // 显示成功消息
+        alert('公告发布成功');
+      } catch (err) {
+        console.error('发布公告失败:', err);
+        alert('发布公告失败: ' + err.message);
+      }
+    }
+
+    // 页面加载时加载新闻
     window.onload = function() {
-      checkLoginStatus();
       loadNews();
     };
   </script>

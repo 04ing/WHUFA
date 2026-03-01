@@ -12,30 +12,13 @@
         <link rel="stylesheet" href="../css/responsive.css" />
     </head>
     <body>
-        <!-- 导航栏-->
-        <nav class="custom-nav">
-            <div class="nav-container">
-                <a href="../index.html" class="nav-brand">武汉大学足球协会</a>
-                <div class="nav-links">
-                    <a href="../index.html" class="nav-link">首页</a>
-                    <a href="../pages/about.html" class="nav-link">社团介绍</a>
-                    <a href="../pages/events.html" class="nav-link">赛事开展</a>
-                    <a href="../pages/departments.html" class="nav-link">部门介绍</a>
-                    <a href="../pages/contact.html" class="nav-link">联系我们</a>
-                    <div class="nav-dropdown">
-                        <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
-                        <div class="dropdown-menu">
-                            <a href="../pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
-                            <a href="../pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
-                            <a href="../pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
-                            <a href="../pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
-                            <a href="../pages/match-results.html" class="dropdown-item">赛果更新</a>
-                        </div>
-                    </div>
-                    <a href="../pages/register.html" class="nav-link">登录/注册</a>
-                </div>
-            </div>
-        </nav>
+        <!-- 导航栏 -->
+        <div id="navbar-container"></div>
+        <script src="../js/load-navbar.js"></script>
+        <script>
+            // 加载导航栏
+            loadNavbar();
+        </script>
 
         <section class="p-5 pt-20 bg-dark text-light text-center text-sm-start">
             <div class="container">
@@ -701,7 +684,7 @@
                     const matchId = batchMatchIdInput ? batchMatchIdInput.value : '';
                     
                     // 从API获取比赛数据
-                    fetch('/api/matches')
+                    fetch('http://localhost:3000/api/matches')
                         .then(response => response.json())
                         .then(matches => {
                             // 找到当前比赛的数据
@@ -1441,15 +1424,22 @@
                         }
                     });
                     
+                    console.log('要保存的比赛数据:', matches);
+                    
                     // 发送数据到 API
-                    fetch('/api/matches', {
+                    fetch('http://localhost:3000/api/matches', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(matches)
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('网络响应错误: ' + response.status);
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         console.log('Matches data saved successfully:', data);
                     })
@@ -1461,9 +1451,15 @@
                 
                 // 从 API 加载比赛数据      
                 function loadMatchesFromJson() {
-                    fetch('/api/matches')
-                        .then(response => response.json())
+                    fetch('http://localhost:3000/api/matches')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('网络响应错误: ' + response.status);
+                            }
+                            return response.json();
+                        })
                         .then(matches => {
+                            console.log('加载的比赛数据:', matches);
                             // 找到表单元素的父容器，保存它
                             const formContainer = document.querySelector('.match-card');
                             
@@ -1477,152 +1473,157 @@
                             });
                             
                             // 添加加载的比赛          
-                            matches.forEach(function(matchData) {
-                                // 创建比赛卡片
-                                const matchCard = createMatchCard(
-                                    matchData.id,
-                                    matchData.date,
-                                    matchData.time,
-                                    matchData.type,
-                                    matchData.referee,
-                                    matchData.assistantReferee1,
-                                    matchData.assistantReferee2,
-                                    matchData.fourthOfficial,
-                                    matchData.homeTeam,
-                                    matchData.awayTeam,
-                                    matchData.homeScore,
-                                    matchData.awayScore
-                                );
-                                
-                                // 添加到页面，放在表单容器后面
-                                if (formContainer) {
-                                    formContainer.after(matchCard);
-                                }
-                                
-                                // 添加主队事件
-                                if (matchData.homeEvents && matchData.homeEvents.length > 0) {
-                                    const homeEventElement = document.getElementById(matchData.id + '-team1');
-                                    if (homeEventElement) {
-                                        // 移除"本场比赛无进球"的提示                  
-                                        const noGoalMsg = homeEventElement.querySelector('.text-muted');
-                                        if (noGoalMsg) {
-                                            noGoalMsg.remove();
-                                        }
-                                        
-                                        // 添加事件
-                                        matchData.homeEvents.forEach(function(event) {
-                                            const eventDiv = document.createElement('div');
-                                            let eventClass = '';
-                                            let eventText = '';
-                                            
-                                            // 构建球员信息，包括号码（如果有）
-                                            let playerInfo = event.player;
-                                            if (event.number) {
-                                                playerInfo = playerInfo + ' (' + event.number + ')';
-                                            }
-                                            
-                                            switch(event.type) {
-                                                case 'goal':
-                                                    eventClass = 'timeline-item goal-scorer p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>';
-                                                    break;
-                                                case 'penalty':
-                                                    eventClass = 'timeline-item penalty-goal p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>（点球）';
-                                                    break;
-                                                case 'ownGoal':
-                                                    eventClass = 'timeline-item own-goal p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>（乌龙球）';
-                                                    break;
-                                                case 'redCard':
-                                                    eventClass = 'timeline-item red-card p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>（红牌 - 直接红牌）';
-                                                    break;
-                                                case 'doubleYellow':
-                                                    eventClass = 'timeline-item double-yellow p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>（红牌 - 两黄变一红）';
-                                                    break;
-                                            }
-                                            
-                                            eventDiv.className = eventClass;
-                                            eventDiv.innerHTML = `
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-1 text-start">
-                                                        ${event.minute}'
-                                                    </div>
-                                                    <div class="col-md-11">
-                                                        ${eventText}
-                                                    </div>
-                                                </div>
-                                            `;
-                                            
-                                            homeEventElement.appendChild(eventDiv);
-                                        });
+                            if (Array.isArray(matches)) {
+                                matches.forEach(function(matchData) {
+                                    // 创建比赛卡片
+                                    const matchCard = createMatchCard(
+                                        matchData.id,
+                                        matchData.date,
+                                        matchData.time,
+                                        matchData.type,
+                                        matchData.referee,
+                                        matchData.assistantReferee1,
+                                        matchData.assistantReferee2,
+                                        matchData.fourthOfficial,
+                                        matchData.homeTeam,
+                                        matchData.awayTeam,
+                                        matchData.homeScore,
+                                        matchData.awayScore
+                                    );
+                                    
+                                    // 添加到页面，放在表单容器后面
+                                    if (formContainer) {
+                                        formContainer.after(matchCard);
                                     }
-                                }
-                                
-                                // 添加客队事件
-                                if (matchData.awayEvents && matchData.awayEvents.length > 0) {
-                                    const awayEventElement = document.getElementById(matchData.id + '-team2');
-                                    if (awayEventElement) {
-                                        // 移除"本场比赛无进球"的提示                 
-                                        const noGoalMsg = awayEventElement.querySelector('.text-muted');
-                                        if (noGoalMsg) {
-                                            noGoalMsg.remove();
+                                    
+                                    // 添加主队事件
+                                    if (matchData.homeEvents && matchData.homeEvents.length > 0) {
+                                        const homeEventElement = document.getElementById(matchData.id + '-team1');
+                                        if (homeEventElement) {
+                                            // 移除"本场比赛无进球"的提示                  
+                                            const noGoalMsg = homeEventElement.querySelector('.text-muted');
+                                            if (noGoalMsg) {
+                                                noGoalMsg.remove();
+                                            }
+                                            
+                                            // 添加事件
+                                            matchData.homeEvents.forEach(function(event) {
+                                                const eventDiv = document.createElement('div');
+                                                let eventClass = '';
+                                                let eventText = '';
+                                                
+                                                // 构建球员信息，包括号码（如果有）
+                                                let playerInfo = event.player;
+                                                if (event.number) {
+                                                    playerInfo = playerInfo + ' (' + event.number + ')';
+                                                }
+                                                
+                                                switch(event.type) {
+                                                    case 'goal':
+                                                        eventClass = 'timeline-item goal-scorer p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>';
+                                                        break;
+                                                    case 'penalty':
+                                                        eventClass = 'timeline-item penalty-goal p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（点球）';
+                                                        break;
+                                                    case 'ownGoal':
+                                                        eventClass = 'timeline-item own-goal p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（乌龙球）';
+                                                        break;
+                                                    case 'redCard':
+                                                        eventClass = 'timeline-item red-card p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（红牌 - 直接红牌）';
+                                                        break;
+                                                    case 'doubleYellow':
+                                                        eventClass = 'timeline-item double-yellow p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（红牌 - 两黄变一红）';
+                                                        break;
+                                                }
+                                                
+                                                eventDiv.className = eventClass;
+                                                eventDiv.innerHTML = `
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-1 text-start">
+                                                            ${event.minute}'
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            ${eventText}
+                                                        </div>
+                                                    </div>
+                                                `;
+                                                
+                                                homeEventElement.appendChild(eventDiv);
+                                            });
                                         }
-                                        
-                                        // 添加事件
-                                        matchData.awayEvents.forEach(function(event) {
-                                            const eventDiv = document.createElement('div');
-                                            let eventClass = '';
-                                            let eventText = '';
-                                            
-                                            // 构建球员信息，包括号码（如果有）
-                                            let playerInfo = event.player;
-                                            if (event.number) {
-                                                playerInfo = playerInfo + ' (' + event.number + ')';
-                                            }
-                                            
-                                            switch(event.type) {
-                                                case 'goal':
-                                                    eventClass = 'timeline-item goal-scorer p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>';
-                                                    break;
-                                                case 'penalty':
-                                                    eventClass = 'timeline-item penalty-goal p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>（点球）';
-                                                    break;
-                                                case 'ownGoal':
-                                                    eventClass = 'timeline-item own-goal p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>（乌龙球）';
-                                                    break;
-                                                case 'redCard':
-                                                    eventClass = 'timeline-item red-card p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>（红牌 - 直接红牌）';
-                                                    break;
-                                                case 'doubleYellow':
-                                                    eventClass = 'timeline-item double-yellow p-3 mb-2';
-                                                    eventText = '<strong>' + playerInfo + '</strong>（红牌 - 两黄变一红）';
-                                                    break;
-                                            }
-                                            
-                                            eventDiv.className = eventClass;
-                                            eventDiv.innerHTML = `
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-1 text-start">
-                                                        ${event.minute}'
-                                                    </div>
-                                                    <div class="col-md-11">
-                                                        ${eventText}
-                                                    </div>
-                                                </div>
-                                            `;
-                                            
-                                            awayEventElement.appendChild(eventDiv);
-                                        });
                                     }
-                                }
-                            });
+                                    
+                                    // 添加客队事件
+                                    if (matchData.awayEvents && matchData.awayEvents.length > 0) {
+                                        const awayEventElement = document.getElementById(matchData.id + '-team2');
+                                        if (awayEventElement) {
+                                            // 移除"本场比赛无进球"的提示                 
+                                            const noGoalMsg = awayEventElement.querySelector('.text-muted');
+                                            if (noGoalMsg) {
+                                                noGoalMsg.remove();
+                                            }
+                                            
+                                            // 添加事件
+                                            matchData.awayEvents.forEach(function(event) {
+                                                const eventDiv = document.createElement('div');
+                                                let eventClass = '';
+                                                let eventText = '';
+                                                
+                                                // 构建球员信息，包括号码（如果有）
+                                                let playerInfo = event.player;
+                                                if (event.number) {
+                                                    playerInfo = playerInfo + ' (' + event.number + ')';
+                                                }
+                                                
+                                                switch(event.type) {
+                                                    case 'goal':
+                                                        eventClass = 'timeline-item goal-scorer p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>';
+                                                        break;
+                                                    case 'penalty':
+                                                        eventClass = 'timeline-item penalty-goal p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（点球）';
+                                                        break;
+                                                    case 'ownGoal':
+                                                        eventClass = 'timeline-item own-goal p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（乌龙球）';
+                                                        break;
+                                                    case 'redCard':
+                                                        eventClass = 'timeline-item red-card p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（红牌 - 直接红牌）';
+                                                        break;
+                                                    case 'doubleYellow':
+                                                        eventClass = 'timeline-item double-yellow p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（红牌 - 两黄变一红）';
+                                                        break;
+                                                }
+                                                
+                                                eventDiv.className = eventClass;
+                                                eventDiv.innerHTML = `
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-1 text-start">
+                                                            ${event.minute}'
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            ${eventText}
+                                                        </div>
+                                                    </div>
+                                                `;
+                                                
+                                                awayEventElement.appendChild(eventDiv);
+                                            });
+                                        }
+                                    }
+                                });
+                            } else {
+                                console.error('返回的数据不是数组:', matches);
+                                alert('加载比赛数据时发生错误：返回的数据格式不正确');
+                            }
                         })
                         .catch(error => {
                             console.error('Error loading matches from JSON:', error);
