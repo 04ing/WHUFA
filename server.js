@@ -139,6 +139,41 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// 处理其他路径，尝试返回对应的HTML文件
+app.get('*', (req, res) => {
+    // 尝试构建文件路径
+    let filePath = path.join(__dirname, req.path);
+    
+    // 如果路径以/结尾，尝试添加index.html
+    if (filePath.endsWith('/')) {
+        filePath += 'index.html';
+    }
+    
+    // 检查文件是否存在
+    fs.exists(filePath, (exists) => {
+        if (exists) {
+            // 如果文件存在，直接返回
+            res.sendFile(filePath);
+        } else {
+            // 如果文件不存在，检查是否是HTML文件请求
+            if (!filePath.endsWith('.html')) {
+                const htmlFilePath = filePath + '.html';
+                fs.exists(htmlFilePath, (htmlExists) => {
+                    if (htmlExists) {
+                        res.sendFile(htmlFilePath);
+                    } else {
+                        // 如果还是不存在，返回404
+                        res.status(404).send('File not found');
+                    }
+                });
+            } else {
+                // 如果是HTML文件但不存在，返回404
+                res.status(404).send('File not found');
+            }
+        }
+    });
+});
+
 // 启动服务器
 app.listen(PORT, () => {
     console.log('Server running at http://localhost:' + PORT + '/');
