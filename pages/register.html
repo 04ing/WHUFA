@@ -117,7 +117,7 @@
       const errorDiv = document.querySelector('#login-form .alert');
       
       try {
-        const response = await fetch('http://localhost:3000/login', {
+        const response = await fetch('http://localhost:3000/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -130,8 +130,8 @@
         if (!response.ok) throw new Error(data.error || '请求失败');
     
         // 登录成功处理
-        localStorage.setItem('userId', data.userId || data.id);
-        localStorage.setItem('userName', data.name);
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userName', data.user.name);
         window.location.href = '../index.html';
       } catch (err) {
         errorDiv.textContent = err.message;
@@ -150,7 +150,7 @@
       const errorDiv = document.querySelector('#register-form .alert');
       
       try {
-        const response = await fetch('http://localhost:3000/register', {
+        const response = await fetch('http://localhost:3000/api/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -163,8 +163,8 @@
         if (!response.ok) throw new Error(data.error || '请求失败');
     
         // 注册成功处理
-        localStorage.setItem('userId', data.userId || data.id);
-        localStorage.setItem('userName', name);
+        localStorage.setItem('userId', data.id);
+        localStorage.setItem('userName', data.name);
         window.location.href = '../index.html';
       } catch (err) {
         errorDiv.textContent = err.message;
