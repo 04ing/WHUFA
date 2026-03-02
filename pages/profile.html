@@ -247,7 +247,6 @@
     
     // 页面加载时检查登录状态并加载用户信息
     window.onload = function() {
-      loadNavbar();
       if (checkLoginStatus()) {
         loadUserInfo();
       } else {

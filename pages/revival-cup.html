@@ -15,10 +15,6 @@
         <!-- 导航栏 -->
         <div id="navbar-container"></div>
         <script src="../js/load-navbar.js"></script>
-        <script>
-            // 加载导航栏
-            loadNavbar();
-        </script>
 
         <section class="p-5 pt-20 bg-dark text-light text-center text-sm-start">
             <div class="container">
@@ -243,44 +239,7 @@
             </div>
         </footer>
 
-        <script>
-            // 移动端菜单控制
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const navLinks = document.getElementById('navLinks');
-            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-            
-            mobileMenuBtn.addEventListener('click', function() {
-                navLinks.classList.toggle('active');
-                mobileMenuOverlay.classList.toggle('active');
-                document.body.classList.toggle('menu-open');
-            });
-            
-            mobileMenuOverlay.addEventListener('click', function() {
-                navLinks.classList.remove('active');
-                mobileMenuOverlay.classList.remove('active');
-                document.body.classList.remove('menu-open');
-            });
-            
-            // 下拉菜单控制
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const dropdownMenu = this.nextElementSibling;
-                    dropdownMenu.classList.toggle('active');
-                });
-            });
-            
-            // 点击其他地方关闭下拉菜单
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.nav-dropdown')) {
-                    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
-                    dropdownMenus.forEach(menu => {
-                        menu.classList.remove('active');
-                    });
-                }
-            });
-        </script>
+
     </body>
 </html>
 
