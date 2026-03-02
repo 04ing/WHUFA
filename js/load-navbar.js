@@ -1,11 +1,23 @@
 // 加载导航栏组件
 function loadNavbar() {
-    // 根据当前页面的路径动态确定导航栏组件的路径
+    // 确定导航栏组件的路径
     let navbarPath = 'components/navbar.html';
     
-    // 检查当前页面是否在pages目录中
-    if (window.location.pathname.includes('/pages/')) {
-        navbarPath = '../components/navbar.html';
+    // 检查当前页面是否在GitHub Pages环境中
+    if (window.location.hostname.includes('github.io')) {
+        // 在GitHub Pages环境中，使用绝对路径
+        if (window.location.pathname.includes('/WHUFA/')) {
+            // 已经在WHUFA路径下
+            navbarPath = '/WHUFA/components/navbar.html';
+        } else {
+            // 不在WHUFA路径下，添加路径前缀
+            navbarPath = '/WHUFA/components/navbar.html';
+        }
+    } else {
+        // 本地环境中，根据当前页面的路径动态确定导航栏组件的路径
+        if (window.location.pathname.includes('/pages/')) {
+            navbarPath = '../components/navbar.html';
+        }
     }
     
     fetch(navbarPath)
