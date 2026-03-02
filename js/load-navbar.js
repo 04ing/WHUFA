@@ -31,3 +31,10 @@ function loadNavbar() {
             console.error('加载导航栏失败:', error);
         });
 }
+
+// 页面加载时自动调用loadNavbar函数
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadNavbar);
+} else {
+    loadNavbar();
+}
