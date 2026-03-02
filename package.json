@@ -1,0 +1,17 @@
+{
+  "name": "whufa-website",
+  "version": "1.0.0",
+  "description": "武汉大学足球协会网站",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'No build needed'"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

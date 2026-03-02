@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录/注册 - 武汉大学足球协会</title>
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <!-- 导航栏容器 -->
+  <div id="navbar-container"></div>
+  
+  <!-- 加载导航栏脚本 -->
+  <script src="../js/load-navbar.js"></script>
+  <section class="p-5 pt-20">
+    <div class="container d-flex justify-content-center align-items-center min-vh-80">
+  <div class="form-container" id="loginForm">
+    <form id="login-form" class="auth-container">
+      <h2>登录</h2>
+      <div class="alert alert-danger" style="display:none;"></div>
+      
+      <div class="mb-3">
+        <label for="login-name" class="form-label">姓名</label>
+        <input type="text" class="form-control" id="login-name" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="login-password" class="form-label">密码</label>
+        <input type="password" class="form-control" id="login-password" required minlength="6">
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-100">登录</button>
+      
+      <div class="mt-3 text-center">
+        <a href="#" onclick="showRegisterForm()">没有账号？立即注册</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="form-container" id="registerForm" style="display: none;">
+    <form id="register-form" class="auth-container">
+      <h2>注册</h2>
+      <div class="alert alert-danger" style="display:none;"></div>
+      
+      <div class="mb-3">
+        <label for="register-name" class="form-label">姓名</label>
+        <input type="text" class="form-control" id="register-name" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="register-college" class="form-label">学院</label>
+        <input type="text" class="form-control" id="register-college" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="register-grade" class="form-label">年级</label>
+        <input type="text" class="form-control" id="register-grade" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="register-password" class="form-label">密码</label>
+        <input type="password" class="form-control" id="register-password" required minlength="6">
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-100">注册</button>
+      
+      <div class="mt-3 text-center">
+        <a href="#" onclick="showLoginForm()">已有账号？立即登录</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // 显示登录表单
+    function showLoginForm() {
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('registerForm').style.display = 'none';
+    }
+
+    // 显示注册表单
+    function showRegisterForm() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('registerForm').style.display = 'block';
+    }
+
+    // 登录表单提交处理
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('login-name').value;
+      const password = document.getElementById('login-password').value;
+      const errorDiv = document.querySelector('#login-form .alert');
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, password })
+        });
+    
+        const data = await response.json();
+        
+        if (!response.ok) throw new Error(data.error || '请求失败');
+    
+        // 登录成功处理
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userName', data.user.name);
+        window.location.href = '../index.html';
+      } catch (err) {
+        errorDiv.textContent = err.message;
+        errorDiv.style.display = 'block';
+      }
+    });
+
+    // 注册表单提交处理
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('register-name').value;
+      const password = document.getElementById('register-password').value;
+      const college = document.getElementById('register-college').value;
+      const grade = document.getElementById('register-grade').value;
+      const errorDiv = document.querySelector('#register-form .alert');
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, password, college, grade })
+        });
+    
+        const data = await response.json();
+        
+        if (!response.ok) throw new Error(data.error || '请求失败');
+    
+        // 注册成功处理
+        localStorage.setItem('userId', data.id);
+        localStorage.setItem('userName', data.name);
+        window.location.href = '../index.html';
+      } catch (err) {
+        errorDiv.textContent = err.message;
+        errorDiv.style.display = 'block';
+      }
+    });
+
+    // 页面加载时加载导航栏
+    window.onload = function() {
+      loadNavbar();
+    };
+  </script>
+    </div>
+  </section>
+
+  <footer class="p-5 bg-dark text-white text-center">
+    <div class="container">
+      <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
+    </div>
+  </footer>
+
+
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>赛果更新 - 武汉大学足球协会</title>
+        <link rel="stylesheet" href="../css/base.css" />
+        <link rel="stylesheet" href="../css/layout.css" />
+        <link rel="stylesheet" href="../css/components.css" />
+        <link rel="stylesheet" href="../css/pages.css" />
+        <link rel="stylesheet" href="../css/responsive.css" />
+    </head>
+    <body>
+        <!-- 导航栏 -->
+        <div id="navbar-container"></div>
+        <script src="../js/load-navbar.js"></script>
+        <script>
+            // 加载导航栏
+            loadNavbar();
+        </script>
+
+        <section class="p-5 pt-20 bg-dark text-light text-center text-sm-start">
+            <div class="container">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="text-center">
+                        <h1 class="mt-20">
+                            赛果<span class="text-warning">更新</span>
+                        </h1>
+                        <p class="my-4">
+                            武汉大学足球协会最新赛事结果及详细信息
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5 bg-light text-dark">
+            <div class="container">
+                <h2 class="text-center mb-5">最新赛果</h2>
+                
+                <!-- 添加比赛基本信息表单 -->
+                <div class="match-card">
+                    <div class="match-card-header">
+                        <h4>更新赛果</h4>
+                    </div>
+                    <div class="match-card-body">
+                        <form id="eventForm">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="matchDate" class="form-label">比赛日期</label>
+                                    <input type="date" class="form-input" id="matchDate" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="matchTime" class="form-label">比赛时间</label>
+                                    <input type="time" class="form-input" id="matchTime">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="matchType" class="form-label">比赛类型</label>
+                                    <input type="text" class="form-input" id="matchType" placeholder="例如：振兴杯、新生杯等">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <label for="referee" class="form-label">裁判员</label>
+                                    <input type="text" class="form-input" id="referee" placeholder="输入裁判员姓名">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="assistantReferee1" class="form-label">第一助理</label>
+                                    <input type="text" class="form-input" id="assistantReferee1" placeholder="输入第一助理裁判员姓名">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="assistantReferee2" class="form-label">第二助理</label>
+                                    <input type="text" class="form-input" id="assistantReferee2" placeholder="输入第二助理裁判员姓名">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="fourthOfficial" class="form-label">第四官员</label>
+                                    <input type="text" class="form-input" id="fourthOfficial" placeholder="输入第四官员姓名">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="homeTeam" class="form-label">主队</label>
+                                    <input type="text" class="form-input" id="homeTeam" placeholder="输入主队名称" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="awayTeam" class="form-label">客队</label>
+                                    <input type="text" class="form-input" id="awayTeam" placeholder="输入客队名称" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="homeScore" class="form-label">主队比分</label>
+                                    <input type="number" class="form-input" id="homeScore" placeholder="输入主队比分" min="0" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="awayScore" class="form-label">客队比分</label>
+                                    <input type="number" class="form-input" id="awayScore" placeholder="输入客队比分" min="0" required>
+                                </div>
+                            </div>
+                            <input type="hidden" id="currentMatchId" value="">
+                            <button type="submit" class="btn btn-primary">添加比赛</button>
+                            <button type="button" class="btn btn-secondary ms-2" id="cancelEdit">取消修改</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="p-5 bg-dark text-white text-center">
+            <div class="container">
+                <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
+            </div>
+        </footer>
+
+        <script>
+            // 等待DOM加载完成
+            document.addEventListener('DOMContentLoaded', function() {
+                // 获取表单元素
+                const eventForm = document.getElementById('eventForm');
+                
+                // 从 JSON 文件加载比赛数据     
+                loadMatchesFromJson();
+                
+                // 获取主队和客队输入框
+                const homeTeamInput = document.getElementById('homeTeam');
+                const awayTeamInput = document.getElementById('awayTeam');
+                
+                // 监听主队和客队输入框的变化（添加空值检查）
+                if (homeTeamInput) {
+                    homeTeamInput.addEventListener('input', updateTeamOptions);
+                }
+                if (awayTeamInput) {
+                    awayTeamInput.addEventListener('input', updateTeamOptions);
+                }
+                
+                // 更新球队选项的函数      
+                function updateTeamOptions() {
+                    // 虽然主表单中使用的是输入框而不是下拉菜单，但此函数仍可用于
+                    // 1. 验证球队名称输入
+                    // 2. 为批量修改事件模态框准备球队选项
+                    
+                    // 获取主表单中的球队输入
+                    const homeTeamInput = document.getElementById('homeTeam');
+                    const awayTeamInput = document.getElementById('awayTeam');
+                    
+                    // 简单的输入验证
+                    if (homeTeamInput) {
+                        homeTeamInput.addEventListener('blur', function() {
+                            if (this.value.trim() === '') {
+                                this.style.borderColor = 'red';
+                            } else {
+                                this.style.borderColor = '';
+                            }
+                        });
+                    }
+                    
+                    if (awayTeamInput) {
+                        awayTeamInput.addEventListener('blur', function() {
+                            if (this.value.trim() === '') {
+                                this.style.borderColor = 'red';
+                            } else {
+                                this.style.borderColor = '';
+                            }
+                        });
+                    }
+                    
+                    // 为批量修改事件模态框准备球队选项
+                    const batchMatchId = document.getElementById('batchMatchId');
+                    if (batchMatchId && batchMatchId.value) {
+                        const matchCard = document.getElementById(batchMatchId.value);
+                        if (matchCard) {
+                            // 获取球队名称
+                            const teamNames = matchCard.querySelectorAll('.team-name');
+                            if (teamNames.length >= 2) {
+                                const homeTeam = teamNames[0].textContent.trim();
+                                const awayTeam = teamNames[1].textContent.trim();
+                                
+                                // 更新模态框中的所有球队选择框
+                            const teamSelects = document.querySelectorAll('.event-team');
+                            teamSelects.forEach(function(select) {
+                                // 保存当前选择的值
+                                const currentValue = select.value;
+                                
+                                // 清空现有选项
+                                select.innerHTML = '<option value="">选择球队</option>';
+                                
+                                // 添加主队选项
+                                const homeOption = document.createElement('option');
+                                homeOption.value = homeTeam;
+                                homeOption.textContent = homeTeam;
+                                select.appendChild(homeOption);
+                                
+                                // 添加客队选项
+                                const awayOption = document.createElement('option');
+                                awayOption.value = awayTeam;
+                                awayOption.textContent = awayTeam;
+                                select.appendChild(awayOption);
+                                
+                                // 恢复之前的选择
+                                if (currentValue) {
+                                    select.value = currentValue;
+                                }
+                            });
+                            }
+                        }
+                    }
+                }
+                
+                // 监听删除比赛按钮的点击事件     
+                document.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('delete-match')) {
+                        const matchId = e.target.getAttribute('data-match-id');
+                        const matchCard = document.getElementById(matchId);
+                        
+                        if (matchCard && confirm('确定要删除这场比赛吗？')) {
+                            matchCard.remove();
+                            alert('比赛删除成功！');
+                            
+                            // 保存比赛数据到本地存储           
+                            saveMatchesToJson();
+                        }
+                    }
+                    
+                    // 监听修改比赛按钮的点击事件        
+                    if (e.target.classList.contains('edit-match')) {
+                        const matchId = e.target.getAttribute('data-match-id');
+                        const matchCard = document.getElementById(matchId);
+                        
+                        if (matchCard) {
+                            try {
+                                // 获取比赛信息
+                                const homeTeam = matchCard.querySelector('.team-name:first-child').textContent.trim();
+                                const awayTeam = matchCard.querySelector('.team-name:last-child').textContent.trim();
+                                const scoreElement = matchCard.querySelector('.score');
+                                const scoreText = scoreElement.textContent.trim();
+                                const scoreParts = scoreText.split(' - ');
+                                const homeScore = scoreParts[0].trim();
+                                const awayScore = scoreParts[1].trim();
+                                
+                                // 获取比赛日期、时间和类型
+                                const headerElement = matchCard.querySelector('.match-card-header h4');
+                                let matchDate = '';
+                                let matchTime = '';
+                                let matchType = '';
+                                if (headerElement) {
+                                    const headerText = headerElement.textContent.trim();
+                                    // 简单解析日期、时间和类型
+                                    // 格式：2026年2月18日 14:30 - 五人制足球赛
+                                    const parts = headerText.split(' - ');
+                                    if (parts.length >= 2) {
+                                        matchType = parts[1].trim();
+                                        const dateTimePart = parts[0].trim();
+                                        const dateTimeParts = dateTimePart.split(' ');
+                                        matchDate = dateTimeParts[0].trim();
+                                        if (dateTimeParts.length >= 2) {
+                                            matchTime = dateTimeParts[1].trim();
+                                        }
+                                    } else {
+                                        matchDate = headerText.trim();
+                                    }
+                                }
+                                
+                                // 获取裁判员信息              
+                                const refereeElements = matchCard.querySelectorAll('.match-card-header small');
+                                let referee = '';
+                                let assistantReferee1 = '';
+                                let assistantReferee2 = '';
+                                let fourthOfficial = '';
+                                
+                                refereeElements.forEach(element => {
+                                    const text = element.textContent.trim();
+                                    // 分割裁判员信息
+                                    const refParts = text.split(' | ');
+                                    refParts.forEach(part => {
+                                        if (part.startsWith('裁判员：')) {
+                                            referee = part.replace('裁判员：', '').trim();
+                                        } else if (part.startsWith('第一助理：')) {
+                                            assistantReferee1 = part.replace('第一助理：', '').trim();
+                                        } else if (part.startsWith('第二助理：')) {
+                                            assistantReferee2 = part.replace('第二助理：', '').trim();
+                                        } else if (part.startsWith('第四官员：')) {
+                                            fourthOfficial = part.replace('第四官员：', '').trim();
+                                        }
+                                    });
+                                });
+                                
+                                // 填充表单
+                                document.getElementById('homeTeam').value = homeTeam;
+                                document.getElementById('awayTeam').value = awayTeam;
+                                document.getElementById('homeScore').value = homeScore;
+                                document.getElementById('awayScore').value = awayScore;
+                                document.getElementById('matchType').value = matchType;
+                                document.getElementById('referee').value = referee;
+                                document.getElementById('assistantReferee1').value = assistantReferee1;
+                                document.getElementById('assistantReferee2').value = assistantReferee2;
+                                document.getElementById('fourthOfficial').value = fourthOfficial;
+                                
+                                // 填充日期和时间              // 注意：需要将日期格式转换为YYYY-MM-DD格式
+                                if (matchDate) {
+                                    // 尝试将中文日期格式转换为YYYY-MM-DD格式
+                                    // 格式：2026年2月18日                
+                                    const dateParts = matchDate.match(/(\d+)年(\d+)月(\d+)日/);
+                                    if (dateParts && dateParts.length >= 4) {
+                                        const year = dateParts[1];
+                                        const month = dateParts[2].padStart(2, '0');
+                                        const day = dateParts[3].padStart(2, '0');
+                                        document.getElementById('matchDate').value = year + '-' + month + '-' + day;
+                                    } else {
+                                        // 尝试其他日期格式
+                                        // 格式2026-02-18
+                                        const isoDateParts = matchDate.match(/(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+                                        if (isoDateParts && isoDateParts.length >= 4) {
+                                            const year = isoDateParts[1];
+                                            const month = isoDateParts[2].padStart(2, '0');
+                                            const day = isoDateParts[3].padStart(2, '0');
+                                            document.getElementById('matchDate').value = year + '-' + month + '-' + day;
+                                        } else {
+                                            // 如果无法解析日期格式，尝试使用当前日期                    
+                                            const now = new Date();
+                                            const year = now.getFullYear();
+                                            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                                            const day = now.getDate().toString().padStart(2, '0');
+                                            document.getElementById('matchDate').value = year + '-' + month + '-' + day;
+                                        }
+                                    }
+                                }
+                                
+                                // 填充时间
+                                if (matchTime) {
+                                    document.getElementById('matchTime').value = matchTime;
+                                }
+                                
+                                // 更新球队选项
+                                updateTeamOptions();
+                                
+                                // 设置当前比赛ID
+                                document.getElementById('currentMatchId').value = matchId;
+                                
+                                // 修改表单标题
+                                const formCardHeader = document.querySelector('.match-card-header h4');
+                                if (formCardHeader) {
+                                    formCardHeader.textContent = '修改比赛信息';
+                                }
+                                const submitButton = document.querySelector('button[type="submit"]');
+                                if (submitButton) {
+                                    submitButton.textContent = '更新比赛';
+                                }
+                                
+                                // 滚动到表单              
+                                document.getElementById('eventForm').scrollIntoView({ behavior: 'smooth' });
+                            } catch (error) {
+                                console.error('Error in edit match button click handler:', error);
+                                alert('修改比赛信息时发生错误，请检查控制台获取详细信息！');
+                            }
+                        }
+                    }
+                });
+                
+                // 监听取消修改按钮的点击事件      
+                const cancelEditBtn = document.getElementById('cancelEdit');
+                if (cancelEditBtn) {
+                    cancelEditBtn.addEventListener('click', function() {
+                        // 重置表单
+                        if (eventForm) {
+                            eventForm.reset();
+                        }
+                        
+                        // 重置当前比赛ID
+                        const currentMatchIdInput = document.getElementById('currentMatchId');
+                        if (currentMatchIdInput) {
+                            currentMatchIdInput.value = '';
+                        }
+                        
+                        // 恢复表单标题
+                        const cardHeader = document.querySelector('.match-card-header h4');
+                        if (cardHeader) {
+                            cardHeader.textContent = '更新赛果';
+                        }
+                        const submitButton = document.querySelector('button[type="submit"]');
+                        if (submitButton) {
+                            submitButton.textContent = '添加比赛';
+                        }
+                    });
+                }
+                
+                // 添加批量修改事件的模态框
+                const batchEventsModal = document.createElement('div');
+                batchEventsModal.className = 'modal';
+                batchEventsModal.id = 'batchEventsModal';
+                batchEventsModal.innerHTML = `
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="batchEventsModalLabel">批量修改事件</h5>
+                                <button type="button" class="close" id="closeModalBtn">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="batchEventsForm">
+                                    <input type="hidden" id="batchMatchId" value="">
+                                    <div class="mb-3">
+                                        <label class="form-label">事件列表</label>
+                                        <div id="eventsList" class="border p-3 bg-light">
+                                            <div class="event-item mb-3 p-3 border rounded bg-white" data-event-index="0">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">球队</label>
+                                                        <select class="form-select event-team" required>
+                                                            <option value="">选择球队</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">事件类型</label>
+                                                        <select class="form-select event-type" required>
+                                                            <option value="">选择事件类型</option>
+                                                            <option value="goal">进球</option>
+                                                            <option value="penalty">点球</option>
+                                                            <option value="ownGoal">乌龙球</option>
+                                                            <option value="redCard">红牌</option>
+                                                            <option value="doubleYellow">两黄变一红</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label">队员姓名</label>
+                                                        <input type="text" class="form-input event-player" placeholder="输入队员姓名" required>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label">号码</label>
+                                                        <input type="number" class="form-input event-number" placeholder="号码" min="1" max="99">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label">时间（分钟）</label>
+                                                        <input type="number" class="form-input event-minute" placeholder="分钟" min="1" max="120" required>
+                                                    </div>
+                                                    <div class="col-md-1 d-flex align-items-end">
+                                                        <button type="button" class="btn btn-danger btn-sm remove-event">删除</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary mb-3" id="addEventBtn">添加事件</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" id="cancelModalBtn">取消</button>
+                                <button type="button" class="btn btn-primary" id="saveBatchEvents">保存事件</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // 将模态框添加到页面     
+                document.body.appendChild(batchEventsModal);
+                
+                // 实现原生模态框功能
+                const batchModal = {
+                    show: function() {
+                        batchEventsModal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    },
+                    hide: function() {
+                        batchEventsModal.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                };
+                
+                // 添加关闭按钮事件
+                document.getElementById('closeModalBtn').addEventListener('click', function() {
+                    batchModal.hide();
+                });
+                
+                // 添加取消按钮事件
+                document.getElementById('cancelModalBtn').addEventListener('click', function() {
+                    batchModal.hide();
+                });
+                
+                // 监听批量修改事件按钮的点击事件      
+                document.addEventListener('click', function(e) {
+                    // 检查是否点击了批量修改事件按钮
+                    if (e.target.classList.contains('batch-events') || e.target.closest('.batch-events')) {
+                        // 获取真正的批量修改事件按钮         
+                        const batchButton = e.target.classList.contains('batch-events') ? e.target : e.target.closest('.batch-events');
+                        const matchId = batchButton.getAttribute('data-match-id');
+                        const matchCard = document.getElementById(matchId);
+                        
+                        if (matchCard) {
+                            try {
+                                // 设置当前比赛ID
+                                const batchMatchIdInput = document.getElementById('batchMatchId');
+                                if (batchMatchIdInput) {
+                                    batchMatchIdInput.value = matchId;
+                                }
+                                
+                                // 获取比赛的球队信息             
+                                const homeTeamElement = matchCard.querySelector('.text-center .team-name:first-child');
+                                const awayTeamElement = matchCard.querySelector('.text-center .team-name:last-child');
+                                
+                                if (homeTeamElement && awayTeamElement) {
+                                    const homeTeam = homeTeamElement.textContent.trim();
+                                    const awayTeam = awayTeamElement.textContent.trim();
+                                    
+                                    // 清空事件列表
+                                    const eventsList = document.getElementById('eventsList');
+                                    if (eventsList) {
+                                        eventsList.innerHTML = '';
+                                        
+                                        // 获取现有事件
+                                        let team1Element = document.getElementById(matchId + '-team1');
+                                        let team2Element = document.getElementById(matchId + '-team2');
+                                        
+                                        // 如果找不到球队事件区域，尝试通过其他方式获取
+                                        if (!team1Element || !team2Element) {
+                                            // 尝试通过查找包含球队名称的元素来获取
+                                            const eventDivs = matchCard.querySelectorAll('.mb-5[id$="-events"]');
+                                            if (eventDivs.length > 0) {
+                                                const eventDiv = eventDivs[0];
+                                                const teamDivs = eventDiv.querySelectorAll('.col-md-6');
+                                                if (teamDivs.length >= 2) {
+                                                    team1Element = teamDivs[0];
+                                                    team2Element = teamDivs[1];
+                                                }
+                                            }
+                                        }
+                                        
+                                        // 收集所有事件并按分钟排序
+                                        const allEvents = [];
+                                        
+                                        // 添加主队事件
+                                        if (team1Element) {
+                                            const team1Events = team1Element.querySelectorAll('.timeline-item');
+                                            team1Events.forEach(function(event, index) {
+                                                const eventType = getEventTypeFromClass(event.className);
+                                                let playerName = '';
+                                                let minute = '';
+                                                let number = '';
+                                                
+                                                const strongElement = event.querySelector('strong');
+                                                const minuteElement = event.querySelector('.col-md-1.text-start');
+                                                
+                                                if (strongElement) {
+                                                    // 从球员信息中提取姓名和号码                        
+                                                    const playerText = strongElement.textContent.trim();
+                                                    const match = playerText.match(/^(.*?)\s*\((\d+)\)$/);
+                                                    if (match) {
+                                                        playerName = match[1];
+                                                        number = match[2];
+                                                    } else {
+                                                        playerName = playerText;
+                                                    }
+                                                }
+                                                if (minuteElement) {
+                                                    minute = minuteElement.textContent.trim().replace('\'', '');
+                                                }
+                                                
+                                                // 对于乌龙球，主队栏里的事件是客队球员造成的
+                                                const team = eventType === 'ownGoal' ? awayTeam : homeTeam;
+                                                allEvents.push({ team, eventType, playerName, minute, number });
+                                            });
+                                        }
+                                        
+                                        // 添加客队事件
+                                        if (team2Element) {
+                                            const team2Events = team2Element.querySelectorAll('.timeline-item');
+                                            team2Events.forEach(function(event, index) {
+                                                const eventType = getEventTypeFromClass(event.className);
+                                                let playerName = '';
+                                                let minute = '';
+                                                let number = '';
+                                                
+                                                const strongElement = event.querySelector('strong');
+                                                const minuteElement = event.querySelector('.col-md-1.text-start');
+                                                
+                                                if (strongElement) {
+                                                    // 从球员信息中提取姓名和号码                        
+                                                    const playerText = strongElement.textContent.trim();
+                                                    const match = playerText.match(/^(.*?)\s*\((\d+)\)$/);
+                                                    if (match) {
+                                                        playerName = match[1];
+                                                        number = match[2];
+                                                    } else {
+                                                        playerName = playerText;
+                                                    }
+                                                }
+                                                if (minuteElement) {
+                                                    minute = minuteElement.textContent.trim().replace('\'', '');
+                                                }
+                                                
+                                                // 对于乌龙球，客队栏里的事件是主队球员造成的
+                                                const team = eventType === 'ownGoal' ? homeTeam : awayTeam;
+                                                allEvents.push({ team, eventType, playerName, minute, number });
+                                            });
+                                        }
+                                        
+                                        // 按分钟排序事件
+                                        allEvents.sort(function(a, b) {
+                                            return parseInt(a.minute) - parseInt(b.minute);
+                                        });
+                                        
+                                        // 添加排序后的事件
+                                        allEvents.forEach(function(event, index) {
+                                            addEventItem(eventsList, event.team, event.eventType, event.playerName, event.minute, event.number, index);
+                                        });
+                                        
+                                        // 如果没有现有事件，添加一个空事件
+                                        if (eventsList.children.length === 0) {
+                                            addEventItem(eventsList, homeTeam, '', '', '', '', 0);
+                                        }
+                                        
+                                        // 显示模态框
+                                        if (batchModal) {
+                                            batchModal.show();
+                                        } else if (batchEventsModal) {
+                                            // 如果batchModal未初始化，直接显示模态框
+                                            batchEventsModal.style.display = 'block';
+                                            document.body.style.overflow = 'hidden';
+                                        }
+                                    }
+                                }
+                            } catch (error) {
+                                // 显示错误信息
+                                console.error('Error in batch events button click handler:', error);
+                                alert('批量修改事件时发生错误，请检查控制台获取详细信息！');
+                            }
+                        }
+                    }
+                });
+                
+                // 添加事件项的函数
+                function addEventItem(container, defaultTeam, defaultType, defaultPlayer, defaultMinute, defaultNumber, index) {
+                    const eventItem = document.createElement('div');
+                    eventItem.className = 'event-item mb-3 p-3 border rounded bg-white';
+                    eventItem.setAttribute('data-event-index', index);
+                    
+                    // 转义默认值，避免HTML注入
+                    const safeDefaultPlayer = typeof defaultPlayer === 'string' ? defaultPlayer.replace(/"/g, '&quot;') : '';
+                    const safeDefaultMinute = typeof defaultMinute === 'string' ? defaultMinute.replace(/"/g, '&quot;') : '';
+                    const safeDefaultNumber = typeof defaultNumber === 'string' ? defaultNumber.replace(/"/g, '&quot;') : '';
+                
+                    eventItem.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label">球队</label>
+                                <select class="form-select event-team" required>
+                                    <option value="">选择球队</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">事件类型</label>
+                                <select class="form-select event-type" required>
+                                    <option value="">选择事件类型</option>
+                                    <option value="goal">进球</option>
+                                    <option value="penalty">点球</option>
+                                    <option value="ownGoal">乌龙球</option>
+                                    <option value="redCard">红牌</option>
+                                    <option value="doubleYellow">两黄变一红</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">队员姓名</label>
+                                <input type="text" class="form-control event-player" placeholder="输入队员姓名" value="${safeDefaultPlayer}" required>
+                            </div>
+                            <div class="col-md-1">
+                                <label class="form-label">号码</label>
+                                <input type="number" class="form-control event-number" placeholder="输入号码" min="1" max="99" value="${safeDefaultNumber}">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">时间（分钟）</label>
+                                <input type="number" class="form-control event-minute" placeholder="输入分钟" min="1" max="120" value="${safeDefaultMinute}" required>
+                            </div>
+                            <div class="col-md-1 d-flex align-items-end">
+                                <button type="button" class="btn btn-danger btn-sm remove-event">删除</button>
+                            </div>
+                        </div>
+                    `;
+                
+                    container.appendChild(eventItem);
+                      
+                    // 获取球队选择器       
+                    const teamSelect = eventItem.querySelector('.event-team');
+                    
+                    // 添加球队选项
+                    const batchMatchIdInput = document.getElementById('batchMatchId');
+                    const matchId = batchMatchIdInput ? batchMatchIdInput.value : '';
+                    
+                    // 从API获取比赛数据
+                    fetch('http://localhost:3000/api/matches')
+                        .then(response => response.json())
+                        .then(matches => {
+                            // 找到当前比赛的数据
+                            const matchData = matches.find(match => match.id === matchId);
+                            
+                            if (matchData && teamSelect) {
+                                const homeTeam = matchData.homeTeam;
+                                const awayTeam = matchData.awayTeam;
+                                
+                                // 确保球队名称不为空            
+                                if (homeTeam && awayTeam) {
+                                    // 对球队名称进行 trim() 处理
+                                    const trimmedHomeTeam = homeTeam.trim();
+                                    const trimmedAwayTeam = awayTeam.trim();
+                                    
+                                    // 清空球队选择框的现有选项
+                                    teamSelect.innerHTML = '<option value="">选择球队</option>';
+                                    
+                                    // 添加主队选项
+                                    const homeOption = document.createElement('option');
+                                    homeOption.value = trimmedHomeTeam;
+                                    homeOption.textContent = trimmedHomeTeam;
+                                    teamSelect.appendChild(homeOption);
+                                    
+                                    // 添加客队选项
+                                    const awayOption = document.createElement('option');
+                                    awayOption.value = trimmedAwayTeam;
+                                    awayOption.textContent = trimmedAwayTeam;
+                                    teamSelect.appendChild(awayOption);
+                                    
+                                    // 设置默认选中的球队              
+                                    if (defaultTeam) {
+                                        // 对 defaultTeam 进行 trim() 处理
+                                        const trimmedDefaultTeam = defaultTeam.trim();
+                                        
+                                        // 首先尝试使用严格比较
+                                        let found = false;
+                                        for (let i = 0; i < teamSelect.options.length; i++) {
+                                            const option = teamSelect.options[i];
+                                            if (option.value === trimmedDefaultTeam || option.textContent === trimmedDefaultTeam) {
+                                                option.selected = true;
+                                                found = true;
+                                                break;
+                                            }
+                                        }
+                                        
+                                        // 如果严格比较失败，尝试使用宽松比较                
+                                        if (!found) {
+                                            for (let i = 0; i < teamSelect.options.length; i++) {
+                                                const option = teamSelect.options[i];
+                                                // 使用宽松比较，忽略大小写和空格                    
+                                                const optionValueLower = option.value.toLowerCase().trim();
+                                                const optionTextLower = option.textContent.toLowerCase().trim();
+                                                const defaultTeamLower = trimmedDefaultTeam.toLowerCase().trim();
+                                                if (optionValueLower === defaultTeamLower || optionTextLower === defaultTeamLower) {
+                                                    option.selected = true;
+                                                    found = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        
+                                        // 如果仍然没有找到，直接设置值
+                                        if (!found) {
+                                            teamSelect.value = trimmedDefaultTeam;
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching match data in addEventItem:', error);
+                        });
+                
+                    // 设置事件类型
+                    const typeSelect = eventItem.querySelector('.event-type');
+                    if (typeSelect && defaultType) {
+                        typeSelect.value = defaultType;
+                    }
+                }
+                
+                // 从类名获取事件类型      
+                function getEventTypeFromClass(className) {
+                    if (typeof className === 'string') {
+                        if (className.includes('goal-scorer')) return 'goal';
+                        if (className.includes('penalty-goal')) return 'penalty';
+                        if (className.includes('own-goal')) return 'ownGoal';
+                        if (className.includes('red-card')) return 'redCard';
+                        if (className.includes('double-yellow')) return 'doubleYellow';
+                    }
+                    return '';
+                }
+                
+                // 监听添加事件按钮的点击事件      
+                document.getElementById('addEventBtn').addEventListener('click', function() {
+                    const eventsList = document.getElementById('eventsList');
+                    const matchId = document.getElementById('batchMatchId').value;
+                    const matchCard = document.getElementById(matchId);
+                    
+                    if (matchCard) {
+                        const homeTeam = matchCard.querySelector('.team-name:first-child').textContent.trim();
+                        addEventItem(eventsList, homeTeam, '', '', '', '', eventsList.children.length);
+                    }
+                });
+                
+                // 监听删除事件按钮的点击事件      
+                document.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('remove-event')) {
+                        const eventItem = e.target.closest('.event-item');
+                        if (eventItem) {
+                            eventItem.remove();
+                            // 更新事件索引
+                            updateEventIndices();
+                        }
+                    }
+                });
+                
+                // 更新事件索引
+                function updateEventIndices() {
+                    const eventItems = document.querySelectorAll('.event-item');
+                    eventItems.forEach(function(item, index) {
+                        item.setAttribute('data-event-index', index);
+                    });
+                }
+                
+                // 监听保存事件按钮的点击事件      
+                document.getElementById('saveBatchEvents').addEventListener('click', function() {
+                    const matchId = document.getElementById('batchMatchId').value;
+                    const matchCard = document.getElementById(matchId);
+                    
+                    if (matchCard) {
+                        // 获取比赛的球队信息          
+                        const teamNames = matchCard.querySelectorAll('.team-name');
+                        let homeTeam = '';
+                        let awayTeam = '';
+                        if (teamNames.length >= 2) {
+                            homeTeam = teamNames[0].textContent.trim();
+                            awayTeam = teamNames[1].textContent.trim();
+                        }
+                        
+                        // 获取球队事件区域
+                        let team1Element = document.getElementById(matchId + '-team1');
+                        let team2Element = document.getElementById(matchId + '-team2');
+                        
+                        // 如果找不到球队事件区域，尝试通过其他方式获取
+                        if (!team1Element || !team2Element) {
+                            // 尝试通过查找包含球队名称的元素来获取
+                            const eventDivs = matchCard.querySelectorAll('.mb-5[id$="-events"]');
+                            if (eventDivs.length > 0) {
+                                const eventDiv = eventDivs[0];
+                                const teamDivs = eventDiv.querySelectorAll('.col-md-6');
+                                if (teamDivs.length >= 2) {
+                                    team1Element = teamDivs[0];
+                                    team2Element = teamDivs[1];
+                                }
+                            }
+                        }
+                        
+                        // 清空现有事件
+                        if (team1Element) {
+                            // 保留队名
+                            const team1NameElement = team1Element.querySelector('h5');
+                            if (team1NameElement) {
+                                const team1Name = team1NameElement.outerHTML;
+                                team1Element.innerHTML = team1Name;
+                            }
+                        }
+                        if (team2Element) {
+                            // 保留队名
+                            const team2NameElement = team2Element.querySelector('h5');
+                            if (team2NameElement) {
+                                const team2Name = team2NameElement.outerHTML;
+                                team2Element.innerHTML = team2Name;
+                            }
+                        }
+                        
+                        // 获取事件列表
+                        const eventItems = document.querySelectorAll('.event-item');
+                        
+                        // 转换为数组并按分钟排序
+                        const sortedEventItems = Array.from(eventItems).sort(function(a, b) {
+                            const minuteA = parseInt(a.querySelector('.event-minute').value) || 0;
+                            const minuteB = parseInt(b.querySelector('.event-minute').value) || 0;
+                            return minuteA - minuteB;
+                        });
+                        
+                        // 添加事件
+                        sortedEventItems.forEach(function(item, index) {
+                            const teamSelect = item.querySelector('.event-team');
+                            const typeSelect = item.querySelector('.event-type');
+                            const playerInput = item.querySelector('.event-player');
+                            const numberInput = item.querySelector('.event-number');
+                            const minuteInput = item.querySelector('.event-minute');
+                            
+                            if (teamSelect && typeSelect && playerInput && minuteInput) {
+                                const team = teamSelect.value;
+                                const eventType = typeSelect.value;
+                                const playerName = playerInput.value;
+                                const playerNumber = numberInput ? numberInput.value.trim() : '';
+                                const minute = minuteInput.value;
+                                
+                                if (team && eventType && playerName && minute) {
+                                    // 确定要添加事件的球队区域
+                                    let teamElement;
+                                    
+                                    // 移除空格并转换为小写进行比较，以确保匹配正确
+                                    const teamTrimmedLower = team.trim().toLowerCase();
+                                    const homeTeamTrimmedLower = homeTeam.trim().toLowerCase();
+                                    const awayTeamTrimmedLower = awayTeam.trim().toLowerCase();
+                                    
+                                    // 对于乌龙球，显示在对方球队的栏里
+                                    if (eventType === 'ownGoal') {
+                                        if (teamTrimmedLower === homeTeamTrimmedLower) {
+                                            teamElement = team2Element; // 主队乌龙球显示在客队栏里
+                                        } else if (teamTrimmedLower === awayTeamTrimmedLower) {
+                                            teamElement = team1Element; // 客队乌龙球显示在主队栏里
+                                        }
+                                    } else {
+                                        // 其他事件显示在选择的球队栏里
+                                        if (teamTrimmedLower === homeTeamTrimmedLower) {
+                                            teamElement = team1Element;
+                                        } else if (teamTrimmedLower === awayTeamTrimmedLower) {
+                                            teamElement = team2Element;
+                                        }
+                                    }
+                                    
+                                    if (teamElement) {
+                                        // 移除"本场比赛无进球"的提示                  
+                                        const noGoalMsg = teamElement.querySelector('.text-muted');
+                                        if (noGoalMsg && noGoalMsg.textContent.includes('本场比赛无进球')) {
+                                            noGoalMsg.remove();
+                                        }
+                                        
+                                        // 创建事件元素
+                                        const eventDiv = document.createElement('div');
+                                        
+                                        // 根据事件类型设置不同的类和内容                  
+                                        let eventClass = '';
+                                        let eventText = '';
+                                        
+                                        // 构建球员信息，包括号码（如果有）
+                                        let playerInfo = playerName;
+                                        if (playerNumber) {
+                                            playerInfo = playerName + ' (' + playerNumber + ')';
+                                        }
+                                        
+                                        switch(eventType) {
+                                            case 'goal':
+                                                eventClass = 'timeline-item goal-scorer p-3 mb-2';
+                                                eventText = '<strong>' + playerInfo + '</strong>';
+                                                break;
+                                            case 'penalty':
+                                                eventClass = 'timeline-item penalty-goal p-3 mb-2';
+                                                eventText = '<strong>' + playerInfo + '</strong>（点球）';
+                                                break;
+                                            case 'ownGoal':
+                                                eventClass = 'timeline-item own-goal p-3 mb-2';
+                                                eventText = '<strong>' + playerInfo + '</strong>（乌龙球）';
+                                                break;
+                                            case 'redCard':
+                                                eventClass = 'timeline-item red-card p-3 mb-2';
+                                                eventText = '<strong>' + playerInfo + '</strong>（红牌 - 直接红牌）';
+                                                break;
+                                            case 'doubleYellow':
+                                                eventClass = 'timeline-item double-yellow p-3 mb-2';
+                                                eventText = '<strong>' + playerInfo + '</strong>（红牌 - 两黄变一红）';
+                                                break;
+                                        }
+                                        
+                                        // 设置事件元素的内容               
+                                        eventDiv.className = eventClass;
+                                        eventDiv.innerHTML = `
+                                            <div class="row align-items-center">
+                                                <div class="col-md-1 text-start">
+                                                    ${minute}'
+                                                </div>
+                                                <div class="col-md-11">
+                                                    ${eventText}
+                                                </div>
+                                            </div>
+                                        `;
+                                        
+                                        // 将事件元素添加到球队区域
+                                        teamElement.appendChild(eventDiv);
+                                    }
+                                }
+                            }
+                        });
+                        
+                        // 关闭模态框
+                        batchModal.hide();
+                        
+                        // 显示成功消息
+                        alert('事件保存成功！');
+                        
+                        // 保存比赛数据到 JSON 文件          
+                        saveMatchesToJson();
+                    }
+                });
+                
+                // 表单提交事件处理
+                if (eventForm) {
+                    eventForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        // 获取表单数据
+                        const matchDateInput = document.getElementById('matchDate');
+                        const matchTimeInput = document.getElementById('matchTime');
+                        const matchTypeInput = document.getElementById('matchType');
+                        const refereeInput = document.getElementById('referee');
+                        const assistantReferee1Input = document.getElementById('assistantReferee1');
+                        const assistantReferee2Input = document.getElementById('assistantReferee2');
+                        const fourthOfficialInput = document.getElementById('fourthOfficial');
+                        const homeTeamInput = document.getElementById('homeTeam');
+                        const awayTeamInput = document.getElementById('awayTeam');
+                        const homeScoreInput = document.getElementById('homeScore');
+                        const awayScoreInput = document.getElementById('awayScore');
+                        
+                        // 检查所有必要的输入元素是否存在
+                        if (!matchDateInput || !homeTeamInput || !awayTeamInput || !homeScoreInput || !awayScoreInput) {
+                            alert('表单元素缺失，无法提交！');
+                            return;
+                        }
+                        
+                        const matchDate = matchDateInput.value;
+                        const matchTime = matchTimeInput ? matchTimeInput.value : '';
+                        const matchType = matchTypeInput ? matchTypeInput.value : '';
+                        const referee = refereeInput ? refereeInput.value : '';
+                        const assistantReferee1 = assistantReferee1Input ? assistantReferee1Input.value : '';
+                        const assistantReferee2 = assistantReferee2Input ? assistantReferee2Input.value : '';
+                        const fourthOfficial = fourthOfficialInput ? fourthOfficialInput.value : '';
+                        const homeTeam = homeTeamInput.value;
+                        const awayTeam = awayTeamInput.value;
+                        const homeScore = homeScoreInput.value;
+                        const awayScore = awayScoreInput.value;
+                        
+                        // 获取当前比赛ID
+                        const currentMatchIdInput = document.getElementById('currentMatchId');
+                        const currentMatchId = currentMatchIdInput ? currentMatchIdInput.value : '';
+                        
+                        let matchId;
+                        
+                        if (currentMatchId) {
+                            // 如果是修改现有比赛            
+                            matchId = currentMatchId;
+                            
+                            // 更新比赛卡片的基本信息?           
+                            const matchCard = document.getElementById(matchId);
+                            if (matchCard) {
+                                // 更新比赛时间和类型              
+                                const formattedDate = new Date(matchDate).toLocaleDateString('zh-CN');
+                                let matchTimeStr = '';
+                                if (matchTime) {
+                                    matchTimeStr = ' ' + matchTime;
+                                }
+                                let matchTypeStr = '';
+                                if (matchType) {
+                                    matchTypeStr = ' - ' + matchType;
+                                }
+                                let refereeStr = '';
+                                let refs = [];
+                                if (referee) {
+                                    refs.push('裁判员：' + referee);
+                                }
+                                if (assistantReferee1) {
+                                    refs.push('第一助理：' + assistantReferee1);
+                                }
+                                if (assistantReferee2) {
+                                    refs.push('第二助理：' + assistantReferee2);
+                                }
+                                if (fourthOfficial) {
+                                    refs.push('第四官员：' + fourthOfficial);
+                                }
+                                if (refs.length > 0) {
+                                    refereeStr = '<p class="mb-1"><small style="color: white;">' + refs.join(' | ') + '</small></p>';
+                                }
+                                
+                                // 更新卡片头部
+                                const cardHeader = matchCard.querySelector('.match-card-header h4');
+                                if (cardHeader) {
+                                    cardHeader.textContent = formattedDate + matchTimeStr + matchTypeStr;
+                                    // 更新裁判员信息          
+                                    const headerContent = cardHeader.parentElement;
+                                    const existingReferee = headerContent.querySelector('small');
+                                    if (existingReferee) {
+                                        existingReferee.parentElement.remove();
+                                    }
+                                    if (refereeStr) {
+                                        cardHeader.insertAdjacentHTML('afterend', refereeStr);
+                                    }
+                                }
+                                
+                                // 更新比分
+                                const scoreElement = matchCard.querySelector('.score');
+                                if (scoreElement) {
+                                    scoreElement.textContent = homeScore + ' - ' + awayScore;
+                                }
+                                
+                                // 更新队名
+                                const teamNames = matchCard.querySelectorAll('.team-name');
+                                if (teamNames.length >= 2) {
+                                    teamNames[0].textContent = homeTeam;
+                                    teamNames[1].textContent = awayTeam;
+                                }
+                                
+                                // 更新球队区域的队名              
+                                const team1Element = document.getElementById(matchId + '-team1');
+                                const team2Element = document.getElementById(matchId + '-team2');
+                                if (team1Element) {
+                                    const team1Name = team1Element.querySelector('h5');
+                                    if (team1Name) {
+                                        team1Name.textContent = homeTeam;
+                                    }
+                                }
+                                if (team2Element) {
+                                    const team2Name = team2Element.querySelector('h5');
+                                    if (team2Name) {
+                                        team2Name.textContent = awayTeam;
+                                    }
+                                }
+                            }
+                        } else {
+                            // 如果是新建比赛            // 生成比赛ID
+                            matchId = 'match_' + Date.now();
+                            
+                            // 创建比赛卡片
+                            const matchCard = createMatchCard(matchId, matchDate, matchTime, matchType, referee, assistantReferee1, assistantReferee2, fourthOfficial, homeTeam, awayTeam, homeScore, awayScore);
+                            
+                            // 找到表单元素
+                            const formElement = document.querySelector('.match-card');
+                            
+                            // 在表单后面插入比赛卡片           
+                            if (formElement) {
+                                formElement.after(matchCard);
+                            }
+                        }
+                        
+                        // 重置表单
+                        eventForm.reset();
+                        
+                        // 重置当前比赛ID
+                        if (currentMatchIdInput) {
+                            currentMatchIdInput.value = '';
+                        }
+                        
+                        // 恢复表单标题
+                        const cardHeader = document.querySelector('.match-card-header h4');
+                        if (cardHeader) {
+                            cardHeader.textContent = '更新赛果';
+                        }
+                        const submitButton = document.querySelector('button[type="submit"]');
+                        if (submitButton) {
+                            submitButton.textContent = '添加比赛';
+                        }
+                        
+                        // 显示成功消息
+                        if (currentMatchId) {
+                            alert('比赛更新成功！');
+                        } else {
+                            alert('比赛添加成功！');
+                        }
+                        
+                        // 保存比赛数据到 JSON 文件        
+                        saveMatchesToJson();
+                    });
+                }
+                
+                // 创建比赛卡片的函数      
+                function createMatchCard(matchId, matchDate, matchTime, matchType, referee, assistantReferee1, assistantReferee2, fourthOfficial, homeTeam, awayTeam, homeScore, awayScore) {
+                    // 格式化日期        
+                    const formattedDate = new Date(matchDate).toLocaleDateString('zh-CN');
+                    
+                    // 构建比赛时间字符串       
+                    let matchTimeStr = '';
+                    if (matchTime) {
+                        matchTimeStr = ' ' + matchTime;
+                    }
+                    
+                    // 构建比赛类型字符串       
+                    let matchTypeStr = '';
+                    if (matchType) {
+                        matchTypeStr = ' - ' + matchType;
+                    }
+                    
+                    // 创建比赛卡片元素
+                    const matchCard = document.createElement('div');
+                    matchCard.className = 'match-card';
+                    matchCard.id = matchId;
+                    
+                    // 构建裁判员字符串
+                    let refereeStr = '';
+                    let refs = [];
+                    if (referee) {
+                        refs.push('裁判员：' + referee);
+                    }
+                    if (assistantReferee1) {
+                        refs.push('第一助理：' + assistantReferee1);
+                    }
+                    if (assistantReferee2) {
+                        refs.push('第二助理：' + assistantReferee2);
+                    }
+                    if (fourthOfficial) {
+                        refs.push('第四官员：' + fourthOfficial);
+                    }
+                    if (refs.length > 0) {
+                        refereeStr = '<p class="mb-1"><small style="color: white;">' + refs.join(' | ') + '</small></p>';
+                    }
+                    
+                    // 设置比赛卡片的内容       
+                    matchCard.innerHTML = `
+                        <div class="match-card-header">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4>${formattedDate}${matchTimeStr}${matchTypeStr}</h4>
+                                    ${refereeStr}
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <span class="badge badge-primary">新建比赛</span>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-warning me-2 edit-match" data-match-id="${matchId}">修改</button>
+                                        <button type="button" class="btn btn-sm btn-info me-2 batch-events" data-match-id="${matchId}">批量修改事件</button>
+                                        <button type="button" class="btn btn-sm btn-danger delete-match" data-match-id="${matchId}">删除</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="match-card-body">
+                            <!-- 对阵双方和比分-->
+                            <div class="text-center mb-5">
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        <h3 class="team-name">${homeTeam}</h3>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="score">${homeScore} - ${awayScore}</div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <h3 class="team-name">${awayTeam}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 进球详情 -->
+                            <div class="mb-5" id="${matchId}-events">
+                                <h4 class="text-dark mb-3">进球详情</h4>
+                                <div class="row">
+                                    <!-- 主队进球 -->
+                                    <div class="col-md-6" id="${matchId}-team1">
+                                        <h5 class="text-dark mb-2">${homeTeam}</h5>
+                                        <p class="text-muted">本场比赛无进球</p>
+                                    </div>
+                                    <!-- 客队进球 -->
+                                    <div class="col-md-6" id="${matchId}-team2">
+                                        <h5 class="text-dark mb-2">${awayTeam}</h5>
+                                        <p class="text-muted">本场比赛无进球</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    return matchCard;
+                }
+                
+                // 保存比赛数据到 API      
+                function saveMatchesToJson() {
+                    const matches = [];
+                    
+                    // 获取所有比赛卡片        
+                    const matchCards = document.querySelectorAll('.match-card');
+                    
+                    // 遍历比赛卡片，提取数据      
+                    matchCards.forEach(function(matchCard) {
+                        // 跳过表单容器
+                        if (matchCard.querySelector('#eventForm')) {
+                            return;
+                        }
+                        
+                        const matchId = matchCard.id;
+                        const teamNames = matchCard.querySelectorAll('.team-name');
+                        
+                        if (teamNames.length >= 2) {
+                            const homeTeam = teamNames[0].textContent.trim();
+                            const awayTeam = teamNames[1].textContent.trim();
+                            
+                            // 获取比分
+                            const scoreElement = matchCard.querySelector('.score');
+                            let homeScore = '0';
+                            let awayScore = '0';
+                            if (scoreElement) {
+                                const scoreText = scoreElement.textContent.trim();
+                                const scoreParts = scoreText.split(' - ');
+                                if (scoreParts.length >= 2) {
+                                    homeScore = scoreParts[0].trim();
+                                    awayScore = scoreParts[1].trim();
+                                }
+                            }
+                            
+                            // 获取比赛日期、时间和类型
+                            const headerElement = matchCard.querySelector('.match-card-header h4');
+                            let matchDate = '';
+                            let matchTime = '';
+                            let matchType = '';
+                            if (headerElement) {
+                                const headerText = headerElement.textContent.trim();
+                                // 简单解析日期、时间和类型
+                                // 格式：2026年2月18日 14:30 - 五人制足球赛
+                                const parts = headerText.split(' - ');
+                                if (parts.length >= 2) {
+                                    matchType = parts[1].trim();
+                                    const dateTimePart = parts[0].trim();
+                                    const dateTimeParts = dateTimePart.split(' ');
+                                    matchDate = dateTimeParts[0].trim();
+                                    if (dateTimeParts.length >= 2) {
+                                        matchTime = dateTimeParts[1].trim();
+                                    }
+                                } else {
+                                    matchDate = headerText.trim();
+                                }
+                            }
+                            
+                            // 获取裁判员信息            
+                            const refereeElements = matchCard.querySelectorAll('.match-card-header small');
+                            let referee = '';
+                            let assistantReferee1 = '';
+                            let assistantReferee2 = '';
+                            let fourthOfficial = '';
+                            
+                            refereeElements.forEach(element => {
+                                const text = element.textContent.trim();
+                                // 分割裁判员信息
+                                const refParts = text.split(' | ');
+                                refParts.forEach(part => {
+                                    if (part.startsWith('裁判员：')) {
+                                        referee = part.replace('裁判员：', '').trim();
+                                    } else if (part.startsWith('第一助理：')) {
+                                        assistantReferee1 = part.replace('第一助理：', '').trim();
+                                    } else if (part.startsWith('第二助理：')) {
+                                        assistantReferee2 = part.replace('第二助理：', '').trim();
+                                    } else if (part.startsWith('第四官员：')) {
+                                        fourthOfficial = part.replace('第四官员：', '').trim();
+                                    }
+                                });
+                            });
+                            
+                            // 获取事件
+                            const homeEvents = [];
+                            const awayEvents = [];
+                            
+                            // 获取主队事件
+                            const homeEventElement = document.getElementById(matchId + '-team1');
+                            if (homeEventElement) {
+                                const homeTimelineItems = homeEventElement.querySelectorAll('.timeline-item');
+                                homeTimelineItems.forEach(function(item) {
+                                    const eventType = getEventTypeFromClass(item.className);
+                                    const strongElement = item.querySelector('strong');
+                                    const minuteElement = item.querySelector('.col-md-1.text-start');
+                                    
+                                    if (strongElement && minuteElement) {
+                                        let playerName = strongElement.textContent.trim();
+                                        let playerNumber = '';
+                                        
+                                        // 提取球员号码
+                                        const playerMatch = playerName.match(/^(.*?)\s*\((\d+)\)$/);
+                                        if (playerMatch) {
+                                            playerName = playerMatch[1].trim();
+                                            playerNumber = playerMatch[2].trim();
+                                        }
+                                        
+                                        const minuteText = minuteElement.textContent.trim();
+                                        const minuteMatch = minuteText.match(/(\d+)'/);
+                                        if (minuteMatch) {
+                                            const minute = minuteMatch[1].trim();
+                                            homeEvents.push({
+                                                type: eventType,
+                                                player: playerName,
+                                                number: playerNumber,
+                                                minute: minute
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                            
+                            // 获取客队事件
+                            const awayEventElement = document.getElementById(matchId + '-team2');
+                            if (awayEventElement) {
+                                const awayTimelineItems = awayEventElement.querySelectorAll('.timeline-item');
+                                awayTimelineItems.forEach(function(item) {
+                                    const eventType = getEventTypeFromClass(item.className);
+                                    const strongElement = item.querySelector('strong');
+                                    const minuteElement = item.querySelector('.col-md-1.text-start');
+                                    
+                                    if (strongElement && minuteElement) {
+                                        let playerName = strongElement.textContent.trim();
+                                        let playerNumber = '';
+                                        
+                                        // 提取球员号码
+                                        const playerMatch = playerName.match(/^(.*?)\s*\((\d+)\)$/);
+                                        if (playerMatch) {
+                                            playerName = playerMatch[1].trim();
+                                            playerNumber = playerMatch[2].trim();
+                                        }
+                                        
+                                        const minuteText = minuteElement.textContent.trim();
+                                        const minuteMatch = minuteText.match(/(\d+)'/);
+                                        if (minuteMatch) {
+                                            const minute = minuteMatch[1].trim();
+                                            awayEvents.push({
+                                                type: eventType,
+                                                player: playerName,
+                                                number: playerNumber,
+                                                minute: minute
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                            
+                            // 添加比赛数据到数组            
+                            matches.push({
+                                id: matchId,
+                                date: matchDate,
+                                time: matchTime,
+                                type: matchType,
+                                referee: referee,
+                                assistantReferee1: assistantReferee1,
+                                assistantReferee2: assistantReferee2,
+                                fourthOfficial: fourthOfficial,
+                                homeTeam: homeTeam,
+                                awayTeam: awayTeam,
+                                homeScore: homeScore,
+                                awayScore: awayScore,
+                                homeEvents: homeEvents,
+                                awayEvents: awayEvents
+                            });
+                        }
+                    });
+                    
+                    console.log('要保存的比赛数据:', matches);
+                    
+                    // 发送数据到 API
+                    fetch('http://localhost:3000/api/matches', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(matches)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('网络响应错误: ' + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Matches data saved successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error saving matches data:', error);
+                        alert('保存比赛数据时发生错误，请检查控制台获取详细信息！');
+                    });
+                }
+                
+                // 从 API 加载比赛数据      
+                function loadMatchesFromJson() {
+                    fetch('http://localhost:3000/api/matches')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('网络响应错误: ' + response.status);
+                            }
+                            return response.json();
+                        })
+                        .then(matches => {
+                            console.log('加载的比赛数据:', matches);
+                            // 找到表单元素的父容器，保存它
+                            const formContainer = document.querySelector('.match-card');
+                            
+                            // 清空现有比赛，但保留表单容器
+                            const existingMatches = document.querySelectorAll('.match-card');
+                            existingMatches.forEach(function(match) {
+                                // 只删除不是表单容器的match-card
+                                if (match !== formContainer) {
+                                    match.remove();
+                                }
+                            });
+                            
+                            // 添加加载的比赛          
+                            if (Array.isArray(matches)) {
+                                matches.forEach(function(matchData) {
+                                    // 创建比赛卡片
+                                    const matchCard = createMatchCard(
+                                        matchData.id,
+                                        matchData.date,
+                                        matchData.time,
+                                        matchData.type,
+                                        matchData.referee,
+                                        matchData.assistantReferee1,
+                                        matchData.assistantReferee2,
+                                        matchData.fourthOfficial,
+                                        matchData.homeTeam,
+                                        matchData.awayTeam,
+                                        matchData.homeScore,
+                                        matchData.awayScore
+                                    );
+                                    
+                                    // 添加到页面，放在表单容器后面
+                                    if (formContainer) {
+                                        formContainer.after(matchCard);
+                                    }
+                                    
+                                    // 添加主队事件
+                                    if (matchData.homeEvents && matchData.homeEvents.length > 0) {
+                                        const homeEventElement = document.getElementById(matchData.id + '-team1');
+                                        if (homeEventElement) {
+                                            // 移除"本场比赛无进球"的提示                  
+                                            const noGoalMsg = homeEventElement.querySelector('.text-muted');
+                                            if (noGoalMsg) {
+                                                noGoalMsg.remove();
+                                            }
+                                            
+                                            // 添加事件
+                                            matchData.homeEvents.forEach(function(event) {
+                                                const eventDiv = document.createElement('div');
+                                                let eventClass = '';
+                                                let eventText = '';
+                                                
+                                                // 构建球员信息，包括号码（如果有）
+                                                let playerInfo = event.player;
+                                                if (event.number) {
+                                                    playerInfo = playerInfo + ' (' + event.number + ')';
+                                                }
+                                                
+                                                switch(event.type) {
+                                                    case 'goal':
+                                                        eventClass = 'timeline-item goal-scorer p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>';
+                                                        break;
+                                                    case 'penalty':
+                                                        eventClass = 'timeline-item penalty-goal p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（点球）';
+                                                        break;
+                                                    case 'ownGoal':
+                                                        eventClass = 'timeline-item own-goal p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（乌龙球）';
+                                                        break;
+                                                    case 'redCard':
+                                                        eventClass = 'timeline-item red-card p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（红牌 - 直接红牌）';
+                                                        break;
+                                                    case 'doubleYellow':
+                                                        eventClass = 'timeline-item double-yellow p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（红牌 - 两黄变一红）';
+                                                        break;
+                                                }
+                                                
+                                                eventDiv.className = eventClass;
+                                                eventDiv.innerHTML = `
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-1 text-start">
+                                                            ${event.minute}'
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            ${eventText}
+                                                        </div>
+                                                    </div>
+                                                `;
+                                                
+                                                homeEventElement.appendChild(eventDiv);
+                                            });
+                                        }
+                                    }
+                                    
+                                    // 添加客队事件
+                                    if (matchData.awayEvents && matchData.awayEvents.length > 0) {
+                                        const awayEventElement = document.getElementById(matchData.id + '-team2');
+                                        if (awayEventElement) {
+                                            // 移除"本场比赛无进球"的提示                 
+                                            const noGoalMsg = awayEventElement.querySelector('.text-muted');
+                                            if (noGoalMsg) {
+                                                noGoalMsg.remove();
+                                            }
+                                            
+                                            // 添加事件
+                                            matchData.awayEvents.forEach(function(event) {
+                                                const eventDiv = document.createElement('div');
+                                                let eventClass = '';
+                                                let eventText = '';
+                                                
+                                                // 构建球员信息，包括号码（如果有）
+                                                let playerInfo = event.player;
+                                                if (event.number) {
+                                                    playerInfo = playerInfo + ' (' + event.number + ')';
+                                                }
+                                                
+                                                switch(event.type) {
+                                                    case 'goal':
+                                                        eventClass = 'timeline-item goal-scorer p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>';
+                                                        break;
+                                                    case 'penalty':
+                                                        eventClass = 'timeline-item penalty-goal p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（点球）';
+                                                        break;
+                                                    case 'ownGoal':
+                                                        eventClass = 'timeline-item own-goal p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（乌龙球）';
+                                                        break;
+                                                    case 'redCard':
+                                                        eventClass = 'timeline-item red-card p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（红牌 - 直接红牌）';
+                                                        break;
+                                                    case 'doubleYellow':
+                                                        eventClass = 'timeline-item double-yellow p-3 mb-2';
+                                                        eventText = '<strong>' + playerInfo + '</strong>（红牌 - 两黄变一红）';
+                                                        break;
+                                                }
+                                                
+                                                eventDiv.className = eventClass;
+                                                eventDiv.innerHTML = `
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-1 text-start">
+                                                            ${event.minute}'
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            ${eventText}
+                                                        </div>
+                                                    </div>
+                                                `;
+                                                
+                                                awayEventElement.appendChild(eventDiv);
+                                            });
+                                        }
+                                    }
+                                });
+                            } else {
+                                console.error('返回的数据不是数组:', matches);
+                                alert('加载比赛数据时发生错误：返回的数据格式不正确');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error loading matches from JSON:', error);
+                            alert('加载比赛数据时发生错误，请检查控制台获取详细信息！');
+                        });
+                }
+            });
+        </script>
+    </body>
+</html>

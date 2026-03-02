@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新闻和公告 - 武汉大学足球协会</title>
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+</head>
+<body>
+  <!-- 导航栏容器 -->
+  <div id="navbar-container"></div>
+  
+  <!-- 加载导航栏脚本 -->
+  <script src="../js/load-navbar.js"></script>
+
+  <section class="p-5 pt-20">
+    <div class="container">
+      <h2 class="text-center mb-5">新闻和公告</h2>
+      
+      <!-- 搜索栏 -->
+      <div class="mb-5">
+        <div class="input-group">
+          <input type="text" id="searchInput" class="form-control" placeholder="搜索新闻和公告...">
+          <button class="btn btn-primary" onclick="searchContent()">搜索</button>
+        </div>
+      </div>
+      
+      <!-- 标签切换 -->
+      <div class="mb-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#news" onclick="showTab('news')" style="color: #00008B; font-weight: bold;">新闻</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#announcements" onclick="showTab('announcements')" style="color: #00008B; font-weight: bold;">公告</a>
+            </li>
+          </ul>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary" onclick="showAddNewsForm()">
+              <i class="bi bi-plus-circle"></i> 发布新闻
+            </button>
+            <button class="btn btn-primary" onclick="showAddAnnouncementForm()">
+              <i class="bi bi-bullhorn"></i> 发布公告
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 新闻列表 -->
+      <div id="news" class="tab-content">
+        <div class="row" id="newsList">
+          <!-- 新闻项将通过JavaScript动态添加 -->
+          <div class="col-12 text-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">加载中...</span>
+            </div>
+            <p class="mt-2">加载新闻中...</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 公告列表 -->
+      <div id="announcements" class="tab-content" style="display: none;">
+        <div class="row" id="announcementsList">
+          <!-- 公告项将通过JavaScript动态添加 -->
+          <div class="col-12 text-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">加载中...</span>
+            </div>
+            <p class="mt-2">加载公告中...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 新闻详情模态框 -->
+  <div class="modal" id="newsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modalContent">
+          <!-- 内容将通过JavaScript动态添加 -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 发布新闻模态框 -->
+  <div class="modal" id="addNewsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">发布新闻</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addNewsForm">
+            <div class="mb-3">
+              <label for="newsTitle" class="form-label">标题</label>
+              <input type="text" class="form-control" id="newsTitle" required>
+            </div>
+            <div class="mb-3">
+              <label for="newsContent" class="form-label">内容</label>
+              <textarea class="form-control" id="newsContent" rows="5" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="newsImage" class="form-label">图片URL</label>
+              <input type="text" class="form-control" id="newsImage">
+            </div>
+            <div class="mb-3">
+              <label for="newsAuthor" class="form-label">作者</label>
+              <input type="text" class="form-control" id="newsAuthor">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" onclick="addNews()">发布</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 发布公告模态框 -->
+  <div class="modal" id="addAnnouncementModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">发布公告</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addAnnouncementForm">
+            <div class="mb-3">
+              <label for="announcementTitle" class="form-label">标题</label>
+              <input type="text" class="form-control" id="announcementTitle" required>
+            </div>
+            <div class="mb-3">
+              <label for="announcementContent" class="form-label">内容</label>
+              <textarea class="form-control" id="announcementContent" rows="5" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="announcementAuthor" class="form-label">作者</label>
+              <input type="text" class="form-control" id="announcementAuthor">
+            </div>
+            <div class="mb-3">
+              <label for="announcementPriority" class="form-label">优先级</label>
+              <select class="form-control" id="announcementPriority">
+                <option value="normal">普通</option>
+                <option value="high">重要</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" onclick="addAnnouncement()">发布</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="p-5 bg-dark text-white text-center">
+    <div class="container">
+      <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
+    </div>
+  </footer>
+
+  <script>
+    // 切换标签
+    function showTab(tabName) {
+      // 隐藏所有标签内容
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.style.display = 'none';
+      });
+      
+      // 移除所有活动标签
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // 显示选中的标签内容
+      document.getElementById(tabName).style.display = 'block';
+      
+      // 添加活动标签样式
+      event.target.classList.add('active');
+      
+      // 加载对应内容
+      if (tabName === 'news') {
+        loadNews();
+      } else if (tabName === 'announcements') {
+        loadAnnouncements();
+      }
+    }
+    
+    // 加载新闻
+    async function loadNews() {
+      try {
+        const response = await fetch('http://localhost:3000/api/news');
+        const news = await response.json();
+        
+        if (!response.ok) throw new Error(news.error || '获取新闻失败');
+        
+        displayNews(news);
+      } catch (err) {
+        console.error('加载新闻失败:', err);
+        document.getElementById('newsList').innerHTML = '<div class="col-12 text-center text-danger">加载新闻失败</div>';
+      }
+    }
+    
+    // 加载公告
+    async function loadAnnouncements() {
+      try {
+        const response = await fetch('http://localhost:3000/api/announcements');
+        const announcements = await response.json();
+        
+        if (!response.ok) throw new Error(announcements.error || '获取公告失败');
+        
+        displayAnnouncements(announcements);
+      } catch (err) {
+        console.error('加载公告失败:', err);
+        document.getElementById('announcementsList').innerHTML = '<div class="col-12 text-center text-danger">加载公告失败</div>';
+      }
+    }
+    
+    // 显示新闻列表
+    function displayNews(news) {
+      const newsList = document.getElementById('newsList');
+      if (news.length === 0) {
+        newsList.innerHTML = '<div class="col-12 text-center">暂无新闻</div>';
+        return;
+      }
+      
+      newsList.innerHTML = '';
+      news.forEach(item => {
+        const newsItem = document.createElement('div');
+        newsItem.className = 'col-md-6 mb-4';
+        newsItem.innerHTML = `
+          <div class="card">
+            ${item.image ? `<img src="${item.image}" class="card-img-top" alt="${item.title}">` : ''}
+            <div class="card-body">
+              <h5 class="card-title">${item.title}</h5>
+              <p class="card-text">${item.content.substring(0, 100)}${item.content.length > 100 ? '...' : ''}</p>
+              <p class="card-text text-muted">${new Date(item.createdAt).toLocaleString()}</p>
+              <button class="btn btn-primary" onclick="showNewsDetail('${item.id}')">查看详情</button>
+            </div>
+          </div>
+        `;
+        newsList.appendChild(newsItem);
+      });
+    }
+    
+    // 显示公告列表
+    function displayAnnouncements(announcements) {
+      const announcementsList = document.getElementById('announcementsList');
+      if (announcements.length === 0) {
+        announcementsList.innerHTML = '<div class="col-12 text-center">暂无公告</div>';
+        return;
+      }
+      
+      announcementsList.innerHTML = '';
+      announcements.forEach(item => {
+        const announcementItem = document.createElement('div');
+        announcementItem.className = 'col-md-6 mb-4';
+        announcementItem.innerHTML = `
+          <div class="card ${item.priority === 'high' ? 'border-danger' : ''}">
+            <div class="card-body">
+              <h5 class="card-title">${item.title}</h5>
+              <p class="card-text">${item.content.substring(0, 100)}${item.content.length > 100 ? '...' : ''}</p>
+              <p class="card-text text-muted">${new Date(item.createdAt).toLocaleString()}</p>
+              ${item.priority === 'high' ? '<span class="badge bg-danger">重要</span>' : ''}
+              <button class="btn btn-primary mt-2" onclick="showAnnouncementDetail('${item.id}')">查看详情</button>
+            </div>
+          </div>
+        `;
+        announcementsList.appendChild(announcementItem);
+      });
+    }
+    
+    // 显示新闻详情
+    async function showNewsDetail(id) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/news/${id}`);
+        const news = await response.json();
+        
+        if (!response.ok) throw new Error(news.error || '获取新闻详情失败');
+        
+        document.getElementById('modalTitle').textContent = news.title;
+        document.getElementById('modalContent').innerHTML = `
+          <p>${news.content}</p>
+          <p class="text-muted mt-3">作者: ${news.author || '未知'} | 发布时间: ${new Date(news.createdAt).toLocaleString()}</p>
+        `;
+        
+        // 显示模态框
+        const modal = new bootstrap.Modal(document.getElementById('newsModal'));
+        modal.show();
+      } catch (err) {
+        console.error('获取新闻详情失败:', err);
+        alert('获取新闻详情失败');
+      }
+    }
+    
+    // 显示公告详情
+    async function showAnnouncementDetail(id) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/announcements/${id}`);
+        const announcement = await response.json();
+        
+        if (!response.ok) throw new Error(announcement.error || '获取公告详情失败');
+        
+        document.getElementById('modalTitle').textContent = announcement.title;
+        document.getElementById('modalContent').innerHTML = `
+          <p>${announcement.content}</p>
+          <p class="text-muted mt-3">作者: ${announcement.author || '未知'} | 发布时间: ${new Date(announcement.createdAt).toLocaleString()}</p>
+        `;
+        
+        // 显示模态框
+        const modal = new bootstrap.Modal(document.getElementById('newsModal'));
+        modal.show();
+      } catch (err) {
+        console.error('获取公告详情失败:', err);
+        alert('获取公告详情失败');
+      }
+    }
+    
+    // 搜索内容
+    async function searchContent() {
+      const keyword = document.getElementById('searchInput').value;
+      if (!keyword) {
+        alert('请输入搜索关键词');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`http://localhost:3000/api/search?keyword=${encodeURIComponent(keyword)}`);
+        const results = await response.json();
+        
+        if (!response.ok) throw new Error(results.error || '搜索失败');
+        
+        // 显示搜索结果
+        alert(`找到 ${results.news.length} 条新闻和 ${results.announcements.length} 条公告`);
+        // 这里可以实现更复杂的搜索结果展示
+      } catch (err) {
+        console.error('搜索失败:', err);
+        alert('搜索失败');
+      }
+    }
+    
+    // 显示发布新闻表单
+    function showAddNewsForm() {
+      const modal = new bootstrap.Modal(document.getElementById('addNewsModal'));
+      modal.show();
+    }
+
+    // 显示发布公告表单
+    function showAddAnnouncementForm() {
+      const modal = new bootstrap.Modal(document.getElementById('addAnnouncementModal'));
+      modal.show();
+    }
+
+    // 发布新闻
+    async function addNews() {
+      const title = document.getElementById('newsTitle').value;
+      const content = document.getElementById('newsContent').value;
+      const image = document.getElementById('newsImage').value;
+      const author = document.getElementById('newsAuthor').value;
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/news', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ title, content, image, author })
+        });
+        
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || '发布新闻失败');
+        
+        // 关闭模态框
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addNewsModal'));
+        modal.hide();
+        
+        // 重新加载新闻列表
+        loadNews();
+        
+        // 显示成功消息
+        alert('新闻发布成功');
+      } catch (err) {
+        console.error('发布新闻失败:', err);
+        alert('发布新闻失败: ' + err.message);
+      }
+    }
+
+    // 发布公告
+    async function addAnnouncement() {
+      const title = document.getElementById('announcementTitle').value;
+      const content = document.getElementById('announcementContent').value;
+      const author = document.getElementById('announcementAuthor').value;
+      const priority = document.getElementById('announcementPriority').value;
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/announcements', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ title, content, author, priority })
+        });
+        
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || '发布公告失败');
+        
+        // 关闭模态框
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addAnnouncementModal'));
+        modal.hide();
+        
+        // 重新加载公告列表
+        loadAnnouncements();
+        
+        // 显示成功消息
+        alert('公告发布成功');
+      } catch (err) {
+        console.error('发布公告失败:', err);
+        alert('发布公告失败: ' + err.message);
+      }
+    }
+
+    // 页面加载时加载新闻
+    window.onload = function() {
+      loadNews();
+    };
+  </script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
