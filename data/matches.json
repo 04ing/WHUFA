@@ -1,17 +1,19 @@
 [
   {
     "id": "match_1772202638409",
-    "date": "2025/10/31",
-    "time": "16:00",
-    "type": "2025新生杯决赛",
-    "referee": "邱弋添",
-    "assistantReferee1": "魏若兰",
-    "assistantReferee2": "谢承志",
-    "fourthOfficial": "陈思平",
     "homeTeam": "资环",
     "awayTeam": "口腔",
     "homeScore": "6",
     "awayScore": "0",
+    "date": "2025/10/31",
+    "time": "16:00",
+    "referee": "邱弋添",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "谢承志",
+    "fourthOfficial": "陈思平",
+    "type": "2025新生杯决赛",
+    "status": "completed",
+    "events": [],
     "homeEvents": [
       {
         "type": "goal",
@@ -50,21 +52,24 @@
         "minute": "60"
       }
     ],
-    "awayEvents": []
+    "awayEvents": [],
+    "createdAt": "2026-03-02T04:04:43.888Z"
   },
   {
     "id": "match_1772203053337",
-    "date": "2025/10/17",
-    "time": "12:30",
-    "type": "新生杯小组赛",
-    "referee": "何百川",
-    "assistantReferee1": "谢承志",
-    "assistantReferee2": "史坤锋",
-    "fourthOfficial": "凌瑞晨",
     "homeTeam": "网安",
     "awayTeam": "城设",
     "homeScore": "1",
     "awayScore": "3",
+    "date": "2025/10/17",
+    "time": "12:30",
+    "referee": "何百川",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "史坤锋",
+    "fourthOfficial": "凌瑞晨",
+    "type": "新生杯小组赛",
+    "status": "completed",
+    "events": [],
     "homeEvents": [
       {
         "type": "ownGoal",
@@ -98,6 +103,7 @@
         "number": "66",
         "minute": "55"
       }
-    ]
+    ],
+    "createdAt": "2026-03-02T04:04:43.888Z"
   }
 ]
