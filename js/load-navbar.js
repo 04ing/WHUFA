@@ -1,8 +1,18 @@
 // 加载导航栏组件
 function loadNavbar() {
-    fetch('../components/navbar.html')
+    // 根据当前页面的路径动态确定导航栏组件的路径
+    let navbarPath = 'components/navbar.html';
+    
+    // 检查当前页面是否在pages目录中
+    if (window.location.pathname.includes('/pages/')) {
+        navbarPath = '../components/navbar.html';
+    }
+    
+    fetch(navbarPath)
         .then(response => response.text())
         .then(html => {
+            // 移除可能存在的CSP元标签，避免在<body>中添加
+            html = html.replace(/<meta[^>]*http-equiv="Content-Security-Policy"[^>]*>/gi, '');
             document.getElementById('navbar-container').innerHTML = html;
         })
         .catch(error => {
