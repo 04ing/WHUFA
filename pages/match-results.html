@@ -1147,7 +1147,7 @@
                             alert('比赛添加成功！');
                         }
                         
-                        // 保存比赛数据到 JSON 文件        
+                        // 保存比赛数据到 API        
                         saveMatchesToJson();
                     });
                 }
@@ -1419,7 +1419,8 @@
                                 homeScore: homeScore,
                                 awayScore: awayScore,
                                 homeEvents: homeEvents,
-                                awayEvents: awayEvents
+                                awayEvents: awayEvents,
+                                status: 'completed'
                             });
                         }
                     });

@@ -671,7 +671,6 @@
           <div class="d-flex justify-content-between align-items-center">
             <div>
               <h5>${referee.name}</h5>
-              <p class="text-muted">级别: ${referee.level} | 经验: ${referee.experience || '未知'}</p>
               <p class="text-muted">学院: ${referee.college || '未知'} | 年级: ${referee.grade || '未知'}</p>
             </div>
             <div>
@@ -742,7 +741,7 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ name, college, grade })
+          body: JSON.stringify({ name, college, grade, level: '初级', experience: '新手' })
         });
         
         const data = await response.json();
