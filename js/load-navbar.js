@@ -94,10 +94,56 @@ function loadNavbar() {
             }
             
             document.getElementById('navbar-container').innerHTML = html;
+            
+            // 导航栏加载完成后检查登录状态
+            checkLoginStatus();
         })
         .catch(error => {
             console.error('加载导航栏失败:', error);
         });
+}
+
+// 检查用户登录状态
+function checkLoginStatus() {
+    const userId = localStorage.getItem('userId');
+    const userName = localStorage.getItem('userName');
+    
+    if (userId && userName) {
+        // 用户已登录，显示用户信息和登出按钮
+        const userInfo = document.getElementById('userInfo');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        const loginRegisterLink = document.getElementById('loginRegisterLink');
+        
+        if (userInfo) userInfo.style.display = 'block';
+        if (userNameDisplay) userNameDisplay.textContent = userName;
+        if (loginRegisterLink) loginRegisterLink.style.display = 'none';
+    } else {
+        // 用户未登录，显示登录/注册链接
+        const userInfo = document.getElementById('userInfo');
+        const loginRegisterLink = document.getElementById('loginRegisterLink');
+        
+        if (userInfo) userInfo.style.display = 'none';
+        if (loginRegisterLink) loginRegisterLink.style.display = 'block';
+    }
+}
+
+// 登出功能
+function logout() {
+    // 清除本地存储中的用户信息
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
+    
+    // 更新导航栏显示
+    checkLoginStatus();
+    
+    // 跳转到首页
+    let indexPath = 'index.html';
+    if (window.location.pathname.includes('/pages/')) {
+        indexPath = '../index.html';
+    } else if (window.location.hostname.includes('github.io')) {
+        indexPath = '/WHUFA/index.html';
+    }
+    window.location.href = indexPath;
 }
 
 // 页面加载时自动调用loadNavbar函数
