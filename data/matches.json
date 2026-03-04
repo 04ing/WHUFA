@@ -53,7 +53,7 @@
       }
     ],
     "awayEvents": [],
-    "createdAt": "2026-03-02T04:04:43.888Z"
+    "createdAt": "2026-03-04T11:36:55.426Z"
   },
   {
     "id": "match_1772203053337",
@@ -104,6 +104,39 @@
         "minute": "55"
       }
     ],
-    "createdAt": "2026-03-02T04:04:43.888Z"
+    "createdAt": "2026-03-04T11:36:55.426Z"
+  },
+  {
+    "id": "match_1772624190991",
+    "homeTeam": "文理联",
+    "awayTeam": "法院",
+    "homeScore": "1",
+    "awayScore": "1",
+    "date": "2025/12/6",
+    "time": "10:30",
+    "referee": "凌瑞晨",
+    "assistantReferee1": "申宗远",
+    "assistantReferee2": "巩晟棠",
+    "fourthOfficial": "谢承志",
+    "type": "振兴杯女子组决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "齐咏和",
+        "number": "9",
+        "minute": "22"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "易婵娟",
+        "number": "10",
+        "minute": "13"
+      }
+    ],
+    "createdAt": "2026-03-04T11:36:55.426Z"
   }
 ]

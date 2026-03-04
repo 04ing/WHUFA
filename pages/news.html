@@ -17,6 +17,9 @@
   
   <!-- 加载导航栏脚本 -->
   <script src="../js/load-navbar.js"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <section class="p-5 pt-20">
     <div class="container">
@@ -209,7 +212,7 @@
     // 加载新闻
     async function loadNews() {
       try {
-        const response = await fetch('http://localhost:3000/api/news');
+        const response = await fetch(Config.getApiUrl('/api/news'));
         const news = await response.json();
         
         if (!response.ok) throw new Error(news.error || '获取新闻失败');
@@ -224,7 +227,7 @@
     // 加载公告
     async function loadAnnouncements() {
       try {
-        const response = await fetch('http://localhost:3000/api/announcements');
+        const response = await fetch(Config.getApiUrl('/api/announcements'));
         const announcements = await response.json();
         
         if (!response.ok) throw new Error(announcements.error || '获取公告失败');
@@ -293,7 +296,7 @@
     // 显示新闻详情
     async function showNewsDetail(id) {
       try {
-        const response = await fetch(`http://localhost:3000/api/news/${id}`);
+        const response = await fetch(Config.getApiUrl(`/api/news/${id}`));
         const news = await response.json();
         
         if (!response.ok) throw new Error(news.error || '获取新闻详情失败');
@@ -316,7 +319,7 @@
     // 显示公告详情
     async function showAnnouncementDetail(id) {
       try {
-        const response = await fetch(`http://localhost:3000/api/announcements/${id}`);
+        const response = await fetch(Config.getApiUrl(`/api/announcements/${id}`));
         const announcement = await response.json();
         
         if (!response.ok) throw new Error(announcement.error || '获取公告详情失败');
@@ -345,7 +348,7 @@
       }
       
       try {
-        const response = await fetch(`http://localhost:3000/api/search?keyword=${encodeURIComponent(keyword)}`);
+        const response = await fetch(Config.getApiUrl(`/api/search?keyword=${encodeURIComponent(keyword)}`));
         const results = await response.json();
         
         if (!response.ok) throw new Error(results.error || '搜索失败');
@@ -379,7 +382,7 @@
       const author = document.getElementById('newsAuthor').value;
       
       try {
-        const response = await fetch('http://localhost:3000/api/news', {
+        const response = await fetch(Config.getApiUrl('/api/news'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -413,7 +416,7 @@
       const priority = document.getElementById('announcementPriority').value;
       
       try {
-        const response = await fetch('http://localhost:3000/api/announcements', {
+        const response = await fetch(Config.getApiUrl('/api/announcements'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -444,8 +447,5 @@
       loadNews();
     };
   </script>
-  
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
