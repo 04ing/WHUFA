@@ -20,7 +20,7 @@ WHUFA是武汉大学足球协会（学生）的官方网站，提供协会相关
 - **前端**：HTML5, CSS3, JavaScript
 - **后端**：Node.js, Express
 - **数据存储**：JSON文件
-- **部署**：Vercel（支持Node.js服务器）
+- **部署**：GitHub Pages（静态前端）
 
 ## 项目结构
 
@@ -28,7 +28,7 @@ WHUFA是武汉大学足球协会（学生）的官方网站，提供协会相关
 WHUFA/
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml    # GitHub Actions部署配置
+│       └── gh-pages.yml    # GitHub Actions部署配置
 ├── pages/
 │   ├── index.html          # 首页
 │   ├── match-results.html  # 比赛结果管理页面
@@ -87,29 +87,36 @@ WHUFA/
 4. **访问网站**
    打开浏览器，访问 http://localhost:3000
 
-## 部署到Vercel
+## 部署说明
 
-### 步骤
+### GitHub Pages 部署
 
-1. **注册Vercel账号**
-   - 访问 https://vercel.com/ 并使用GitHub账号注册
+本项目使用GitHub Pages进行静态前端部署。部署配置位于 `.github/workflows/gh-pages.yml`。
 
-2. **创建Vercel项目**
-   - 登录Vercel后，点击"New Project"
-   - 选择从GitHub导入
-   - 找到并选择 `04ing/WHUFA` 仓库
-   - 点击"Import"
+**注意**：由于GitHub Pages是静态托管服务，不支持运行Node.js后端代码。如需完整功能（API、数据存储等），需要：
 
-3. **配置项目**
-   - 框架预设：选择 "Other"
-   - 根目录：保持默认
-   - 构建命令：保持默认（或设置为 `npm run build`）
-   - 输出目录：保持默认
-   - 点击"Deploy"
+1. **本地运行**：使用 `npm start` 启动本地服务器
+2. **线上部署方案**：
+   - 前端：GitHub Pages
+   - 后端：Railway、Render、Heroku等支持Node.js的平台
+
+### 部署到Railway（推荐）
+
+Railway是一个免费的Node.js部署平台，支持Node.js、PostgreSQL、MongoDB等。
+
+1. **注册Railway账号**
+   - 访问 https://railway.app/ 并使用GitHub账号注册
+
+2. **创建Railway项目**
+   - 登录Railway后，点击"New Project"
+   - 选择"Deploy from GitHub repo"
+   - 选择 `04ing/WHUFA` 仓库
+
+3. **配置环境变量**
+   - 在Railway项目设置中，添加必要的环境变量
 
 4. **获取部署URL**
-   - 部署完成后，Vercel会提供一个URL，例如 `whufa.vercel.app`
-   - 您可以通过这个URL访问您的应用
+   - 部署完成后，Railway会提供一个URL
 
 ## 使用说明
 
@@ -201,14 +208,13 @@ WHUFA/
 
 - 本项目为学生协会网站，仅供内部使用
 - 密码以明文形式存储在users.json文件中，生产环境中应使用加密存储
-- 服务器默认运行在3000端口，Vercel部署时会自动分配端口
+- 服务器默认运行在3000端口
 - 数据存储在JSON文件中，建议定期备份
-- Vercel的文件系统是临时的，对于生产环境，建议使用外部数据库服务
 
 ## 常见问题
 
-### Q: 为什么点击“批量修改事件”按钮时，客队数据的“球队”一栏会自动跳回主队？
-A: 这个问题已经修复，现在系统会正确读取JSON文件中的数据来显示“球队”一栏的默认值。
+### Q: 为什么点击"批量修改事件"按钮时，客队数据的"球队"一栏会自动跳回主队？
+A: 这个问题已经修复，现在系统会正确读取JSON文件中的数据来显示"球队"一栏的默认值。
 
 ### Q: 为什么下拉菜单点击无反应？
 A: 已将Bootstrap的下拉菜单替换为自定义实现，现在应该可以正常工作。
@@ -218,6 +224,9 @@ A: 请确保服务器正在运行，表单数据会保存到 `data/contacts.json
 
 ### Q: 为什么登录/注册时出现404错误？
 A: 请确保服务器正在运行，并且路由配置正确。
+
+### Q: GitHub Pages上的静态页面无法使用API功能怎么办？
+A: GitHub Pages仅支持静态文件托管。如需使用API功能，请使用Railway、Render等平台单独部署后端服务。
 
 ## 贡献
 
@@ -229,4 +238,4 @@ A: 请确保服务器正在运行，并且路由配置正确。
 
 ## 更新记录
 
-- 2026-03-01: 部署到Vercel
+- 2026-03-02: 优化导航栏路径处理，修复Bootstrap加载问题
