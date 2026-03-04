@@ -111,6 +111,12 @@
         // 登录成功处理
         localStorage.setItem('userId', data.user.id);
         localStorage.setItem('userName', data.user.name);
+        
+        // 更新导航栏显示
+        if (typeof checkLoginStatus === 'function') {
+            checkLoginStatus();
+        }
+        
         window.location.href = '../index.html';
       } catch (err) {
         errorDiv.textContent = err.message;
@@ -144,6 +150,12 @@
         // 注册成功处理
         localStorage.setItem('userId', data.id);
         localStorage.setItem('userName', data.name);
+        
+        // 更新导航栏显示
+        if (typeof checkLoginStatus === 'function') {
+            checkLoginStatus();
+        }
+        
         window.location.href = '../index.html';
       } catch (err) {
         errorDiv.textContent = err.message;
