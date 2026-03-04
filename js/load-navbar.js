@@ -1,5 +1,59 @@
+// 配置文件 - 用于管理不同环境的API地址
+const Config = {
+    API_BASE_URL: (function() {
+        const hostname = window.location.hostname;
+        
+        // Railway环境（后端和前端在同一个域名下）
+        if (hostname.includes('railway.app')) {
+            return '';
+        }
+        
+        // GitHub Pages环境 + Railway后端
+        // 注意：部署到Railway后，需要将下方的URL替换为你的Railway应用URL
+        if (hostname.includes('github.io')) {
+            return 'https://whufa-production.up.railway.app';
+        }
+        
+        // 本地开发环境
+        return 'http://localhost:3000';
+    })(),
+
+    getApiUrl: function(endpoint) {
+        if (this.API_BASE_URL === '') {
+            return endpoint;
+        }
+        return this.API_BASE_URL + endpoint;
+    }
+};
+
+// 自动替换页面中所有API调用
+function setupApiInterceptor() {
+    const originalFetch = window.fetch;
+    window.fetch = function(url, options) {
+        // 如果URL是API请求
+        if (typeof url === 'string') {
+            // 情况1: 相对路径 /api/xxx
+            if (url.startsWith('/api/')) {
+                url = Config.getApiUrl(url);
+            }
+            // 情况2: 完整URL http://localhost:3000/api/xxx
+            else if (url.includes('localhost:3000') || url.includes(Config.API_BASE_URL)) {
+                // 已经是正确的URL，不需要修改
+            }
+            // 情况3: 替换旧的localhost URL为新的Railway URL
+            else if (url.includes('localhost:3000')) {
+                url = url.replace('http://localhost:3000', Config.API_BASE_URL);
+            }
+        }
+        return originalFetch.apply(this, arguments);
+    };
+}
+
 // 加载导航栏组件
 function loadNavbar() {
+    // 设置API拦截器
+    setupApiInterceptor();
+    
     // 确定导航栏组件的路径
     let navbarPath = 'components/navbar.html';
     
@@ -7,10 +61,8 @@ function loadNavbar() {
     if (window.location.hostname.includes('github.io')) {
         // 在GitHub Pages环境中，使用绝对路径
         if (window.location.pathname.includes('/WHUFA/')) {
-            // 已经在WHUFA路径下
             navbarPath = '/WHUFA/components/navbar.html';
         } else {
-            // 不在WHUFA路径下，添加路径前缀
             navbarPath = '/WHUFA/components/navbar.html';
         }
     } else {
