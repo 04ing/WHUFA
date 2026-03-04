@@ -9,8 +9,6 @@
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="../css/pages.css" />
   <link rel="stylesheet" href="../css/responsive.css" />
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
   <!-- 导航栏容器 -->
@@ -18,6 +16,9 @@
   
   <!-- 加载导航栏脚本 -->
   <script src="../js/load-navbar.js"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <section class="p-5 pt-20">
     <div class="container">
@@ -375,7 +376,7 @@
     // 加载比赛日程
     async function loadSchedule() {
       try {
-        const response = await fetch('http://localhost:3000/api/matches');
+        const response = await fetch(Config.getApiUrl('/api/matches'));
         const matches = await response.json();
         
         if (!response.ok) throw new Error(matches.error || '获取比赛数据失败');
@@ -427,13 +428,13 @@
     async function loadStatistics() {
       try {
         // 加载比赛统计
-        const matchStatsResponse = await fetch('http://localhost:3000/api/statistics/matches');
+        const matchStatsResponse = await fetch(Config.getApiUrl('/api/statistics/matches'));
         const matchStats = await matchStatsResponse.json();
         
         if (!matchStatsResponse.ok) throw new Error(matchStats.error || '获取比赛统计失败');
         
         // 加载球队统计
-        const teamStatsResponse = await fetch('http://localhost:3000/api/statistics/teams');
+        const teamStatsResponse = await fetch(Config.getApiUrl('/api/statistics/teams'));
         const teamStats = await teamStatsResponse.json();
         
         if (!teamStatsResponse.ok) throw new Error(teamStats.error || '获取球队统计失败');
@@ -533,7 +534,7 @@
     // 加载球队列表
     async function loadTeams() {
       try {
-        const response = await fetch('http://localhost:3000/api/teams');
+        const response = await fetch(Config.getApiUrl('/api/teams'));
         const teams = await response.json();
         
         if (!response.ok) throw new Error(teams.error || '获取球队数据失败');
@@ -578,7 +579,7 @@
     // 加载裁判列表
     async function loadReferees() {
       try {
-        const response = await fetch('http://localhost:3000/api/referees');
+        const response = await fetch(Config.getApiUrl('/api/referees'));
         const referees = await response.json();
         
         if (!response.ok) throw new Error(referees.error || '获取裁判数据失败');
@@ -638,15 +639,23 @@
       const logo = document.getElementById('teamLogo').value;
       
       try {
-        const response = await fetch('http://localhost:3000/api/teams', {
+        const teamData = { name, college, coach, logo };
+        console.log('发送的数据:', teamData);
+        console.log('JSON字符串:', JSON.stringify(teamData));
+        console.log('API URL:', Config.getApiUrl('/api/teams'));
+        
+        const response = await fetch(Config.getApiUrl('/api/teams'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ name, college, coach, logo })
+          body: JSON.stringify(teamData)
         });
         
+        console.log('响应状态:', response.status);
         const data = await response.json();
+        console.log('响应数据:', data);
+        
         if (!response.ok) throw new Error(data.error || '添加球队失败');
         
         // 关闭模态框
@@ -671,7 +680,7 @@
       const grade = document.getElementById('refereeGrade').value;
       
       try {
-        const response = await fetch('http://localhost:3000/api/referees', {
+        const response = await fetch(Config.getApiUrl('/api/referees'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -704,7 +713,7 @@
         window.currentTeamId = teamId;
         
         // 加载球队信息
-        const teamResponse = await fetch(`http://localhost:3000/api/teams/${teamId}`);
+        const teamResponse = await fetch(Config.getApiUrl(`/api/teams/${teamId}`));
         const team = await teamResponse.json();
         
         if (!teamResponse.ok) throw new Error(team.error || '获取球队数据失败');
@@ -737,7 +746,7 @@
     // 加载球员列表
     async function loadPlayers(teamId) {
       try {
-        const response = await fetch(`http://localhost:3000/api/teams/${teamId}/players`);
+        const response = await fetch(Config.getApiUrl(`/api/teams/${teamId}/players`));
         const players = await response.json();
         
         if (!response.ok) throw new Error(players.error || '获取球员数据失败');
@@ -790,7 +799,7 @@
       const studentId = document.getElementById('playerStudentId').value;
       
       try {
-        const response = await fetch('http://localhost:3000/api/players', {
+        const response = await fetch(Config.getApiUrl('/api/players'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -819,7 +828,7 @@
     // 显示编辑球队表单
     async function showEditTeamForm(teamId) {
       try {
-        const response = await fetch(`http://localhost:3000/api/teams/${teamId}`);
+        const response = await fetch(Config.getApiUrl(`/api/teams/${teamId}`));
         const team = await response.json();
         
         if (!response.ok) throw new Error(team.error || '获取球队数据失败');
@@ -843,7 +852,7 @@
     // 显示编辑裁判表单
     async function showEditRefereeForm(refereeId) {
       try {
-        const response = await fetch(`http://localhost:3000/api/referees/${refereeId}`);
+        const response = await fetch(Config.getApiUrl(`/api/referees/${refereeId}`));
         const referee = await response.json();
         
         if (!response.ok) throw new Error(referee.error || '获取裁判数据失败');
@@ -872,7 +881,7 @@
       const logo = document.getElementById('editTeamLogo').value;
       
       try {
-        const response = await fetch(`http://localhost:3000/api/teams/${id}`, {
+        const response = await fetch(Config.getApiUrl(`/api/teams/${id}`), {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -906,7 +915,7 @@
       const grade = document.getElementById('editRefereeGrade').value;
       
       try {
-        const response = await fetch(`http://localhost:3000/api/referees/${id}`, {
+        const response = await fetch(Config.getApiUrl(`/api/referees/${id}`), {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -939,7 +948,7 @@
       }
       
       try {
-        const response = await fetch(`http://localhost:3000/api/teams/${teamId}`, {
+        const response = await fetch(Config.getApiUrl(`/api/teams/${teamId}`), {
           method: 'DELETE'
         });
         
@@ -964,7 +973,7 @@
       }
       
       try {
-        const response = await fetch(`http://localhost:3000/api/referees/${refereeId}`, {
+        const response = await fetch(Config.getApiUrl(`/api/referees/${refereeId}`), {
           method: 'DELETE'
         });
         
