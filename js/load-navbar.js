@@ -36,16 +36,12 @@ function setupApiInterceptor() {
             if (url.startsWith('/api/')) {
                 url = Config.getApiUrl(url);
             }
-            // 情况2: 完整URL http://localhost:3000/api/xxx
-            else if (url.includes('localhost:3000') || url.includes(Config.API_BASE_URL)) {
-                // 已经是正确的URL，不需要修改
-            }
-            // 情况3: 替换旧的localhost URL为新的Railway URL
-            else if (url.includes('localhost:3000')) {
+            // 情况2: 替换旧的localhost URL为新的API BASE URL
+            else if (url.includes('localhost:3000') && url.includes('/api/')) {
                 url = url.replace('http://localhost:3000', Config.API_BASE_URL);
             }
         }
-        return originalFetch.apply(this, arguments);
+        return originalFetch.call(this, url, options);
     };
 }
 
