@@ -28,3 +28,5 @@ dist/
 
 # GitHub Actions runner
 actions-runner/
+
+.vercel
