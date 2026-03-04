@@ -89,6 +89,22 @@
         document.getElementById('registerForm').style.display = 'block';
       }
 
+      // 获取API URL的函数
+      function getApiUrl(endpoint) {
+        if (typeof Config !== 'undefined' && Config.getApiUrl) {
+          return Config.getApiUrl(endpoint);
+        }
+        // 检测当前环境
+        const hostname = window.location.hostname;
+        if (hostname.includes('railway.app')) {
+          return endpoint;
+        }
+        if (hostname.includes('github.io')) {
+          return 'https://whufa-production.up.railway.app' + endpoint;
+        }
+        return 'http://localhost:3000' + endpoint;
+      }
+
       // 登录表单提交处理
       document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -98,10 +114,8 @@
         const errorDiv = document.querySelector('#login-form .alert');
         
         try {
-          // 使用全局apiRequest函数或直接使用Config.getApiUrl
-          const apiUrl = typeof Config !== 'undefined' && Config.getApiUrl
-            ? Config.getApiUrl('/api/login')
-            : 'http://localhost:3000/api/login';
+          const apiUrl = getApiUrl('/api/login');
+          console.log('登录API URL:', apiUrl);
           
           const response = await fetch(apiUrl, {
             method: 'POST',
@@ -126,6 +140,7 @@
           
           window.location.href = '../index.html';
         } catch (err) {
+          console.error('登录失败:', err);
           errorDiv.textContent = err.message;
           errorDiv.style.display = 'block';
         }
@@ -142,10 +157,8 @@
         const errorDiv = document.querySelector('#register-form .alert');
         
         try {
-          // 使用全局apiRequest函数或直接使用Config.getApiUrl
-          const apiUrl = typeof Config !== 'undefined' && Config.getApiUrl
-            ? Config.getApiUrl('/api/users')
-            : 'http://localhost:3000/api/users';
+          const apiUrl = getApiUrl('/api/users');
+          console.log('注册API URL:', apiUrl);
           
           const response = await fetch(apiUrl, {
             method: 'POST',
@@ -170,6 +183,7 @@
           
           window.location.href = '../index.html';
         } catch (err) {
+          console.error('注册失败:', err);
           errorDiv.textContent = err.message;
           errorDiv.style.display = 'block';
         }
