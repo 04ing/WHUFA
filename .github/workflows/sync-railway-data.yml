@@ -1,0 +1,40 @@
+name: Sync Railway Data
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # 每6小时运行一次
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch data from Railway
+        run: |
+          # 定义 Railway API 基础 URL
+          RAILWAY_API_URL="https://whufa-production.up.railway.app/api"
+          
+          # 要同步的数据文件列表
+          DATA_FILES=("teams" "matches" "referees" "news" "announcements" "players")
+          
+          # 创建 data 目录（如果不存在）
+          mkdir -p data
+          
+          # 循环获取每个数据文件
+          for FILE in "${DATA_FILES[@]}"; do
+            echo "Fetching $FILE.json from Railway..."
+            curl -o "data/${FILE}.json" "${RAILWAY_API_URL}/${FILE}" || echo "Failed to fetch ${FILE}.json"
+          done
+
+      - name: Commit and push changes
+        run: |
+          # 配置 git 信息
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          
+          # 检查是否有更改
+          git add data/*
+          git commit -m 'Sync data from Railway' || echo 'No changes to commit'
+          git push
