@@ -92,8 +92,8 @@
 
       // 获取API URL的函数
       function getApiUrl(endpoint) {
-        if (typeof Config !== 'undefined' && Config.getApiUrl) {
-          return Config.getApiUrl(endpoint);
+        if (typeof window.Config !== 'undefined' && window.Config.getApiUrl) {
+          return window.Config.getApiUrl(endpoint);
         }
         // 检测当前环境
         const hostname = window.location.hostname;
@@ -107,45 +107,74 @@
       }
 
       // 登录表单提交处理
-      document.getElementById('login-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
+      const loginForm = document.getElementById('login-form');
+      if (loginForm) {
+        // 移除所有现有的事件监听器
+        const newLoginForm = loginForm.cloneNode(true);
+        loginForm.parentNode.replaceChild(newLoginForm, loginForm);
         
-        const name = document.getElementById('login-name').value;
-        const password = document.getElementById('login-password').value;
-        const errorDiv = document.querySelector('#login-form .alert');
+        // 添加新的事件监听器
+        newLoginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const name = document.getElementById('login-name').value;
+          const password = document.getElementById('login-password').value;
+          const errorDiv = document.querySelector('#login-form .alert');
+          
+          try {
+            console.log('开始登录...');
+            console.log('用户名:', name);
+            console.log('密码:', password);
+            
+            // 直接使用完整的URL
+            const url = 'http://localhost:3000/api/login';
+            console.log('登录API URL:', url);
+            
+            // 使用fetch发送请求
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ name, password })
+            });
         
-        try {
-          const apiUrl = getApiUrl('/api/login');
-          console.log('登录API URL:', apiUrl);
-          
-          const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, password })
-          });
-      
-          const data = await response.json();
-          
-          if (!response.ok) throw new Error(data.error || '请求失败');
-      
-          // 登录成功处理
-          localStorage.setItem('userId', data.user.id);
-          localStorage.setItem('userName', data.user.name);
-          
-          // 更新导航栏显示
-          if (typeof checkLoginStatus === 'function') {
-              checkLoginStatus();
+            console.log('登录API响应状态:', response.status);
+            console.log('登录API响应URL:', response.url);
+            
+            // 检查响应是否为JSON
+            const contentType = response.headers.get('content-type');
+            console.log('响应内容类型:', contentType);
+            
+            if (!contentType || !contentType.includes('application/json')) {
+              const text = await response.text();
+              console.error('登录API响应不是JSON:', text);
+              throw new Error('服务器返回了非JSON响应');
+            }
+            
+            const data = await response.json();
+            console.log('登录API响应数据:', data);
+            
+            if (!response.ok) throw new Error(data.error || '请求失败');
+        
+            // 登录成功处理
+            localStorage.setItem('userId', data.user.id);
+            localStorage.setItem('userName', data.user.name);
+            console.log('登录成功，用户ID:', data.user.id);
+            
+            // 更新导航栏显示
+            if (typeof checkLoginStatus === 'function') {
+                checkLoginStatus();
+            }
+            
+            window.location.href = '../index.html';
+          } catch (err) {
+            console.error('登录失败:', err);
+            errorDiv.textContent = err.message;
+            errorDiv.style.display = 'block';
           }
-          
-          window.location.href = '../index.html';
-        } catch (err) {
-          console.error('登录失败:', err);
-          errorDiv.textContent = err.message;
-          errorDiv.style.display = 'block';
-        }
-      });
+        });
+      }
 
       // 注册表单提交处理
       document.getElementById('register-form').addEventListener('submit', async (e) => {
