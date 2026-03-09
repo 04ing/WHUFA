@@ -75,19 +75,20 @@
   </div>
 
   <script>
+    // 显示登录表单
+    function showLoginForm() {
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('registerForm').style.display = 'none';
+    }
+
+    // 显示注册表单
+    function showRegisterForm() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('registerForm').style.display = 'block';
+    }
+
     // 等待DOM加载完成
     document.addEventListener('DOMContentLoaded', function() {
-      // 显示登录表单
-      function showLoginForm() {
-        document.getElementById('loginForm').style.display = 'block';
-        document.getElementById('registerForm').style.display = 'none';
-      }
-
-      // 显示注册表单
-      function showRegisterForm() {
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('registerForm').style.display = 'block';
-      }
 
       // 获取API URL的函数
       function getApiUrl(endpoint) {
