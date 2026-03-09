@@ -99,7 +99,7 @@
         if (hostname.includes('railway.app')) {
           return endpoint;
         }
-        if (hostname.includes('github.io')) {
+        if (hostname.includes('github.io') || hostname.includes('netlify.app')) {
           return 'https://whufa-production.up.railway.app' + endpoint;
         }
         return 'http://localhost:3000' + endpoint;
