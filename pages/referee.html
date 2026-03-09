@@ -18,8 +18,9 @@
         <script>
             // 检查登录状态，未登录则重定向到登录注册页面
             document.addEventListener('DOMContentLoaded', function() {
-                const user = localStorage.getItem('user');
-                if (!user) {
+                const userId = localStorage.getItem('userId');
+                const userName = localStorage.getItem('userName');
+                if (!userId || !userName) {
                     window.location.href = 'register.html';
                 }
             });
