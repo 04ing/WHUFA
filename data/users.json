@@ -1,1 +1,11 @@
-{"status":"error","code":404,"message":"Application not found","request_id":"K4CymV0zS7qAjn_Z0_TJvA"}
+[
+  {
+    "id": "1772373467238",
+    "name": "史坤锋",
+    "password": "skfing11040922",
+    "college": "遥感信息工程学院",
+    "grade": "22",
+    "role": "user",
+    "createdAt": "2026-03-01T13:57:47.238Z"
+  }
+]
