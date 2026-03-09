@@ -1,45 +1,56 @@
 // 配置文件 - 用于管理不同环境的API地址
-const Config = {
-    API_BASE_URL: (function() {
-        const hostname = window.location.hostname;
-        
-        // Railway环境（后端和前端在同一个域名下）
-        if (hostname.includes('railway.app')) {
-            return '';
-        }
-        
-        // GitHub Pages环境 + Railway后端
-        // 注意：部署到Railway后，需要将下方的URL替换为你的Railway应用URL
-        if (hostname.includes('github.io') || hostname.includes('netlify.app')) {
-            return 'https://whufa-production-3b30.up.railway.app/';
-        }
-        
-        // 本地开发环境
-        return 'http://localhost:3000';
-    })(),
+if (typeof Config === 'undefined') {
+    const Config = {
+        API_BASE_URL: (function() {
+            const hostname = window.location.hostname;
+            
+            // Railway环境（后端和前端在同一个域名下）
+            if (hostname.includes('railway.app')) {
+                return '';
+            }
+            
+            // GitHub Pages环境 + Railway后端
+            // 注意：部署到Railway后，需要将下方的URL替换为你的Railway应用URL
+            if (hostname.includes('github.io') || hostname.includes('netlify.app')) {
+                return 'https://whufa-production-3b30.up.railway.app/';
+            }
+            
+            // 本地开发环境
+            return 'http://localhost:3000';
+        })(),
 
-    getApiUrl: function(endpoint) {
-        if (this.API_BASE_URL === '') {
-            return endpoint;
+        getApiUrl: function(endpoint) {
+            if (this.API_BASE_URL === '') {
+                return endpoint;
+            }
+            return this.API_BASE_URL + endpoint;
         }
-        return this.API_BASE_URL + endpoint;
-    }
-};
+    };
+    window.Config = Config;
+}
 
 // 自动替换页面中所有API调用
 function setupApiInterceptor() {
+    // 只设置一次拦截器
+    if (window.__apiInterceptorSet) {
+        return;
+    }
+    window.__apiInterceptorSet = true;
+    
     const originalFetch = window.fetch;
     window.fetch = function(url, options) {
         // 如果URL是API请求
         if (typeof url === 'string') {
+            console.log('原始URL:', url);
             // 情况1: 相对路径 /api/xxx
             if (url.startsWith('/api/')) {
-                url = Config.getApiUrl(url);
+                url = window.Config.getApiUrl(url);
             }
             // 情况2: 替换旧的localhost URL为新的API BASE URL
             else if (url.includes('localhost:3000') && url.includes('/api/')) {
-                url = url.replace('http://localhost:3000', Config.API_BASE_URL);
+                url = url.replace('http://localhost:3000', window.Config.API_BASE_URL);
             }
+            console.log('修改后的URL:', url);
         }
         return originalFetch.call(this, url, options);
     };
@@ -47,8 +58,8 @@ function setupApiInterceptor() {
 
 // 加载导航栏组件
 function loadNavbar() {
-    // 设置API拦截器
-    setupApiInterceptor();
+    // 暂时禁用API拦截器，因为它会导致登录请求被发送两次
+    // setupApiInterceptor();
     
     // 确定导航栏组件的路径
     let navbarPath = 'components/navbar.html';

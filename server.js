@@ -8,7 +8,14 @@ const PORT = process.env.PORT || 3000;
 // 中间件
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+
+// 全局日志中间件
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    console.log('Request body:', req.body);
+    console.log('Request headers:', req.headers);
+    next();
+});
 
 // 允许跨域请求
 app.use((req, res, next) => {
@@ -26,7 +33,18 @@ app.use((req, res, next) => {
 
 // 导入API路由
 const apiRoutes = require('./routes/api');
+
+// 日志中间件
+app.use('/api', (req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    console.log('Request body:', req.body);
+    next();
+});
+
 app.use('/api', apiRoutes);
+
+// 静态文件服务
+app.use(express.static(__dirname));
 
 // 处理根路径
 app.get('/', (req, res) => {
