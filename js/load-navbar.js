@@ -11,7 +11,7 @@ const Config = {
         // GitHub Pages环境 + Railway后端
         // 注意：部署到Railway后，需要将下方的URL替换为你的Railway应用URL
         if (hostname.includes('github.io') || hostname.includes('netlify.app')) {
-            return 'https://whufa-production.up.railway.app';
+            return 'https://whufa-production-3b30.up.railway.app/';
         }
         
         // 本地开发环境

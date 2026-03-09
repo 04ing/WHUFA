@@ -17,6 +17,15 @@
         
         <!-- 加载导航栏脚本 -->
         <script src="../js/load-navbar.js"></script>
+        <script>
+            // 检查登录状态，未登录则重定向到登录注册页面
+            document.addEventListener('DOMContentLoaded', function() {
+                const user = localStorage.getItem('user');
+                if (!user) {
+                    window.location.href = 'register.html';
+                }
+            });
+        </script>
 
         <section class="p-5 pt-20 bg-dark text-light text-center text-sm-start">
             <div class="container">
