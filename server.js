@@ -41,6 +41,7 @@ app.use('/api', (req, res, next) => {
     next();
 });
 
+// 确保API路由在静态文件服务之前处理
 app.use('/api', apiRoutes);
 
 // 静态文件服务

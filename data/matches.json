@@ -1,1 +1,53 @@
-{"status":"error","code":404,"message":"Application not found","request_id":"m_xRboc-R_KWAjuo9I3ezw"}
+[
+  {
+    "id": "match_1773105564284",
+    "homeTeam": "网安",
+    "awayTeam": "城设",
+    "homeScore": "1",
+    "awayScore": "3",
+    "date": "2025/10/17",
+    "time": "12:30",
+    "referee": "何百川",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "史坤锋",
+    "fourthOfficial": "凌瑞晨",
+    "type": "新生杯小组赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "ownGoal",
+        "player": "郝子介",
+        "number": "5",
+        "minute": "44"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "蔡鸿敬",
+        "number": "10",
+        "minute": "22"
+      },
+      {
+        "type": "goal",
+        "player": "蔡鸿敬",
+        "number": "10",
+        "minute": "24"
+      },
+      {
+        "type": "doubleYellow",
+        "player": "杜倬钰",
+        "number": "78",
+        "minute": "36"
+      },
+      {
+        "type": "goal",
+        "player": "姜沛涵",
+        "number": "66",
+        "minute": "54"
+      }
+    ],
+    "createdAt": "2026-03-10T01:20:41.935Z"
+  }
+]
