@@ -1,1 +1,1641 @@
-{"status":"error","code":404,"message":"Application not found","request_id":"Ra_9ni4GRB-Xu5yp9I3ezw"}
+[
+  {
+    "id": "match_1773408888504",
+    "homeTeam": "政法信化",
+    "awayTeam": "社马文史",
+    "homeScore": "6",
+    "awayScore": "0",
+    "date": "2025/10/10",
+    "time": "12:30",
+    "referee": "何百川",
+    "assistantReferee1": "史坤锋",
+    "assistantReferee2": "郑祺",
+    "fourthOfficial": "赵治齐",
+    "type": "2025振新生杯小组赛D组第1轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "谢宗哲",
+        "number": "78",
+        "minute": "27"
+      },
+      {
+        "type": "goal",
+        "player": "郑思源",
+        "number": "34",
+        "minute": "28"
+      },
+      {
+        "type": "ownGoal",
+        "player": "李宇涛",
+        "number": "2",
+        "minute": "35"
+      },
+      {
+        "type": "goal",
+        "player": "杨业鑫",
+        "number": "12",
+        "minute": "41"
+      },
+      {
+        "type": "goal",
+        "player": "郑思源",
+        "number": "34",
+        "minute": "45"
+      },
+      {
+        "type": "goal",
+        "player": "郑思源",
+        "number": "34",
+        "minute": "59"
+      }
+    ],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773409331270",
+    "homeTeam": "数学物理联队",
+    "awayTeam": "经济与管理学院",
+    "homeScore": "2",
+    "awayScore": "2",
+    "date": "2025/10/10",
+    "time": "12:30",
+    "referee": "荆常升",
+    "assistantReferee1": "王天胤",
+    "assistantReferee2": "谢承志",
+    "fourthOfficial": "魏若兰",
+    "type": "2025新生杯小组赛B组第1轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "贺宇洲",
+        "number": "7",
+        "minute": "8"
+      },
+      {
+        "type": "goal",
+        "player": "贺宇洲",
+        "number": "7",
+        "minute": "10"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "Alex",
+        "number": "17",
+        "minute": "15"
+      },
+      {
+        "type": "goal",
+        "player": "黎宇阳",
+        "number": "7",
+        "minute": "19"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773409562388",
+    "homeTeam": "电气学院",
+    "awayTeam": "遥感后后后后浪",
+    "homeScore": "0",
+    "awayScore": "1",
+    "date": "2025/10/10",
+    "time": "12:30",
+    "referee": "邱弋添",
+    "assistantReferee1": "王星宁",
+    "assistantReferee2": "张浙宇",
+    "fourthOfficial": "李昀轩",
+    "type": "2025新生杯小组赛H组第1轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "韩松泽",
+        "number": "14",
+        "minute": "45"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773409677371",
+    "homeTeam": "人工智能",
+    "awayTeam": "基础医学院",
+    "homeScore": "0",
+    "awayScore": "3",
+    "date": "2025/10/10",
+    "time": "12:30",
+    "referee": "陈子豪",
+    "assistantReferee1": "唐睿",
+    "assistantReferee2": "杜在熙",
+    "fourthOfficial": "甘书昊",
+    "type": "2025新生杯小组赛A组第1轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "张博宇",
+        "number": "77",
+        "minute": "19"
+      },
+      {
+        "type": "goal",
+        "player": "王浩宇",
+        "number": "14",
+        "minute": "25"
+      },
+      {
+        "type": "goal",
+        "player": "张博宇",
+        "number": "77",
+        "minute": "26"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773409955992",
+    "homeTeam": "城市设计学院",
+    "awayTeam": "土木建筑工程学院",
+    "homeScore": "1",
+    "awayScore": "4",
+    "date": "2025/10/11",
+    "time": "12:30",
+    "referee": "谢承志",
+    "assistantReferee1": "龚瑞扬",
+    "assistantReferee2": "王浩宇",
+    "fourthOfficial": "梁国炫",
+    "type": "2025新生杯小组赛G组第1轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "郝子介",
+        "number": "5",
+        "minute": "41"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "甘宇飞",
+        "number": "7",
+        "minute": "12"
+      },
+      {
+        "type": "goal",
+        "player": "Gatluak Duop Liem",
+        "number": "18",
+        "minute": "17"
+      },
+      {
+        "type": "goal",
+        "player": "Gatluak Duop Liem",
+        "number": "18",
+        "minute": "44"
+      },
+      {
+        "type": "goal",
+        "player": "甘宇飞",
+        "number": "7",
+        "minute": "47"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773410177066",
+    "homeTeam": "水利水电学院",
+    "awayTeam": "弘毅新生队",
+    "homeScore": "0",
+    "awayScore": "3",
+    "date": "2025/10/11",
+    "time": "12:30",
+    "referee": "王天胤",
+    "assistantReferee1": "杜昊",
+    "assistantReferee2": "金钰皓",
+    "fourthOfficial": "杨艾睿",
+    "type": "2025新生杯小组赛F组第1轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "杨帆",
+        "number": "9",
+        "minute": "20"
+      },
+      {
+        "type": "goal",
+        "player": "张博禹",
+        "number": "41",
+        "minute": "34"
+      },
+      {
+        "type": "goal",
+        "player": "李宇恒",
+        "number": "88",
+        "minute": "41"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773410518013",
+    "homeTeam": "武大集电队",
+    "awayTeam": "计院新生队",
+    "homeScore": "0",
+    "awayScore": "2",
+    "date": "2025/10/11",
+    "time": "12:30",
+    "referee": "邱弋添",
+    "assistantReferee1": "洪明辉",
+    "assistantReferee2": "唐睿",
+    "fourthOfficial": "荆常升",
+    "type": "2025新生杯小组赛E组第1轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "陈卓民",
+        "number": "7",
+        "minute": "29"
+      },
+      {
+        "type": "penalty",
+        "player": "钟经添",
+        "number": "17",
+        "minute": "30"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773410686387",
+    "homeTeam": "口腔医学院",
+    "awayTeam": "测绘学院新生足球队",
+    "homeScore": "1",
+    "awayScore": "3",
+    "date": "2025/10/11",
+    "time": "12:00",
+    "referee": "史坤锋",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "杜在熙",
+    "fourthOfficial": "申宗远",
+    "type": "2025新生杯小组赛C组第1轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "Sano Alseny Keba",
+        "number": "11",
+        "minute": "18"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "张一鸣",
+        "number": "17",
+        "minute": "19"
+      },
+      {
+        "type": "goal",
+        "player": "张一鸣",
+        "number": "17",
+        "minute": "61"
+      },
+      {
+        "type": "goal",
+        "player": "努尔艾力·努尔麦麦提",
+        "number": "9",
+        "minute": "63"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773411004540",
+    "homeTeam": "经济与管理学院",
+    "awayTeam": "生科地空联队",
+    "homeScore": "0",
+    "awayScore": "2",
+    "date": "2025/10/13",
+    "time": "12:30",
+    "referee": "魏若兰",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "陈清",
+    "fourthOfficial": "杨艾睿",
+    "type": "2025新生杯小组赛B组第2轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [
+      {
+        "type": "ownGoal",
+        "player": "陈家旺",
+        "number": "19",
+        "minute": "12"
+      },
+      {
+        "type": "goal",
+        "player": "张晋辅",
+        "number": "7",
+        "minute": "55"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773411227670",
+    "homeTeam": "社马文史",
+    "awayTeam": "艺术学院",
+    "homeScore": "5",
+    "awayScore": "1",
+    "date": "2025/10/13",
+    "time": "12:30",
+    "referee": "张栩岩",
+    "assistantReferee1": "龚瑞扬",
+    "assistantReferee2": "王浩宇",
+    "fourthOfficial": "梁国炫",
+    "type": "2025新生杯小组赛D组第2轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "陈彦希",
+        "number": "11",
+        "minute": "9"
+      },
+      {
+        "type": "goal",
+        "player": "陈彦希",
+        "number": "11",
+        "minute": "17"
+      },
+      {
+        "type": "goal",
+        "player": "廖泽昀",
+        "number": "10",
+        "minute": "19"
+      },
+      {
+        "type": "goal",
+        "player": "周振宇",
+        "number": "24",
+        "minute": "22"
+      },
+      {
+        "type": "goal",
+        "player": "闵泽卿",
+        "number": "18",
+        "minute": "40"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "赵子帅",
+        "number": "10",
+        "minute": "33"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773411626998",
+    "homeTeam": "计院新生队",
+    "awayTeam": "资源与环境科学学院",
+    "homeScore": "2",
+    "awayScore": "6",
+    "date": "2025/10/13",
+    "time": "12:30",
+    "referee": "邱弋添",
+    "assistantReferee1": "李昀轩",
+    "assistantReferee2": "申宗远",
+    "fourthOfficial": "黄志祥",
+    "type": "2025新生杯小组赛E组第2轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "黄鋆巽",
+        "number": "11",
+        "minute": "31"
+      },
+      {
+        "type": "goal",
+        "player": "黄鋆巽",
+        "number": "11",
+        "minute": "57"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "木那尔",
+        "number": "19",
+        "minute": "14"
+      },
+      {
+        "type": "goal",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "17"
+      },
+      {
+        "type": "goal",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "20"
+      },
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "23"
+      },
+      {
+        "type": "goal",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "26"
+      },
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "48"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773411855197",
+    "homeTeam": "弘毅新生队",
+    "awayTeam": "新传外院联队",
+    "homeScore": "3",
+    "awayScore": "0",
+    "date": "2025/10/14",
+    "time": "12:30",
+    "referee": "荆常升",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "耿琨",
+    "fourthOfficial": "杨艾睿",
+    "type": "2025新生杯小组赛F组第2轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "李宇恒",
+        "number": "88",
+        "minute": "12"
+      },
+      {
+        "type": "goal",
+        "player": "刘天润",
+        "number": "52",
+        "minute": "18"
+      },
+      {
+        "type": "doubleYellow",
+        "player": "刘畅",
+        "number": "11",
+        "minute": "33"
+      },
+      {
+        "type": "goal",
+        "player": "张博禹",
+        "number": "41",
+        "minute": "55"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "doubleYellow",
+        "player": "李宣颉",
+        "number": "8",
+        "minute": "33"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773412033766",
+    "homeTeam": "基础医学院",
+    "awayTeam": "人工智能",
+    "homeScore": "1",
+    "awayScore": "1",
+    "date": "2025/10/14",
+    "time": "12:30",
+    "referee": "王天胤",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "陈景轩",
+    "fourthOfficial": "巩晟棠",
+    "type": "2025新生杯小组赛A组第2轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "金钰皓",
+        "number": "91",
+        "minute": "43"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "陈子轩",
+        "number": "10",
+        "minute": "57"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773412130776",
+    "homeTeam": "测绘学院新生足球队",
+    "awayTeam": "机动联队",
+    "homeScore": "1",
+    "awayScore": "3",
+    "date": "2025/10/14",
+    "time": "12:30",
+    "referee": "何百川",
+    "assistantReferee1": "邱弋添",
+    "assistantReferee2": "凌瑞晨",
+    "fourthOfficial": "甘书昊",
+    "type": "2025新生杯小组赛C组第2轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "贾珂岩",
+        "number": "20",
+        "minute": "7"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "胡轲轩",
+        "number": "23",
+        "minute": "20"
+      },
+      {
+        "type": "goal",
+        "player": "胡轲轩",
+        "number": "23",
+        "minute": "22"
+      },
+      {
+        "type": "ownGoal",
+        "player": "叶尔布兰·江阿兰",
+        "number": "50",
+        "minute": "23"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773412322383",
+    "homeTeam": "土木建筑工程学院",
+    "awayTeam": "网安",
+    "homeScore": "4",
+    "awayScore": "1",
+    "date": "2025/10/15",
+    "time": "16:40",
+    "referee": "邱弋添",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "陈思平",
+    "fourthOfficial": "王浩宇",
+    "type": "2025新生杯小组赛G组第2轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "Gatluak Duop Liem",
+        "number": "18",
+        "minute": "5"
+      },
+      {
+        "type": "goal",
+        "player": "甘宇飞",
+        "number": "7",
+        "minute": "44"
+      },
+      {
+        "type": "goal",
+        "player": "甘宇飞",
+        "number": "7",
+        "minute": "51"
+      },
+      {
+        "type": "goal",
+        "player": "Gatluak Duop Liem",
+        "number": "18",
+        "minute": "60"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "penalty",
+        "player": "楼志康",
+        "number": "13",
+        "minute": "27"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773412510269",
+    "homeTeam": "遥感后后后后浪",
+    "awayTeam": "电子信息学院队",
+    "homeScore": "3",
+    "awayScore": "0",
+    "date": "2025/10/16",
+    "time": "12:30",
+    "referee": "荆常升",
+    "assistantReferee1": "王星宁",
+    "assistantReferee2": "魏若兰",
+    "fourthOfficial": "邱弋添",
+    "type": "2025新生杯小组赛H组第2轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "张思咏",
+        "number": "17",
+        "minute": "30"
+      },
+      {
+        "type": "goal",
+        "player": "韩松泽",
+        "number": "14",
+        "minute": "57"
+      },
+      {
+        "type": "goal",
+        "player": "申宗远",
+        "number": "9",
+        "minute": "60"
+      }
+    ],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773412656969",
+    "homeTeam": "艺术学院",
+    "awayTeam": "政法信化",
+    "homeScore": "0",
+    "awayScore": "8",
+    "date": "2025/10/16",
+    "time": "12:30",
+    "referee": "龚瑞扬",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "巩晟棠",
+    "fourthOfficial": "王浩宇",
+    "type": "2025新生杯小组赛D组第3轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "杨业鑫",
+        "number": "12",
+        "minute": "1"
+      },
+      {
+        "type": "goal",
+        "player": "杨业鑫",
+        "number": "12",
+        "minute": "6"
+      },
+      {
+        "type": "goal",
+        "player": "周万国",
+        "number": "13",
+        "minute": "18"
+      },
+      {
+        "type": "goal",
+        "player": "周万国",
+        "number": "13",
+        "minute": "24"
+      },
+      {
+        "type": "ownGoal",
+        "player": "敖灵鼎",
+        "number": "18",
+        "minute": "26"
+      },
+      {
+        "type": "goal",
+        "player": "方礼毅",
+        "number": "11",
+        "minute": "31"
+      },
+      {
+        "type": "ownGoal",
+        "player": "夏熙涵",
+        "number": "12",
+        "minute": "36"
+      },
+      {
+        "type": "penalty",
+        "player": "刘若涵",
+        "number": "91",
+        "minute": "40"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773412936920",
+    "homeTeam": "生科地空联队",
+    "awayTeam": "数学物理联队",
+    "homeScore": "1",
+    "awayScore": "0",
+    "date": "2025/10/16",
+    "time": "12:30",
+    "referee": "王天胤",
+    "assistantReferee1": "陈思平",
+    "assistantReferee2": "金钰皓",
+    "fourthOfficial": "杜昊",
+    "type": "2025新生杯小组赛B组第3轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "张晋辅",
+        "number": "7",
+        "minute": "55"
+      }
+    ],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773412994204",
+    "homeTeam": "资源与环境科学学院",
+    "awayTeam": "武大集电队",
+    "homeScore": "6",
+    "awayScore": "2",
+    "date": "2025/10/16",
+    "time": "12:30",
+    "referee": "凌瑞晨",
+    "assistantReferee1": "李文涵",
+    "assistantReferee2": "李昀轩",
+    "fourthOfficial": "史坤锋",
+    "type": "2025新生杯小组赛E组第3轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "木那尔",
+        "number": "19",
+        "minute": "10"
+      },
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "16"
+      },
+      {
+        "type": "goal",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "17"
+      },
+      {
+        "type": "goal",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "18"
+      },
+      {
+        "type": "goal",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "23"
+      },
+      {
+        "type": "goal",
+        "player": "木那尔",
+        "number": "19",
+        "minute": "26"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "任锦瑞",
+        "number": "9",
+        "minute": "24"
+      },
+      {
+        "type": "goal",
+        "player": "宋子洋",
+        "number": "30",
+        "minute": "56"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773413211863",
+    "homeTeam": "新传外院联队",
+    "awayTeam": "水利水电学院",
+    "homeScore": "1",
+    "awayScore": "2",
+    "date": "2025/10/17",
+    "time": "12:30",
+    "referee": "邱弋添",
+    "assistantReferee1": "荆常升",
+    "assistantReferee2": "王浩宇",
+    "fourthOfficial": "李昀轩",
+    "type": "2025新生杯小组赛F组第3轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "熊弘烨",
+        "number": "77",
+        "minute": "5"
+      },
+      {
+        "type": "redCard",
+        "player": "领队",
+        "number": "",
+        "minute": "59"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "甘家乐",
+        "number": "16",
+        "minute": "1"
+      },
+      {
+        "type": "goal",
+        "player": "甘家乐",
+        "number": "16",
+        "minute": "20"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773413367810",
+    "homeTeam": "电子信息学院队",
+    "awayTeam": "电气学院",
+    "homeScore": "1",
+    "awayScore": "0",
+    "date": "2025/10/17",
+    "time": "12:30",
+    "referee": "王天胤",
+    "assistantReferee1": "郑祺",
+    "assistantReferee2": "陈思平",
+    "fourthOfficial": "金钰皓",
+    "type": "2025新生杯小组赛H组第3轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "杜子贤",
+        "number": "30",
+        "minute": "26"
+      }
+    ],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773413434393",
+    "homeTeam": "网安",
+    "awayTeam": "城市设计学院",
+    "homeScore": "1",
+    "awayScore": "3",
+    "date": "2025/10/17",
+    "time": "12:30",
+    "referee": "何百川",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "史坤锋",
+    "fourthOfficial": "凌瑞晨",
+    "type": "2025新生杯小组赛G组第3轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "ownGoal",
+        "player": "郝子介",
+        "number": "5",
+        "minute": "43"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "蔡鸿敬",
+        "number": "10",
+        "minute": "22"
+      },
+      {
+        "type": "goal",
+        "player": "蔡鸿敬",
+        "number": "10",
+        "minute": "24"
+      },
+      {
+        "type": "doubleYellow",
+        "player": "杜倬钰",
+        "number": "78",
+        "minute": "36"
+      },
+      {
+        "type": "goal",
+        "player": "姜沛涵",
+        "number": "66",
+        "minute": "55"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773413557657",
+    "homeTeam": "机动联队",
+    "awayTeam": "口腔医学院",
+    "homeScore": "2",
+    "awayScore": "1",
+    "date": "2025/10/17",
+    "time": "12:30",
+    "referee": "陈子豪",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "唐睿",
+    "fourthOfficial": "凌瑞晨",
+    "type": "2025新生杯小组赛C组第3轮",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "黄一天",
+        "number": "29",
+        "minute": "18"
+      },
+      {
+        "type": "goal",
+        "player": "顾嘉琪",
+        "number": "7",
+        "minute": "32"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "Sano Alseny Keba",
+        "number": "11",
+        "minute": "21"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773413714078",
+    "homeTeam": "基础医学院",
+    "awayTeam": "数学物理联队",
+    "homeScore": "1",
+    "awayScore": "1",
+    "date": "2025/10/20",
+    "time": "12:30",
+    "referee": "王天胤",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "李昀轩",
+    "fourthOfficial": "杨艾睿",
+    "type": "2025新生杯1/8决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "王浩宇",
+        "number": "14",
+        "minute": "1"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "刘语洲",
+        "number": "11",
+        "minute": "35"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773413821062",
+    "homeTeam": "测绘学院新生足球队",
+    "awayTeam": "社马文史",
+    "homeScore": "5",
+    "awayScore": "1",
+    "date": "2025/10/20",
+    "time": "12:30",
+    "referee": "谢承志",
+    "assistantReferee1": "陈清",
+    "assistantReferee2": "梁国炫",
+    "fourthOfficial": "杜昊",
+    "type": "2025新生杯1/8决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "努尔艾力·努尔麦麦提",
+        "number": "9",
+        "minute": "5"
+      },
+      {
+        "type": "goal",
+        "player": "努尔艾力·努尔麦麦提",
+        "number": "9",
+        "minute": "8"
+      },
+      {
+        "type": "goal",
+        "player": "努尔艾力·努尔麦麦提",
+        "number": "9",
+        "minute": "18"
+      },
+      {
+        "type": "goal",
+        "player": "王景明",
+        "number": "11",
+        "minute": "40"
+      },
+      {
+        "type": "goal",
+        "player": "努尔艾力·努尔麦麦提",
+        "number": "9",
+        "minute": "46"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "陈诺",
+        "number": "8",
+        "minute": "21"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773414015423",
+    "homeTeam": "资源与环境科学学院",
+    "awayTeam": "水利水电学院",
+    "homeScore": "6",
+    "awayScore": "0",
+    "date": "2025/10/20",
+    "time": "12:30",
+    "referee": "何百川",
+    "assistantReferee1": "邱弋添",
+    "assistantReferee2": "凌瑞晨",
+    "fourthOfficial": "周洪涛",
+    "type": "2025新生杯1/8决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "6"
+      },
+      {
+        "type": "goal",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "8"
+      },
+      {
+        "type": "goal",
+        "player": "木那尔",
+        "number": "19",
+        "minute": "28"
+      },
+      {
+        "type": "goal",
+        "player": "艾赛杜拉",
+        "number": "21",
+        "minute": "34"
+      },
+      {
+        "type": "goal",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "50"
+      },
+      {
+        "type": "goal",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "59"
+      }
+    ],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773414170828",
+    "homeTeam": "土木建筑工程学院",
+    "awayTeam": "电子信息学院队",
+    "homeScore": "1",
+    "awayScore": "1",
+    "date": "2025/10/20",
+    "time": "12:30",
+    "referee": "陈子豪",
+    "assistantReferee1": "史坤锋",
+    "assistantReferee2": "申宗远",
+    "fourthOfficial": "唐睿",
+    "type": "2025新生杯1/8决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "梁嘉乐",
+        "number": "17",
+        "minute": "59"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "王景弘",
+        "number": "20",
+        "minute": "5"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773414342766",
+    "homeTeam": "生科地空联队",
+    "awayTeam": "人工智能",
+    "homeScore": "2",
+    "awayScore": "0",
+    "date": "2025/10/21",
+    "time": "12:30",
+    "referee": "王天胤",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "耿琨",
+    "fourthOfficial": "龚瑞扬",
+    "type": "2025新生杯1/8决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "特清修",
+        "number": "9",
+        "minute": "33"
+      },
+      {
+        "type": "goal",
+        "player": "邱麟云",
+        "number": "10",
+        "minute": "52"
+      }
+    ],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773414545401",
+    "homeTeam": "弘毅新生队",
+    "awayTeam": "计院新生队",
+    "homeScore": "4",
+    "awayScore": "1",
+    "date": "2025/10/21",
+    "time": "12:30",
+    "referee": "刘博文",
+    "assistantReferee1": "李文涵",
+    "assistantReferee2": "曾福林",
+    "fourthOfficial": "邱弋添",
+    "type": "2025新生杯1/8决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "蓝怡鑫",
+        "number": "67",
+        "minute": "4"
+      },
+      {
+        "type": "goal",
+        "player": "肖骥之",
+        "number": "8",
+        "minute": "8"
+      },
+      {
+        "type": "goal",
+        "player": "蓝怡鑫",
+        "number": "67",
+        "minute": "17"
+      },
+      {
+        "type": "goal",
+        "player": "蓝怡鑫",
+        "number": "67",
+        "minute": "19"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "钟经添",
+        "number": "17",
+        "minute": "47"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773414687951",
+    "homeTeam": "遥感后后后后浪",
+    "awayTeam": "城市设计学院",
+    "homeScore": "2",
+    "awayScore": "2",
+    "date": "2025/10/21",
+    "time": "12:30",
+    "referee": "荆常升",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "金钰皓",
+    "fourthOfficial": "陈子豪",
+    "type": "2025新生杯1/8决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "屈俊铭",
+        "number": "5",
+        "minute": "7"
+      },
+      {
+        "type": "goal",
+        "player": "屈俊铭",
+        "number": "5",
+        "minute": "19"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "郝子介",
+        "number": "5",
+        "minute": "3"
+      },
+      {
+        "type": "goal",
+        "player": "蔡鸿敬",
+        "number": "10",
+        "minute": "24"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773414831306",
+    "homeTeam": "政法信化",
+    "awayTeam": "口腔医学院",
+    "homeScore": "0",
+    "awayScore": "0",
+    "date": "2025/10/22",
+    "time": "12:00",
+    "referee": "凌瑞晨",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "洪明辉",
+    "fourthOfficial": "赵治齐",
+    "type": "2025新生杯1/8决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773414958441",
+    "homeTeam": "基础医学院",
+    "awayTeam": "测绘学院新生足球队",
+    "homeScore": "0",
+    "awayScore": "1",
+    "date": "2025/10/27",
+    "time": "12:30",
+    "referee": "王天胤",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "杜昊",
+    "fourthOfficial": "赵治齐",
+    "type": "2025新生杯1/4决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "王晓旭",
+        "number": "15",
+        "minute": "52"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773415025296",
+    "homeTeam": "资源与环境科学学院",
+    "awayTeam": "电子信息学院队",
+    "homeScore": "2",
+    "awayScore": "1",
+    "date": "2025/10/27",
+    "time": "12:30",
+    "referee": "邱弋添",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "陈思平",
+    "fourthOfficial": "荆常升",
+    "type": "2025新生杯1/4决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "3"
+      },
+      {
+        "type": "penalty",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "50"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "杜子贤",
+        "number": "30",
+        "minute": "29"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773415173560",
+    "homeTeam": "生科地空联队",
+    "awayTeam": "口腔医学院",
+    "homeScore": "0",
+    "awayScore": "1",
+    "date": "2025/10/27",
+    "time": "12:30",
+    "referee": "陈子豪",
+    "assistantReferee1": "何百川",
+    "assistantReferee2": "史坤锋",
+    "fourthOfficial": "唐睿",
+    "type": "2025新生杯1/4决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "李谢燊",
+        "number": "10",
+        "minute": "43"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773415243560",
+    "homeTeam": "弘毅新生队",
+    "awayTeam": "遥感后后后后浪",
+    "homeScore": "2",
+    "awayScore": "1",
+    "date": "2025/10/27",
+    "time": "12:30",
+    "referee": "刘博文",
+    "assistantReferee1": "张栩岩",
+    "assistantReferee2": "洪明辉",
+    "fourthOfficial": "王星宁",
+    "type": "2025新生杯1/4决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "张博禹",
+        "number": "41",
+        "minute": "52"
+      },
+      {
+        "type": "goal",
+        "player": "李宇恒",
+        "number": "88",
+        "minute": "59"
+      }
+    ],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "喻溢",
+        "number": "27",
+        "minute": "51"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773415347863",
+    "homeTeam": "测绘学院新生足球队",
+    "awayTeam": "资源与环境科学学院",
+    "homeScore": "0",
+    "awayScore": "3",
+    "date": "2025/10/29",
+    "time": "12:30",
+    "referee": "刘博文",
+    "assistantReferee1": "王天胤",
+    "assistantReferee2": "王浩宇",
+    "fourthOfficial": "王星宁",
+    "type": "2025新生杯半决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [],
+    "awayEvents": [
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "10"
+      },
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "43"
+      },
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "47"
+      }
+    ],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773415435328",
+    "homeTeam": "口腔医学院",
+    "awayTeam": "弘毅",
+    "homeScore": "2",
+    "awayScore": "0",
+    "date": "2025/10/29",
+    "time": "12:30",
+    "referee": "何百川",
+    "assistantReferee1": "谢承志",
+    "assistantReferee2": "申宗远",
+    "fourthOfficial": "杨艾睿",
+    "type": "2025新生杯半决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "李谢燊",
+        "number": "10",
+        "minute": "11"
+      },
+      {
+        "type": "goal",
+        "player": "李谢燊",
+        "number": "10",
+        "minute": "23"
+      }
+    ],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773415535325",
+    "homeTeam": "测绘学院新生足球队",
+    "awayTeam": "弘毅新生队",
+    "homeScore": "1",
+    "awayScore": "0",
+    "date": "2025/10/31",
+    "time": "12:30",
+    "referee": "王天胤",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "谢承志",
+    "fourthOfficial": "邱弋添",
+    "type": "2025新生杯季军赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "努尔艾力·努尔麦麦提",
+        "number": "9",
+        "minute": "50"
+      }
+    ],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  },
+  {
+    "id": "match_1773415598500",
+    "homeTeam": "资源与环境科学学院",
+    "awayTeam": "口腔医学院",
+    "homeScore": "6",
+    "awayScore": "0",
+    "date": "2025/10/31",
+    "time": "16:00",
+    "referee": "邱弋添",
+    "assistantReferee1": "魏若兰",
+    "assistantReferee2": "谢承志",
+    "fourthOfficial": "陈思平、史坤锋、李昀轩、申宗远",
+    "type": "2025新生杯决赛",
+    "status": "completed",
+    "events": [],
+    "homeEvents": [
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "37"
+      },
+      {
+        "type": "goal",
+        "player": "木那尔",
+        "number": "19",
+        "minute": "41"
+      },
+      {
+        "type": "goal",
+        "player": "熊林枫",
+        "number": "3",
+        "minute": "43"
+      },
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "48"
+      },
+      {
+        "type": "penalty",
+        "player": "阿依巴提",
+        "number": "17",
+        "minute": "55"
+      },
+      {
+        "type": "goal",
+        "player": "孙乐岐",
+        "number": "7",
+        "minute": "60"
+      }
+    ],
+    "awayEvents": [],
+    "createdAt": "2026-03-13T16:24:04.715Z"
+  }
+]
