@@ -15,6 +15,11 @@ if (typeof Config === 'undefined') {
                 return 'https://whufa-production-3b30.up.railway.app/';
             }
             
+            // 阿里云服务器环境（后端和前端在同一个域名下）
+            if (hostname === '47.103.29.77') {
+                return '';
+            }
+            
             // 本地开发环境
             return 'http://localhost:3001';
         })(),
