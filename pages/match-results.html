@@ -1833,7 +1833,7 @@
                 
                 // 从 API 加载比赛数据      
                 function loadMatchesFromJson() {
-                    fetch('/api/matches')
+                    fetch(window.Config.getApiUrl('/api/matches'))
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('网络响应错误: ' + response.status);
