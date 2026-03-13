@@ -80,11 +80,11 @@
   </section>
 
   <!-- 新闻详情模态框 -->
-  <div class="modal" id="newsModal">
+  <div class="modal" id="newsModal" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalTitle"></h5>
+          <h5 class="modal-title" id="modalTitle" style="color: white;"></h5>
           <button type="button" class="close" onclick="closeModal('newsModal')">&times;</button>
         </div>
         <div class="modal-body" id="modalContent">
@@ -98,11 +98,11 @@
   </div>
 
   <!-- 发布新闻模态框 -->
-  <div class="modal" id="addNewsModal">
+  <div class="modal" id="addNewsModal" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">发布新闻</h5>
+          <h5 class="modal-title" style="color: white;">发布新闻</h5>
           <button type="button" class="close" onclick="closeModal('addNewsModal')">&times;</button>
         </div>
         <div class="modal-body">
@@ -134,11 +134,11 @@
   </div>
 
   <!-- 发布公告模态框 -->
-  <div class="modal" id="addAnnouncementModal">
+  <div class="modal" id="addAnnouncementModal" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">发布公告</h5>
+          <h5 class="modal-title" style="color: white;">发布公告</h5>
           <button type="button" class="close" onclick="closeModal('addAnnouncementModal')">&times;</button>
         </div>
         <div class="modal-body">
@@ -157,7 +157,7 @@
             </div>
             <div class="mb-3">
               <label for="announcementPriority" class="form-label">优先级</label>
-              <select class="form-select" id="announcementPriority">
+              <select class="form-input" id="announcementPriority">
                 <option value="normal">普通</option>
                 <option value="high">重要</option>
               </select>
