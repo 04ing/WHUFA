@@ -103,7 +103,7 @@
         if (hostname.includes('github.io') || hostname.includes('netlify.app')) {
           return 'https://whufa-production.up.railway.app' + endpoint;
         }
-        return 'http://localhost:3000' + endpoint;
+        return '' + endpoint;
       }
 
       // 登录表单提交处理
@@ -127,7 +127,7 @@
             console.log('密码:', password);
             
             // 直接使用完整的URL
-            const url = 'http://localhost:3000/api/login';
+            const url = '/api/login';
             console.log('登录API URL:', url);
             
             // 使用fetch发送请求
