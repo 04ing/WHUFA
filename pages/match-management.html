@@ -14,9 +14,6 @@
   <!-- 导航栏容器 -->
   <div id="navbar-container"></div>
   
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
   <!-- 加载导航栏脚本 -->
   <script src="../js/load-navbar.js"></script>
   <script>
@@ -30,13 +27,13 @@
     });
   </script>
 
-  <section class="p-5 pt-20">
+  <section class="p-5 pt-20 bg-light text-dark">
     <div class="container">
       <h2 class="text-center mb-5">赛事管理</h2>
       
       <!-- 标签切换 -->
       <div class="mb-5">
-        <ul class="nav nav-tabs">
+        <ul class="nav-tabs">
           <li class="nav-item">
             <a class="nav-link active" href="#schedule" onclick="showTab('schedule')" style="color: #00008B;">比赛日程</a>
           </li>
@@ -54,16 +51,18 @@
       
       <!-- 比赛日程 -->
       <div id="schedule" class="tab-content">
-        <div class="card mb-4">
-          <div class="card-body">
+        <div class="match-card">
+          <div class="match-card-header">
             <h3 class="card-title">比赛日程表</h3>
+          </div>
+          <div class="match-card-body">
             <div class="mb-4">
-              <input type="date" id="scheduleDate" class="form-control" onchange="loadSchedule()">
+              <input type="date" id="scheduleDate" class="form-input" onchange="loadSchedule()">
             </div>
             <div id="scheduleList">
               <!-- 日程项将通过JavaScript动态添加 -->
               <div class="col-12 text-center">
-                <div class="spinner-border" role="status">
+                <div class="loading-spinner" role="status">
                   <span class="sr-only">加载中...</span>
                 </div>
                 <p class="mt-2">加载日程中...</p>
@@ -75,13 +74,15 @@
       
       <!-- 赛事统计 -->
       <div id="statistics" class="tab-content" style="display: none;">
-        <div class="card mb-4">
-          <div class="card-body">
+        <div class="match-card">
+          <div class="match-card-header">
             <h3 class="card-title">赛事统计</h3>
+          </div>
+          <div class="match-card-body">
             <div id="matchStatistics" class="mb-4">
               <!-- 统计数据将通过JavaScript动态添加 -->
               <div class="col-12 text-center">
-                <div class="spinner-border" role="status">
+                <div class="loading-spinner" role="status">
                   <span class="sr-only">加载中...</span>
                 </div>
                 <p class="mt-2">加载统计数据中...</p>
@@ -92,7 +93,7 @@
             <div id="teamRanking">
               <!-- 排行榜将通过JavaScript动态添加 -->
               <div class="col-12 text-center">
-                <div class="spinner-border" role="status">
+                <div class="loading-spinner" role="status">
                   <span class="sr-only">加载中...</span>
                 </div>
                 <p class="mt-2">加载排行榜中...</p>
@@ -104,16 +105,18 @@
       
       <!-- 球队管理 -->
       <div id="teams" class="tab-content" style="display: none;">
-        <div class="card mb-4">
-          <div class="card-body">
+        <div class="match-card">
+          <div class="match-card-header">
             <h3 class="card-title">球队管理</h3>
+          </div>
+          <div class="match-card-body">
             <div class="mb-4">
               <button class="btn btn-primary" onclick="showAddTeamForm()">添加球队</button>
             </div>
             <div id="teamsList">
               <!-- 球队列表将通过JavaScript动态添加 -->
               <div class="col-12 text-center">
-                <div class="spinner-border" role="status">
+                <div class="loading-spinner" role="status">
                   <span class="sr-only">加载中...</span>
                 </div>
                 <p class="mt-2">加载球队中...</p>
@@ -125,16 +128,18 @@
       
       <!-- 裁判管理 -->
       <div id="referees" class="tab-content" style="display: none;">
-        <div class="card mb-4">
-          <div class="card-body">
+        <div class="match-card">
+          <div class="match-card-header">
             <h3 class="card-title">裁判管理</h3>
+          </div>
+          <div class="match-card-body">
             <div class="mb-4">
               <button class="btn btn-primary" onclick="showAddRefereeForm()">添加裁判</button>
             </div>
             <div id="refereesList">
               <!-- 裁判列表将通过JavaScript动态添加 -->
               <div class="col-12 text-center">
-                <div class="spinner-border" role="status">
+                <div class="loading-spinner" role="status">
                   <span class="sr-only">加载中...</span>
                 </div>
                 <p class="mt-2">加载裁判中...</p>
@@ -147,35 +152,35 @@
   </section>
 
   <!-- 添加球队模态框 -->
-  <div class="modal" id="addTeamModal" tabindex="-1">
+  <div class="modal" id="addTeamModal" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #00008B; color: white;">
           <h5 class="modal-title" style="color: white;">添加球队</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+          <button type="button" class="close" onclick="hideModal('addTeamModal')">&times;</button>
         </div>
         <div class="modal-body">
           <form id="addTeamForm">
             <div class="mb-3">
               <label for="teamName" class="form-label">球队名称</label>
-              <input type="text" class="form-control" id="teamName" required>
+              <input type="text" class="form-input" id="teamName" required>
             </div>
             <div class="mb-3">
               <label for="teamCollege" class="form-label">所属学院</label>
-              <input type="text" class="form-control" id="teamCollege" required>
+              <input type="text" class="form-input" id="teamCollege" required>
             </div>
             <div class="mb-3">
               <label for="teamCoach" class="form-label">教练</label>
-              <input type="text" class="form-control" id="teamCoach">
+              <input type="text" class="form-input" id="teamCoach">
             </div>
             <div class="mb-3">
               <label for="teamLogo" class="form-label">队徽URL</label>
-              <input type="text" class="form-control" id="teamLogo">
+              <input type="text" class="form-input" id="teamLogo">
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-secondary" onclick="hideModal('addTeamModal')">取消</button>
           <button type="button" class="btn btn-primary" onclick="addTeam()">添加</button>
         </div>
       </div>
@@ -183,31 +188,31 @@
   </div>
 
   <!-- 添加裁判模态框 -->
-  <div class="modal" id="addRefereeModal" tabindex="-1">
+  <div class="modal" id="addRefereeModal" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #00008B; color: white;">
           <h5 class="modal-title" style="color: white;">添加裁判</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+          <button type="button" class="close" onclick="hideModal('addRefereeModal')">&times;</button>
         </div>
         <div class="modal-body">
           <form id="addRefereeForm">
             <div class="mb-3">
               <label for="refereeName" class="form-label">姓名</label>
-              <input type="text" class="form-control" id="refereeName" required>
+              <input type="text" class="form-input" id="refereeName" required>
             </div>
             <div class="mb-3">
               <label for="refereeCollege" class="form-label">学院</label>
-              <input type="text" class="form-control" id="refereeCollege">
+              <input type="text" class="form-input" id="refereeCollege">
             </div>
             <div class="mb-3">
               <label for="refereeGrade" class="form-label">年级</label>
-              <input type="text" class="form-control" id="refereeGrade">
+              <input type="text" class="form-input" id="refereeGrade">
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-secondary" onclick="hideModal('addRefereeModal')">取消</button>
           <button type="button" class="btn btn-primary" onclick="addReferee()">添加</button>
         </div>
       </div>
@@ -215,36 +220,36 @@
   </div>
 
   <!-- 编辑球队模态框 -->
-  <div class="modal" id="editTeamModal" tabindex="-1">
+  <div class="modal" id="editTeamModal" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #00008B; color: white;">
           <h5 class="modal-title" style="color: white;">编辑球队</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+          <button type="button" class="close" onclick="hideModal('editTeamModal')">&times;</button>
         </div>
         <div class="modal-body">
           <form id="editTeamForm">
             <input type="hidden" id="editTeamId">
             <div class="mb-3">
               <label for="editTeamName" class="form-label">球队名称</label>
-              <input type="text" class="form-control" id="editTeamName" required>
+              <input type="text" class="form-input" id="editTeamName" required>
             </div>
             <div class="mb-3">
               <label for="editTeamCollege" class="form-label">所属学院</label>
-              <input type="text" class="form-control" id="editTeamCollege" required>
+              <input type="text" class="form-input" id="editTeamCollege" required>
             </div>
             <div class="mb-3">
               <label for="editTeamCoach" class="form-label">教练</label>
-              <input type="text" class="form-control" id="editTeamCoach">
+              <input type="text" class="form-input" id="editTeamCoach">
             </div>
             <div class="mb-3">
               <label for="editTeamLogo" class="form-label">队徽URL</label>
-              <input type="text" class="form-control" id="editTeamLogo">
+              <input type="text" class="form-input" id="editTeamLogo">
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-secondary" onclick="hideModal('editTeamModal')">取消</button>
           <button type="button" class="btn btn-primary" onclick="editTeam()">保存</button>
         </div>
       </div>
@@ -252,32 +257,32 @@
   </div>
 
   <!-- 编辑裁判模态框 -->
-  <div class="modal" id="editRefereeModal" tabindex="-1">
+  <div class="modal" id="editRefereeModal" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #00008B; color: white;">
           <h5 class="modal-title" style="color: white;">编辑裁判</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+          <button type="button" class="close" onclick="hideModal('editRefereeModal')">&times;</button>
         </div>
         <div class="modal-body">
           <form id="editRefereeForm">
             <input type="hidden" id="editRefereeId">
             <div class="mb-3">
               <label for="editRefereeName" class="form-label">姓名</label>
-              <input type="text" class="form-control" id="editRefereeName" required>
+              <input type="text" class="form-input" id="editRefereeName" required>
             </div>
             <div class="mb-3">
               <label for="editRefereeCollege" class="form-label">学院</label>
-              <input type="text" class="form-control" id="editRefereeCollege">
+              <input type="text" class="form-input" id="editRefereeCollege">
             </div>
             <div class="mb-3">
               <label for="editRefereeGrade" class="form-label">年级</label>
-              <input type="text" class="form-control" id="editRefereeGrade">
+              <input type="text" class="form-input" id="editRefereeGrade">
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-secondary" onclick="hideModal('editRefereeModal')">取消</button>
           <button type="button" class="btn btn-primary" onclick="editReferee()">保存</button>
         </div>
       </div>
@@ -285,12 +290,12 @@
   </div>
 
   <!-- 球员管理模态框 -->
-  <div class="modal" id="playersModal" tabindex="-1">
+  <div class="modal" id="playersModal" style="display: none;">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #00008B; color: white;">
           <h5 class="modal-title" id="playersModalTitle" style="color: white;">球员管理</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+          <button type="button" class="close" onclick="hideModal('playersModal')">&times;</button>
         </div>
         <div class="modal-body">
           <div class="mb-4">
@@ -299,7 +304,7 @@
           <div id="playersList">
             <!-- 球员列表将通过JavaScript动态添加 -->
             <div class="col-12 text-center">
-              <div class="spinner-border" role="status">
+              <div class="loading-spinner" role="status">
                 <span class="sr-only">加载中...</span>
               </div>
               <p class="mt-2">加载球员中...</p>
@@ -307,39 +312,39 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-secondary" onclick="hideModal('playersModal')">关闭</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- 添加球员模态框 -->
-  <div class="modal" id="addPlayerModal" tabindex="-1">
+  <div class="modal" id="addPlayerModal" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #00008B; color: white;">
           <h5 class="modal-title" style="color: white;">添加球员</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+          <button type="button" class="close" onclick="hideModal('addPlayerModal')">&times;</button>
         </div>
         <div class="modal-body">
           <form id="addPlayerForm">
             <input type="hidden" id="addPlayerTeamId">
             <div class="mb-3">
               <label for="playerName" class="form-label">姓名</label>
-              <input type="text" class="form-control" id="playerName" required>
+              <input type="text" class="form-input" id="playerName" required>
             </div>
             <div class="mb-3">
               <label for="playerNumber" class="form-label">号码</label>
-              <input type="number" class="form-control" id="playerNumber" min="1" max="99" required>
+              <input type="number" class="form-input" id="playerNumber" min="1" max="99" required>
             </div>
             <div class="mb-3">
               <label for="playerStudentId" class="form-label">学号</label>
-              <input type="text" class="form-control" id="playerStudentId" required>
+              <input type="text" class="form-input" id="playerStudentId" required>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-secondary" onclick="hideModal('addPlayerModal')">取消</button>
           <button type="button" class="btn btn-primary" onclick="addPlayer()">添加</button>
         </div>
       </div>
@@ -380,6 +385,24 @@
         loadTeams();
       } else if (tabName === 'referees') {
         loadReferees();
+      }
+    }
+    
+    // 显示模态框
+    function showModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    
+    // 隐藏模态框
+    function hideModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
       }
     }
     
@@ -631,14 +654,12 @@
     
     // 显示添加球队表单
     function showAddTeamForm() {
-      const modal = new bootstrap.Modal(document.getElementById('addTeamModal'));
-      modal.show();
+      showModal('addTeamModal');
     }
     
     // 显示添加裁判表单
     function showAddRefereeForm() {
-      const modal = new bootstrap.Modal(document.getElementById('addRefereeModal'));
-      modal.show();
+      showModal('addRefereeModal');
     }
     
     // 添加球队
@@ -669,8 +690,7 @@
         if (!response.ok) throw new Error(data.error || '添加球队失败');
         
         // 关闭模态框
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addTeamModal'));
-        modal.hide();
+        hideModal('addTeamModal');
         
         // 重新加载球队列表
         loadTeams();
@@ -702,8 +722,7 @@
         if (!response.ok) throw new Error(data.error || '添加裁判失败');
         
         // 关闭模态框
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addRefereeModal'));
-        modal.hide();
+        hideModal('addRefereeModal');
         
         // 重新加载裁判列表
         loadReferees();
@@ -735,8 +754,7 @@
         await loadPlayers(teamId);
         
         // 显示模态框
-        const modal = new bootstrap.Modal(document.getElementById('playersModal'));
-        modal.show();
+        showModal('playersModal');
       } catch (err) {
         console.error('获取球员数据失败:', err);
         alert('获取球员数据失败');
@@ -749,8 +767,7 @@
       document.getElementById('addPlayerTeamId').value = window.currentTeamId;
       
       // 显示模态框
-      const modal = new bootstrap.Modal(document.getElementById('addPlayerModal'));
-      modal.show();
+      showModal('addPlayerModal');
     }
 
     // 加载球员列表
@@ -821,8 +838,7 @@
         if (!response.ok) throw new Error(data.error || '添加球员失败');
         
         // 关闭模态框
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addPlayerModal'));
-        modal.hide();
+        hideModal('addPlayerModal');
         
         // 重新加载球员列表
         await loadPlayers(teamId);
@@ -851,8 +867,7 @@
         document.getElementById('editTeamLogo').value = team.logo || '';
         
         // 显示模态框
-        const modal = new bootstrap.Modal(document.getElementById('editTeamModal'));
-        modal.show();
+        showModal('editTeamModal');
       } catch (err) {
         console.error('获取球队数据失败:', err);
         alert('获取球队数据失败: ' + err.message);
@@ -874,8 +889,7 @@
         document.getElementById('editRefereeGrade').value = referee.grade || '';
         
         // 显示模态框
-        const modal = new bootstrap.Modal(document.getElementById('editRefereeModal'));
-        modal.show();
+        showModal('editRefereeModal');
       } catch (err) {
         console.error('获取裁判数据失败:', err);
         alert('获取裁判数据失败: ' + err.message);
@@ -903,8 +917,7 @@
         if (!response.ok) throw new Error(data.error || '编辑球队失败');
         
         // 关闭模态框
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editTeamModal'));
-        modal.hide();
+        hideModal('editTeamModal');
         
         // 重新加载球队列表
         loadTeams();
@@ -937,8 +950,7 @@
         if (!response.ok) throw new Error(data.error || '编辑裁判失败');
         
         // 关闭模态框
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editRefereeModal'));
-        modal.hide();
+        hideModal('editRefereeModal');
         
         // 重新加载裁判列表
         loadReferees();
