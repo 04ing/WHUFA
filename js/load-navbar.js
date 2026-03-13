@@ -16,7 +16,7 @@ if (typeof Config === 'undefined') {
             }
             
             // 本地开发环境
-            return 'http://localhost:3000';
+            return 'http://localhost:3001';
         })(),
 
         getApiUrl: function(endpoint) {
