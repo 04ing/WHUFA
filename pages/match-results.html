@@ -45,6 +45,13 @@
             <div class="container">
                 <h2 class="text-center mb-5">最新赛果</h2>
                 
+                <!-- 统计按钮 -->
+                <div class="mb-5 text-center">
+                    <button type="button" class="btn btn-primary me-3" onclick="showTopScorersModal()">射手榜</button>
+                    <button type="button" class="btn btn-primary me-3" onclick="showRefereeStatsModal()">裁判参与场次</button>
+                    <button type="button" class="btn btn-primary" onclick="showRefereeQueryModal()">裁判场次查询</button>
+                </div>
+                
                 <!-- 添加比赛基本信息表单 -->
                 <div class="match-card">
                     <div class="match-card-header">
@@ -113,6 +120,83 @@
             </div>
         </section>
 
+        <!-- 射手榜模态框 -->
+        <div class="modal" id="topScorersModal" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #00008B; color: white;">
+                        <h5 class="modal-title" style="color: white !important;">射手榜</h5>
+                        <button type="button" class="close" onclick="hideModal('topScorersModal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="topScorersContent">
+                            <div class="col-12 text-center">
+                                <div class="loading-spinner" role="status">
+                                    <span class="sr-only">加载中...</span>
+                                </div>
+                                <p class="mt-2">加载射手榜中...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="hideModal('topScorersModal')">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 裁判参与场次模态框 -->
+        <div class="modal" id="refereeStatsModal" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #00008B; color: white;">
+                        <h5 class="modal-title" style="color: white !important;">裁判参与场次统计</h5>
+                        <button type="button" class="close" onclick="hideModal('refereeStatsModal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="refereeStatsContent">
+                            <div class="col-12 text-center">
+                                <div class="loading-spinner" role="status">
+                                    <span class="sr-only">加载中...</span>
+                                </div>
+                                <p class="mt-2">加载裁判统计中...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="hideModal('refereeStatsModal')">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 裁判场次查询模态框 -->
+        <div class="modal" id="refereeQueryModal" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #00008B; color: white;">
+                        <h5 class="modal-title" style="color: white !important;">裁判场次查询</h5>
+                        <button type="button" class="close" onclick="hideModal('refereeQueryModal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="refereeNameQuery" class="form-label">裁判姓名</label>
+                            <input type="text" class="form-input" id="refereeNameQuery" placeholder="输入裁判姓名">
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-primary" onclick="queryRefereeMatches()">查询</button>
+                        </div>
+                        <div id="refereeQueryResult">
+                            <p>请输入裁判姓名并点击查询</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="hideModal('refereeQueryModal')">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <footer class="p-5 bg-dark text-white text-center">
             <div class="container">
                 <p class="lead">Copyright &copy; 2026 武汉大学足球协会（学生）主页</p>
@@ -120,6 +204,297 @@
         </footer>
 
         <script>
+            // 显示模态框
+            function showModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+            
+            // 隐藏模态框
+            function hideModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+            
+            // 显示射手榜模态框
+            function showTopScorersModal() {
+                showModal('topScorersModal');
+                loadTopScorers();
+            }
+            
+            // 显示裁判参与场次模态框
+            function showRefereeStatsModal() {
+                showModal('refereeStatsModal');
+                loadRefereeStats();
+            }
+            
+            // 显示裁判场次查询模态框
+            function showRefereeQueryModal() {
+                showModal('refereeQueryModal');
+            }
+            
+            // 加载射手榜数据
+            async function loadTopScorers() {
+                try {
+                    const response = await fetch(window.Config.getApiUrl('/api/matches'));
+                    const matches = await response.json();
+                    
+                    if (!response.ok) throw new Error(matches.error || '获取比赛数据失败');
+                    
+                    // 统计射手数据
+                    const scorerStats = {};
+                    matches.forEach(match => {
+                        // 处理主队事件
+                        if (match.homeEvents) {
+                            match.homeEvents.forEach(event => {
+                                if (event.type === 'goal' || event.type === 'penalty') {
+                                    const player = event.player;
+                                    if (player) {
+                                        scorerStats[player] = (scorerStats[player] || 0) + 1;
+                                    }
+                                }
+                            });
+                        }
+                        // 处理客队事件
+                        if (match.awayEvents) {
+                            match.awayEvents.forEach(event => {
+                                if (event.type === 'goal' || event.type === 'penalty') {
+                                    const player = event.player;
+                                    if (player) {
+                                        scorerStats[player] = (scorerStats[player] || 0) + 1;
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    
+                    // 转换为数组并排序
+                    const topScorers = Object.entries(scorerStats)
+                        .map(([player, goals]) => ({ player, goals }))
+                        .sort((a, b) => b.goals - a.goals);
+                    
+                    // 显示射手榜
+                    displayTopScorers(topScorers);
+                } catch (err) {
+                    console.error('加载射手榜失败:', err);
+                    document.getElementById('topScorersContent').innerHTML = '<div class="col-12 text-center text-danger">加载射手榜失败</div>';
+                }
+            }
+            
+            // 显示射手榜
+            function displayTopScorers(scorers) {
+                const content = document.getElementById('topScorersContent');
+                if (scorers.length === 0) {
+                    content.innerHTML = '<div class="col-12 text-center">暂无射手数据</div>';
+                    return;
+                }
+                
+                let html = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>球员</th>
+                                <th>进球数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                scorers.forEach((scorer, index) => {
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${scorer.player}</td>
+                            <td>${scorer.goals}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                        </tbody>
+                    </table>
+                `;
+                
+                content.innerHTML = html;
+            }
+            
+            // 加载裁判参与场次统计
+            async function loadRefereeStats() {
+                try {
+                    const response = await fetch(window.Config.getApiUrl('/api/matches'));
+                    const matches = await response.json();
+                    
+                    if (!response.ok) throw new Error(matches.error || '获取比赛数据失败');
+                    
+                    // 统计裁判参与场次
+                    const refereeStats = {};
+                    matches.forEach(match => {
+                        // 统计主裁判
+                        if (match.referee) {
+                            refereeStats[match.referee] = (refereeStats[match.referee] || 0) + 1;
+                        }
+                        // 统计助理裁判1
+                        if (match.assistantReferee1) {
+                            refereeStats[match.assistantReferee1] = (refereeStats[match.assistantReferee1] || 0) + 1;
+                        }
+                        // 统计助理裁判2
+                        if (match.assistantReferee2) {
+                            refereeStats[match.assistantReferee2] = (refereeStats[match.assistantReferee2] || 0) + 1;
+                        }
+                        // 统计第四官员
+                        if (match.fourthOfficial) {
+                            // 处理多个第四官员的情况
+                            const officials = match.fourthOfficial.split('、');
+                            officials.forEach(official => {
+                                const trimmedOfficial = official.trim();
+                                if (trimmedOfficial) {
+                                    refereeStats[trimmedOfficial] = (refereeStats[trimmedOfficial] || 0) + 1;
+                                }
+                            });
+                        }
+                    });
+                    
+                    // 转换为数组并排序
+                    const sortedReferees = Object.entries(refereeStats)
+                        .map(([referee, matches]) => ({ referee, matches }))
+                        .sort((a, b) => b.matches - a.matches);
+                    
+                    // 显示裁判统计
+                    displayRefereeStats(sortedReferees);
+                } catch (err) {
+                    console.error('加载裁判统计失败:', err);
+                    document.getElementById('refereeStatsContent').innerHTML = '<div class="col-12 text-center text-danger">加载裁判统计失败</div>';
+                }
+            }
+            
+            // 显示裁判参与场次统计
+            function displayRefereeStats(referees) {
+                const content = document.getElementById('refereeStatsContent');
+                if (referees.length === 0) {
+                    content.innerHTML = '<div class="col-12 text-center">暂无裁判数据</div>';
+                    return;
+                }
+                
+                let html = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>裁判</th>
+                                <th>参与场次</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                referees.forEach((referee, index) => {
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${referee.referee}</td>
+                            <td>${referee.matches}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                        </tbody>
+                    </table>
+                `;
+                
+                content.innerHTML = html;
+            }
+            
+            // 查询裁判场次
+            async function queryRefereeMatches() {
+                const refereeName = document.getElementById('refereeNameQuery').value.trim();
+                if (!refereeName) {
+                    document.getElementById('refereeQueryResult').innerHTML = '<p class="text-danger">请输入裁判姓名</p>';
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(window.Config.getApiUrl('/api/matches'));
+                    const matches = await response.json();
+                    
+                    if (!response.ok) throw new Error(matches.error || '获取比赛数据失败');
+                    
+                    // 查找包含该裁判的比赛
+                    const refereeMatches = matches.filter(match => {
+                        return (
+                            match.referee === refereeName ||
+                            match.assistantReferee1 === refereeName ||
+                            match.assistantReferee2 === refereeName ||
+                            (match.fourthOfficial && match.fourthOfficial.includes(refereeName))
+                        );
+                    });
+                    
+                    // 显示查询结果
+                    displayRefereeQueryResult(refereeName, refereeMatches);
+                } catch (err) {
+                    console.error('查询裁判场次失败:', err);
+                    document.getElementById('refereeQueryResult').innerHTML = '<p class="text-danger">查询失败</p>';
+                }
+            }
+            
+            // 显示裁判场次查询结果
+            function displayRefereeQueryResult(refereeName, matches) {
+                const result = document.getElementById('refereeQueryResult');
+                
+                if (matches.length === 0) {
+                    result.innerHTML = `<p>未找到裁判 ${refereeName} 的参与记录</p>`;
+                    return;
+                }
+                
+                let html = `
+                    <h5>裁判 ${refereeName} 的参与场次 (共 ${matches.length} 场)</h5>
+                    <table class="table mt-3">
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>比赛</th>
+                                <th>角色</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                matches.forEach(match => {
+                    let role = '';
+                    if (match.referee === refereeName) {
+                        role = '主裁判';
+                    } else if (match.assistantReferee1 === refereeName) {
+                        role = '第一助理';
+                    } else if (match.assistantReferee2 === refereeName) {
+                        role = '第二助理';
+                    } else if (match.fourthOfficial && match.fourthOfficial.includes(refereeName)) {
+                        role = '第四官员';
+                    }
+                    
+                    html += `
+                        <tr>
+                            <td>${match.date}</td>
+                            <td>${match.homeTeam} vs ${match.awayTeam}</td>
+                            <td>${role}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                        </tbody>
+                    </table>
+                `;
+                
+                result.innerHTML = html;
+            }
+            
             // 等待DOM加载完成
             document.addEventListener('DOMContentLoaded', function() {
                 // 获取表单元素
