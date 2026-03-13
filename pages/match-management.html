@@ -587,26 +587,28 @@
         return;
       }
       
-      teamsList.innerHTML = '';
+      teamsList.innerHTML = '<div class="row">';
       teams.forEach(team => {
         const teamItem = document.createElement('div');
-        teamItem.className = 'mb-3 p-3 border rounded';
+        teamItem.className = 'col-md-2 mb-4';
         teamItem.innerHTML = `
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
+          <div class="p-3 border rounded h-100 d-flex flex-column">
+            <div class="mb-3">
               <h5>${team.name}</h5>
-              <p class="text-muted">学院: ${team.college} | 教练: ${team.coach || '未知'}</p>
+              <p class="text-muted">学院: ${team.college}</p>
+              <p class="text-muted">教练: ${team.coach || '未知'}</p>
               <p class="text-muted">球员数: ${team.players ? team.players.length : 0}</p>
             </div>
-            <div>
-              <button class="btn btn-primary me-2" onclick="viewTeamPlayers('${team.id}')">查看球员</button>
-              <button class="btn btn-warning me-2" onclick="showEditTeamForm('${team.id}')">编辑</button>
-              <button class="btn btn-danger" onclick="deleteTeam('${team.id}')">删除</button>
+            <div class="mt-auto">
+              <button class="btn btn-primary btn-sm me-1" onclick="viewTeamPlayers('${team.id}')" style="font-size: 0.8rem;">查看球员</button>
+              <button class="btn btn-warning btn-sm me-1" onclick="showEditTeamForm('${team.id}')" style="font-size: 0.8rem;">编辑</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteTeam('${team.id}')" style="font-size: 0.8rem;">删除</button>
             </div>
           </div>
         `;
         teamsList.appendChild(teamItem);
       });
+      teamsList.innerHTML += '</div>';
     }
     
     // 加载裁判列表
@@ -632,24 +634,26 @@
         return;
       }
       
-      refereesList.innerHTML = '';
+      refereesList.innerHTML = '<div class="row">';
       referees.forEach(referee => {
         const refereeItem = document.createElement('div');
-        refereeItem.className = 'mb-3 p-3 border rounded';
+        refereeItem.className = 'col-md-2 mb-4';
         refereeItem.innerHTML = `
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
+          <div class="p-3 border rounded h-100 d-flex flex-column">
+            <div class="mb-3">
               <h5>${referee.name}</h5>
-              <p class="text-muted">学院: ${referee.college || '未知'} | 年级: ${referee.grade || '未知'}</p>
+              <p class="text-muted">学院: ${referee.college || '未知'}</p>
+              <p class="text-muted">年级: ${referee.grade || '未知'}</p>
             </div>
-            <div>
-              <button class="btn btn-warning me-2" onclick="showEditRefereeForm('${referee.id}')">编辑</button>
-              <button class="btn btn-danger" onclick="deleteReferee('${referee.id}')">删除</button>
+            <div class="mt-auto">
+              <button class="btn btn-warning btn-sm me-1" onclick="showEditRefereeForm('${referee.id}')" style="font-size: 0.8rem;">编辑</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteReferee('${referee.id}')" style="font-size: 0.8rem;">删除</button>
             </div>
           </div>
         `;
         refereesList.appendChild(refereeItem);
       });
+      refereesList.innerHTML += '</div>';
     }
     
     // 显示添加球队表单

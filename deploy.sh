@@ -3,11 +3,11 @@
 # 停止之前的进程
 pkill -f "node server.js" || true
 
-# 解压文件
-unzip -o WHUFA.zip -d /root/WHUFA
-
 # 进入目录
-cd /root/WHUFA
+cd /root/WHUFA || mkdir -p /root/WHUFA && cd /root/WHUFA
+
+# 从GitHub拉取最新代码
+git pull origin main
 
 # 安装依赖
 npm install
