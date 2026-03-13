@@ -134,17 +134,21 @@
           </div>
           <div class="match-card-body">
             <div class="mb-4">
-              <button class="btn btn-primary" onclick="showAddRefereeForm()">添加裁判</button>
-            </div>
-            <div id="refereesList">
-              <!-- 裁判列表将通过JavaScript动态添加 -->
-              <div class="col-12 text-center">
-                <div class="loading-spinner" role="status">
-                  <span class="sr-only">加载中...</span>
+                    <button class="btn btn-primary" onclick="showAddRefereeForm()">添加裁判</button>
                 </div>
-                <p class="mt-2">加载裁判中...</p>
-              </div>
-            </div>
+                <div class="mb-6">
+                    <h4 class="card-subtitle mb-3">裁判年级分布</h4>
+                    <div id="refereeGradeChart" style="height: 400px;"></div>
+                </div>
+                <div id="refereesList">
+                    <!-- 裁判列表将通过JavaScript动态添加 -->
+                    <div class="col-12 text-center">
+                        <div class="loading-spinner" role="status">
+                            <span class="sr-only">加载中...</span>
+                        </div>
+                        <p class="mt-2">加载裁判中...</p>
+                    </div>
+                </div>
           </div>
         </div>
       </div>
@@ -620,6 +624,7 @@
         if (!response.ok) throw new Error(referees.error || '获取裁判数据失败');
         
         displayReferees(referees);
+        drawRefereeGradeChart(referees);
       } catch (err) {
         console.error('加载裁判列表失败:', err);
         document.getElementById('refereesList').innerHTML = '<div class="col-12 text-center text-danger">加载裁判列表失败</div>';
@@ -654,6 +659,119 @@
         refereesList.appendChild(refereeItem);
       });
       refereesList.innerHTML += '</div>';
+    }
+    
+    // 绘制裁判年级分布柱状图
+    function drawRefereeGradeChart(referees) {
+      // 统计各年级的裁判数量
+      const gradeCount = {};
+      referees.forEach(referee => {
+        const grade = referee.grade || '未知';
+        gradeCount[grade] = (gradeCount[grade] || 0) + 1;
+      });
+      
+      // 准备数据
+      const grades = Object.keys(gradeCount);
+      const counts = Object.values(gradeCount);
+      
+      // 获取画布元素
+      const chartContainer = document.getElementById('refereeGradeChart');
+      
+      // 清空容器
+      chartContainer.innerHTML = '';
+      
+      // 创建SVG元素
+      const svgWidth = chartContainer.clientWidth;
+      const svgHeight = 400;
+      const padding = { top: 20, right: 20, bottom: 60, left: 80 };
+      
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('height', svgHeight);
+      chartContainer.appendChild(svg);
+      
+      // 计算柱状图的宽度和间距
+      const barWidth = (svgWidth - padding.left - padding.right) / grades.length;
+      const barSpacing = barWidth * 0.2;
+      const actualBarWidth = barWidth - barSpacing;
+      
+      // 计算最大值，用于缩放
+      const maxCount = Math.max(...counts);
+      
+      // 绘制坐标轴
+      // X轴
+      svg.appendChild(createLine(padding.left, svgHeight - padding.bottom, svgWidth - padding.right, svgHeight - padding.bottom));
+      // Y轴
+      svg.appendChild(createLine(padding.left, padding.top, padding.left, svgHeight - padding.bottom));
+      
+      // 绘制柱状图
+      grades.forEach((grade, index) => {
+        const x = padding.left + index * barWidth + barSpacing / 2;
+        const height = (counts[index] / maxCount) * (svgHeight - padding.top - padding.bottom);
+        const y = svgHeight - padding.bottom - height;
+        
+        // 创建柱子
+        const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        bar.setAttribute('x', x);
+        bar.setAttribute('y', y);
+        bar.setAttribute('width', actualBarWidth);
+        bar.setAttribute('height', height);
+        bar.setAttribute('fill', '#00008B');
+        bar.setAttribute('rx', 4);
+        svg.appendChild(bar);
+        
+        // 添加数值标签
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', x + actualBarWidth / 2);
+        text.setAttribute('y', y - 5);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('fill', '#333');
+        text.textContent = counts[index];
+        svg.appendChild(text);
+        
+        // 添加年级标签
+        const gradeText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        gradeText.setAttribute('x', x + actualBarWidth / 2);
+        gradeText.setAttribute('y', svgHeight - padding.bottom + 20);
+        gradeText.setAttribute('text-anchor', 'middle');
+        gradeText.setAttribute('fill', '#333');
+        gradeText.setAttribute('font-size', '12px');
+        gradeText.setAttribute('transform', `rotate(-45 ${x + actualBarWidth / 2} ${svgHeight - padding.bottom + 20})`);
+        gradeText.textContent = grade;
+        svg.appendChild(gradeText);
+      });
+      
+      // 添加轴标签
+      // Y轴标签
+      const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      yLabel.setAttribute('x', 30);
+      yLabel.setAttribute('y', svgHeight / 2);
+      yLabel.setAttribute('text-anchor', 'middle');
+      yLabel.setAttribute('fill', '#333');
+      yLabel.setAttribute('transform', `rotate(-90 30 ${svgHeight / 2})`);
+      yLabel.textContent = '裁判数量';
+      svg.appendChild(yLabel);
+      
+      // X轴标签
+      const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      xLabel.setAttribute('x', svgWidth / 2);
+      xLabel.setAttribute('y', svgHeight - 10);
+      xLabel.setAttribute('text-anchor', 'middle');
+      xLabel.setAttribute('fill', '#333');
+      xLabel.textContent = '年级';
+      svg.appendChild(xLabel);
+    }
+    
+    // 创建SVG线条的辅助函数
+    function createLine(x1, y1, x2, y2) {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.setAttribute('stroke', '#333');
+      line.setAttribute('stroke-width', '1');
+      return line;
     }
     
     // 显示添加球队表单
