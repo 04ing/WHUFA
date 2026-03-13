@@ -46,43 +46,51 @@
 <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
 
 <script>
-    // 移动端菜单控制
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const navLinks = document.getElementById('navLinks');
-    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-    
-    mobileMenuBtn.addEventListener('click', function() {
-        navLinks.classList.toggle('active');
-        mobileMenuOverlay.classList.toggle('active');
-        document.body.classList.toggle('menu-open');
-        mobileMenuBtn.classList.toggle('active');
-    });
-    
-    mobileMenuOverlay.addEventListener('click', function() {
-        navLinks.classList.remove('active');
-        mobileMenuOverlay.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        mobileMenuBtn.classList.remove('active');
-    });
-    
-    // 下拉菜单控制
-    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-    dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            const dropdownMenu = this.nextElementSibling;
-            dropdownMenu.classList.toggle('active');
-        });
-    });
-    
-    // 点击其他地方关闭下拉菜单
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.nav-dropdown')) {
-            const dropdownMenus = document.querySelectorAll('.dropdown-menu');
-            dropdownMenus.forEach(menu => {
-                menu.classList.remove('active');
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+        // 移动端菜单控制
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        
+        if (mobileMenuBtn && navLinks && mobileMenuOverlay) {
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.classList.toggle('menu-open');
+                mobileMenuBtn.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                mobileMenuBtn.classList.remove('active');
             });
         }
+        
+        // 下拉菜单控制
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdownMenu = this.nextElementSibling;
+                dropdownMenu.classList.toggle('active');
+            });
+        });
+        
+        // 点击其他地方关闭下拉菜单
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.nav-dropdown')) {
+                const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+                dropdownMenus.forEach(menu => {
+                    menu.classList.remove('active');
+                });
+            }
+        });
+        
+        // 检查用户登录状态
+        checkLoginStatus();
     });
     
     // 检查用户登录状态
@@ -90,15 +98,19 @@
         const userId = localStorage.getItem('userId');
         const userName = localStorage.getItem('userName');
         
+        const userInfo = document.getElementById('userInfo');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        const loginRegisterLink = document.getElementById('loginRegisterLink');
+        
         if (userId && userName) {
             // 用户已登录，显示用户信息和登出按钮
-            document.getElementById('userInfo').style.display = 'block';
-            document.getElementById('userNameDisplay').textContent = userName;
-            document.getElementById('loginRegisterLink').style.display = 'none';
+            if (userInfo) userInfo.style.display = 'block';
+            if (userNameDisplay) userNameDisplay.textContent = userName;
+            if (loginRegisterLink) loginRegisterLink.style.display = 'none';
         } else {
             // 用户未登录，显示登录/注册链接
-            document.getElementById('userInfo').style.display = 'none';
-            document.getElementById('loginRegisterLink').style.display = 'block';
+            if (userInfo) userInfo.style.display = 'none';
+            if (loginRegisterLink) loginRegisterLink.style.display = 'block';
         }
     }
     
@@ -112,11 +124,12 @@
         checkLoginStatus();
         
         // 跳转到首页
-        window.location.href = 'index.html';
+        let indexPath = 'index.html';
+        if (window.location.pathname.includes('/pages/')) {
+            indexPath = '../index.html';
+        } else if (window.location.hostname.includes('github.io')) {
+            indexPath = '/WHUFA/index.html';
+        }
+        window.location.href = indexPath;
     }
-    
-    // 页面加载时检查登录状态
-    window.onload = function() {
-        checkLoginStatus();
-    };
 </script>
