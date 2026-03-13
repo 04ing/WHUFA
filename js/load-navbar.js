@@ -113,6 +113,46 @@ function loadNavbar() {
             
             // 导航栏加载完成后检查登录状态
             checkLoginStatus();
+            
+            // 重新绑定移动端菜单事件监听器
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            
+            if (mobileMenuBtn && navLinks && mobileMenuOverlay) {
+                // 移除之前的事件监听器，避免重复绑定
+                mobileMenuBtn.onclick = null;
+                mobileMenuOverlay.onclick = null;
+                
+                // 绑定新的事件监听器
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    mobileMenuOverlay.classList.toggle('active');
+                    document.body.classList.toggle('menu-open');
+                    mobileMenuBtn.classList.toggle('active');
+                });
+                
+                mobileMenuOverlay.addEventListener('click', function() {
+                    navLinks.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                    mobileMenuBtn.classList.remove('active');
+                });
+            }
+            
+            // 重新绑定下拉菜单事件监听器
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            dropdownToggles.forEach(toggle => {
+                // 移除之前的事件监听器，避免重复绑定
+                toggle.onclick = null;
+                
+                // 绑定新的事件监听器
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    dropdownMenu.classList.toggle('active');
+                });
+            });
         })
         .catch(error => {
             console.error('加载导航栏失败:', error);
