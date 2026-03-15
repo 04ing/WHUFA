@@ -611,8 +611,13 @@
                         if (matchCard) {
                             try {
                                 // 获取比赛信息
-                                const homeTeam = matchCard.querySelector('.team-name:first-child').textContent.trim();
-                                const awayTeam = matchCard.querySelector('.team-name:last-child').textContent.trim();
+                                const teamNames = matchCard.querySelectorAll('.team-name');
+                                let homeTeam = '';
+                                let awayTeam = '';
+                                if (teamNames.length >= 2) {
+                                    homeTeam = teamNames[0].textContent.trim();
+                                    awayTeam = teamNames[1].textContent.trim();
+                                }
                                 const scoreElement = matchCard.querySelector('.score');
                                 const scoreText = scoreElement.textContent.trim();
                                 const scoreParts = scoreText.split(' - ');
@@ -873,13 +878,16 @@
                                     batchMatchIdInput.value = matchId;
                                 }
                                 
-                                // 获取比赛的球队信息             
-                                const homeTeamElement = matchCard.querySelector('.text-center .team-name:first-child');
-                                const awayTeamElement = matchCard.querySelector('.text-center .team-name:last-child');
+                                // 获取比赛的球队信息              
+                                const teamNames = matchCard.querySelectorAll('.team-name');
+                                let homeTeam = '';
+                                let awayTeam = '';
+                                if (teamNames.length >= 2) {
+                                    homeTeam = teamNames[0].textContent.trim();
+                                    awayTeam = teamNames[1].textContent.trim();
+                                }
                                 
-                                if (homeTeamElement && awayTeamElement) {
-                                    const homeTeam = homeTeamElement.textContent.trim();
-                                    const awayTeam = awayTeamElement.textContent.trim();
+                                if (homeTeam && awayTeam) {
                                     
                                     // 清空事件列表
                                     const eventsList = document.getElementById('eventsList');
@@ -1063,82 +1071,76 @@
                     // 添加球队选项
                     const batchMatchIdInput = document.getElementById('batchMatchId');
                     const matchId = batchMatchIdInput ? batchMatchIdInput.value : '';
+                    const matchCard = matchId ? document.getElementById(matchId) : null;
                     
-                    // 从API获取比赛数据
-                    fetch(window.Config.getApiUrl('/api/matches'))
-                        .then(response => response.json())
-                        .then(matches => {
-                            // 找到当前比赛的数据
-                            const matchData = matches.find(match => match.id === matchId);
+                    if (matchCard && teamSelect) {
+                        // 从DOM中获取球队名称
+                        const teamNames = matchCard.querySelectorAll('.team-name');
+                        if (teamNames.length >= 2) {
+                            const homeTeam = teamNames[0].textContent.trim();
+                            const awayTeam = teamNames[1].textContent.trim();
                             
-                            if (matchData && teamSelect) {
-                                const homeTeam = matchData.homeTeam;
-                                const awayTeam = matchData.awayTeam;
+                            // 确保球队名称不为空            
+                            if (homeTeam && awayTeam) {
+                                // 对球队名称进行 trim() 处理
+                                const trimmedHomeTeam = homeTeam.trim();
+                                const trimmedAwayTeam = awayTeam.trim();
                                 
-                                // 确保球队名称不为空            
-                                if (homeTeam && awayTeam) {
-                                    // 对球队名称进行 trim() 处理
-                                    const trimmedHomeTeam = homeTeam.trim();
-                                    const trimmedAwayTeam = awayTeam.trim();
+                                // 清空球队选择框的现有选项
+                                teamSelect.innerHTML = '<option value="">选择球队</option>';
+                                
+                                // 添加主队选项
+                                const homeOption = document.createElement('option');
+                                homeOption.value = trimmedHomeTeam;
+                                homeOption.textContent = trimmedHomeTeam;
+                                teamSelect.appendChild(homeOption);
+                                
+                                // 添加客队选项
+                                const awayOption = document.createElement('option');
+                                awayOption.value = trimmedAwayTeam;
+                                awayOption.textContent = trimmedAwayTeam;
+                                teamSelect.appendChild(awayOption);
+                                
+                                // 设置默认选中的球队              
+                                if (defaultTeam) {
+                                    // 对 defaultTeam 进行 trim() 处理
+                                    const trimmedDefaultTeam = defaultTeam.trim();
                                     
-                                    // 清空球队选择框的现有选项
-                                    teamSelect.innerHTML = '<option value="">选择球队</option>';
+                                    // 首先尝试使用严格比较
+                                    let found = false;
+                                    for (let i = 0; i < teamSelect.options.length; i++) {
+                                        const option = teamSelect.options[i];
+                                        if (option.value === trimmedDefaultTeam || option.textContent === trimmedDefaultTeam) {
+                                            option.selected = true;
+                                            found = true;
+                                            break;
+                                        }
+                                    }
                                     
-                                    // 添加主队选项
-                                    const homeOption = document.createElement('option');
-                                    homeOption.value = trimmedHomeTeam;
-                                    homeOption.textContent = trimmedHomeTeam;
-                                    teamSelect.appendChild(homeOption);
-                                    
-                                    // 添加客队选项
-                                    const awayOption = document.createElement('option');
-                                    awayOption.value = trimmedAwayTeam;
-                                    awayOption.textContent = trimmedAwayTeam;
-                                    teamSelect.appendChild(awayOption);
-                                    
-                                    // 设置默认选中的球队              
-                                    if (defaultTeam) {
-                                        // 对 defaultTeam 进行 trim() 处理
-                                        const trimmedDefaultTeam = defaultTeam.trim();
-                                        
-                                        // 首先尝试使用严格比较
-                                        let found = false;
+                                    // 如果严格比较失败，尝试使用宽松比较                
+                                    if (!found) {
                                         for (let i = 0; i < teamSelect.options.length; i++) {
                                             const option = teamSelect.options[i];
-                                            if (option.value === trimmedDefaultTeam || option.textContent === trimmedDefaultTeam) {
+                                            // 使用宽松比较，忽略大小写和空格                    
+                                            const optionValueLower = option.value.toLowerCase().trim();
+                                            const optionTextLower = option.textContent.toLowerCase().trim();
+                                            const defaultTeamLower = trimmedDefaultTeam.toLowerCase().trim();
+                                            if (optionValueLower === defaultTeamLower || optionTextLower === defaultTeamLower) {
                                                 option.selected = true;
                                                 found = true;
                                                 break;
                                             }
                                         }
-                                        
-                                        // 如果严格比较失败，尝试使用宽松比较                
-                                        if (!found) {
-                                            for (let i = 0; i < teamSelect.options.length; i++) {
-                                                const option = teamSelect.options[i];
-                                                // 使用宽松比较，忽略大小写和空格                    
-                                                const optionValueLower = option.value.toLowerCase().trim();
-                                                const optionTextLower = option.textContent.toLowerCase().trim();
-                                                const defaultTeamLower = trimmedDefaultTeam.toLowerCase().trim();
-                                                if (optionValueLower === defaultTeamLower || optionTextLower === defaultTeamLower) {
-                                                    option.selected = true;
-                                                    found = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        
-                                        // 如果仍然没有找到，直接设置值
-                                        if (!found) {
-                                            teamSelect.value = trimmedDefaultTeam;
-                                        }
+                                    }
+                                    
+                                    // 如果仍然没有找到，直接设置值
+                                    if (!found) {
+                                        teamSelect.value = trimmedDefaultTeam;
                                     }
                                 }
                             }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching match data in addEventItem:', error);
-                        });
+                        }
+                    }
                 
                     // 设置事件类型
                     const typeSelect = eventItem.querySelector('.event-type');
@@ -1166,7 +1168,11 @@
                     const matchCard = document.getElementById(matchId);
                     
                     if (matchCard) {
-                        const homeTeam = matchCard.querySelector('.team-name:first-child').textContent.trim();
+                        const teamNames = matchCard.querySelectorAll('.team-name');
+                        let homeTeam = '';
+                        if (teamNames.length >= 1) {
+                            homeTeam = teamNames[0].textContent.trim();
+                        }
                         addEventItem(eventsList, homeTeam, '', '', '', '', eventsList.children.length);
                     }
                 });
