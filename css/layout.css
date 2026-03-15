@@ -9,6 +9,12 @@
     z-index: 1000;
     box-shadow: var(--shadow-md);
     transition: background-color var(--transition-normal), box-shadow var(--transition-normal);
+    height: 60px;
+}
+
+/* 全局页面内容顶部边距，避免被固定导航栏遮挡 */
+body {
+    margin-top: 60px;
 }
 
 .custom-nav.scrolled {
@@ -19,10 +25,11 @@
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 12px 20px;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
 }
 
 .nav-brand {
@@ -178,14 +185,14 @@
     
     .nav-links {
         position: fixed;
-        top: 0;
+        top: 60px;
         right: -300px;
         width: 280px;
-        height: 100vh;
+        height: calc(100vh - 60px);
         background-color: var(--wuda-blue);
         flex-direction: column;
         align-items: flex-start;
-        padding: 80px 20px 20px;
+        padding: 20px;
         gap: 8px;
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
         z-index: 1000;
@@ -229,7 +236,7 @@
 @media (max-width: 480px) {
     .nav-links {
         width: 240px;
-        padding: 70px 16px 16px;
+        padding: 16px;
     }
     
     .nav-link {
@@ -480,7 +487,7 @@
 }
 
 .pt-20 {
-    padding-top: 5rem !important;
+    padding-top: 2rem !important;
 }
 
 /* 页脚样式 */
