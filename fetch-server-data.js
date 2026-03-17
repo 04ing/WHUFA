@@ -54,6 +54,18 @@ function fetchData(endpoint) {
 
 // 函数：保存数据到文件
 function saveData(dataType, data) {
+    // 检查是否是错误响应
+    if (data && typeof data === 'object' && data.status === 'error') {
+        console.error(`Error response for ${dataType}: ${data.message}`);
+        return;
+    }
+    
+    // 检查数据是否有效
+    if (!Array.isArray(data)) {
+        console.error(`Invalid data format for ${dataType}: expected array`);
+        return;
+    }
+    
     const filePath = path.join(DATA_DIR, `${dataType}.json`);
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
     console.log(`Saved ${dataType}.json with ${data.length} items`);
