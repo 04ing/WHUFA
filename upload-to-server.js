@@ -4,7 +4,7 @@ const http = require('http');
 
 const SERVER_URL = 'http://47.103.29.77:3001';
 const DATA_DIR = path.join(__dirname, 'data');
-const FILE_TO_UPLOAD = 'matches.json';
+const FILE_TO_UPLOAD = 'users.json';
 
 // 函数：读取本地文件
 function readLocalFile() {
@@ -15,7 +15,7 @@ function readLocalFile() {
 // 函数：上传数据到服务器
 function uploadData(data) {
     return new Promise((resolve, reject) => {
-        const url = `${SERVER_URL}/api/matches`;
+        const url = `${SERVER_URL}/api/users`;
         const postData = JSON.stringify(data);
         
         const options = {
