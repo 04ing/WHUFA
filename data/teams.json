@@ -1,7 +1,1 @@
-[
-  {
-    "id": "1774845194223",
-    "players": [],
-    "createdAt": "2026-03-30T04:33:14.223Z"
-  }
-]
+{"status":"error","code":404,"message":"Application not found","request_id":"jcMJX-PeSsCkUSObH4GxDA"}
