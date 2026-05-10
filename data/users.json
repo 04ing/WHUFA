@@ -1,1 +1,56 @@
-{"status":"error","code":404,"message":"Application not found","request_id":"_dW4yPleRHWMG3Ylo3UVLg"}
+[
+  {
+    "id": "1778409745183",
+    "name": "史坤锋",
+    "password": "$2b$10$M/Vzgl3RjtzuWFqK4WzjLeLYBZcJiNidTwtTBVZunoDUN4AmqlfC.",
+    "college": "遥感信息工程学院",
+    "grade": "22",
+    "role": "admin",
+    "createdAt": "2026-05-10T10:42:25.183Z"
+  },
+  {
+    "id": "1778409745313",
+    "name": "杨艾睿",
+    "password": "$2b$10$72Hidrmqi0HBaGq8YLGjL.fSkKZVndPVh5zFfD0ODRX/I7aEnF8LO",
+    "college": "经济与管理学院",
+    "grade": "2024",
+    "role": "user",
+    "createdAt": "2026-05-10T10:42:25.313Z"
+  },
+  {
+    "id": "1778409745511",
+    "name": "张栩岩",
+    "password": "$2b$10$x1f2ul2qXL1vhV1tHmMF7OBAbD0ivb4RKl.hC.Y07bkrWMBrbxJLq",
+    "college": "物理科学与技术学院",
+    "grade": "2022级",
+    "role": "user",
+    "createdAt": "2026-05-10T10:42:25.511Z"
+  },
+  {
+    "id": "1778409745647",
+    "name": "布鲁诺·费尔南德斯",
+    "password": "$2b$10$cLO/9AabB.tSlEDl/JO3l.HCeU1XdzNR2zRkgzOnpbMhKuoJCaejO",
+    "college": "遥感信息工程学院",
+    "grade": "2025",
+    "role": "user",
+    "createdAt": "2026-05-10T10:42:25.647Z"
+  },
+  {
+    "id": "1778409745781",
+    "name": "荆常升",
+    "password": "$2b$10$CyTLn8YFXSKUS4HoxRLrCOeJWi9Srtqqmru.jMGwdLyKyQK8GdGSC",
+    "college": "文学院",
+    "grade": "2025",
+    "role": "user",
+    "createdAt": "2026-05-10T10:42:25.781Z"
+  },
+  {
+    "id": "1778409745922",
+    "name": "邱弋添",
+    "password": "$2b$10$i5ffs1cKB1raOaAx4LHVJuxUcBew7Ku/PXWj6oahyqIxuj3tcs/kO",
+    "college": "数学与统计学院",
+    "grade": "2023",
+    "role": "user",
+    "createdAt": "2026-05-10T10:42:25.922Z"
+  }
+]
