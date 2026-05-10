@@ -1,8 +1,10 @@
 // User模型 - 处理用户相关数据
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const USERS_FILE = path.join(__dirname, '../data/users.json');
+const SALT_ROUNDS = 10;
 
 class User {
     constructor() {
@@ -47,10 +49,13 @@ class User {
 
     // 创建新用户
     createUser(userData) {
+        // 使用bcrypt加密密码
+        const hashedPassword = bcrypt.hashSync(userData.password, SALT_ROUNDS);
+        
         const newUser = {
             id: Date.now().toString(),
             name: userData.name,
-            password: userData.password, // 实际开发中应该加密密码
+            password: hashedPassword, // 加密后的密码
             college: userData.college,
             grade: userData.grade,
             role: userData.role || 'user', // 默认角色为普通用户
@@ -86,7 +91,11 @@ class User {
 
     // 验证用户登录
     validateLogin(name, password) {
-        return this.users.find(user => user.name === name && user.password === password);
+        const user = this.users.find(user => user.name === name);
+        if (user && bcrypt.compareSync(password, user.password)) {
+            return user;
+        }
+        return null;
     }
 
     // 获取用户角色

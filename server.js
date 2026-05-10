@@ -1,45 +1,41 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// 导入安全中间件
+const { corsOptions, loginLimiter, apiLimiter, helmetHeaders } = require('./middleware/security');
+
+// 安全响应头
+app.use(helmetHeaders);
+
+// CORS配置
+app.use(cors(corsOptions));
 
 // 中间件
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 全局日志中间件
+// 全局日志中间件（不记录敏感信息）
 app.use((req, res, next) => {
+    const logBody = { ...req.body };
+    if (logBody.password) logBody.password = '******';
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    console.log('Request body:', req.body);
-    console.log('Request headers:', req.headers);
-    next();
-});
-
-// 允许跨域请求
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    
-    // 处理OPTIONS预检请求
-    if (req.method === 'OPTIONS') {
-        return res.status(204).end();
-    }
-    
+    console.log('Request body:', logBody);
     next();
 });
 
 // 导入API路由
 const apiRoutes = require('./routes/api');
 
-// 日志中间件
-app.use('/api', (req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    console.log('Request body:', req.body);
-    next();
-});
+// API路由使用速率限制
+app.use('/api', apiLimiter);
+
+// 登录路由使用严格的速率限制
+app.use('/api/login', loginLimiter);
 
 // 确保API路由在静态文件服务之前处理
 app.use('/api', apiRoutes);
@@ -54,33 +50,26 @@ app.get('/', (req, res) => {
 
 // 处理其他路径，尝试返回对应的HTML文件
 app.get('*', (req, res) => {
-    // 尝试构建文件路径
     let filePath = path.join(__dirname, req.path);
     
-    // 如果路径以/结尾，尝试添加index.html
     if (filePath.endsWith('/')) {
         filePath += 'index.html';
     }
     
-    // 检查文件是否存在
     fs.exists(filePath, (exists) => {
         if (exists) {
-            // 如果文件存在，直接返回
             res.sendFile(filePath);
         } else {
-            // 如果文件不存在，检查是否是HTML文件请求
             if (!filePath.endsWith('.html')) {
                 const htmlFilePath = filePath + '.html';
                 fs.exists(htmlFilePath, (htmlExists) => {
                     if (htmlExists) {
                         res.sendFile(htmlFilePath);
                     } else {
-                        // 如果还是不存在，返回404
                         res.status(404).send('File not found');
                     }
                 });
             } else {
-                // 如果是HTML文件但不存在，返回404
                 res.status(404).send('File not found');
             }
         }
