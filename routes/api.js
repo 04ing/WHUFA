@@ -66,7 +66,7 @@ router.delete('/users/:id', authenticate, requireAdmin, (req, res) => {
     }
 });
 
-router.put('/users/batch/replace', sanitizeInput, (req, res) => {
+router.put('/users/batch/replace', authenticate, requireAdmin, sanitizeInput, (req, res) => {
     try {
         const users = req.body;
         const updatedUsers = userModel.replaceAllUsers(users);
