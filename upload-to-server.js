@@ -6,23 +6,22 @@ const SERVER_URL = 'http://47.103.29.77:3001';
 const DATA_DIR = path.join(__dirname, 'data');
 const FILE_TO_UPLOAD = 'users.json';
 
-// 函数：读取本地文件
 function readLocalFile() {
     const filePath = path.join(DATA_DIR, FILE_TO_UPLOAD);
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
-// 函数：上传数据到服务器
 function uploadData(data) {
     return new Promise((resolve, reject) => {
-        const url = `${SERVER_URL}/api/users`;
+        const url = `${SERVER_URL}/api/users/batch/replace`;
         const postData = JSON.stringify(data);
         
         const options = {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(postData)
+                'Content-Length': Buffer.byteLength(postData),
+                'Authorization': 'Bearer admin_token_here'
             }
         };
         
@@ -54,14 +53,11 @@ function uploadData(data) {
     });
 }
 
-// 主函数
 async function main() {
     try {
-        // 读取本地文件
         const data = readLocalFile();
         console.log(`Read ${data.length} items from ${FILE_TO_UPLOAD}`);
         
-        // 上传数据到服务器
         const result = await uploadData(data);
         console.log('Upload successful!');
         console.log('Server response:', result);
@@ -70,5 +66,4 @@ async function main() {
     }
 }
 
-// 运行主函数
 main();

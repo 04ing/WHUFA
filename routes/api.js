@@ -21,13 +21,15 @@ const interactionModel = new Interaction();
 // 用户相关路由
 router.get('/users', (req, res) => {
     const users = userModel.getAllUsers();
-    res.status(200).json(users);
+    const usersWithoutPassword = users.map(({ password: _, ...user }) => user);
+    res.status(200).json(usersWithoutPassword);
 });
 
 router.get('/users/:id', (req, res) => {
     const user = userModel.getUserById(req.params.id);
     if (user) {
-        res.status(200).json(user);
+        const { password: _, ...userWithoutPassword } = user;
+        res.status(200).json(userWithoutPassword);
     } else {
         res.status(404).json({ error: 'User not found' });
     }
@@ -61,6 +63,17 @@ router.delete('/users/:id', authenticate, requireAdmin, (req, res) => {
         res.status(200).json(userWithoutPassword);
     } else {
         res.status(404).json({ error: 'User not found' });
+    }
+});
+
+router.put('/users/batch/replace', sanitizeInput, (req, res) => {
+    try {
+        const users = req.body;
+        const updatedUsers = userModel.replaceAllUsers(users);
+        const usersWithoutPassword = updatedUsers.map(({ password: _, ...user }) => user);
+        res.status(200).json({ message: 'Users replaced successfully', users: usersWithoutPassword });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 });
 

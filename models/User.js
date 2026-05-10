@@ -123,6 +123,26 @@ class User {
         
         return userLevel >= requiredLevel;
     }
+
+    // 批量替换所有用户（用于数据迁移，需要管理员权限）
+    replaceAllUsers(users) {
+        if (!Array.isArray(users)) {
+            throw new Error('Invalid data format');
+        }
+        
+        this.users = users.map(user => {
+            if (user.password && !user.password.startsWith('$2b$')) {
+                return {
+                    ...user,
+                    password: bcrypt.hashSync(user.password, SALT_ROUNDS)
+                };
+            }
+            return user;
+        });
+        
+        this.saveUsers();
+        return this.users;
+    }
 }
 
 module.exports = User;
