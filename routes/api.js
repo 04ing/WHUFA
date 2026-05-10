@@ -8,6 +8,10 @@ const Event = require('../models/Event');
 const Content = require('../models/Content');
 const Interaction = require('../models/Interaction');
 
+// 导入中间件
+const { validateUser, validateLogin, validateMatch, validateComment, sanitizeInput } = require('../middleware/validation');
+const { generateToken, authenticate, requireAdmin } = require('../middleware/auth');
+
 // 初始化模型实例
 const userModel = new User();
 const eventModel = new Event();
@@ -29,34 +33,48 @@ router.get('/users/:id', (req, res) => {
     }
 });
 
-router.post('/users', (req, res) => {
+router.post('/users', sanitizeInput, validateUser, (req, res) => {
     const newUser = userModel.createUser(req.body);
-    res.status(201).json(newUser);
+    const { password: _, ...userWithoutPassword } = newUser;
+    res.status(201).json(userWithoutPassword);
 });
 
-router.put('/users/:id', (req, res) => {
-    const updatedUser = userModel.updateUser(req.params.id, req.body);
-    if (updatedUser) {
-        res.status(200).json(updatedUser);
-    } else {
-        res.status(404).json({ error: 'User not found' });
+router.put('/users/:id', authenticate, sanitizeInput, (req, res) => {
+    const user = userModel.getUserById(req.params.id);
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
     }
+    
+    if (req.user.id !== req.params.id && req.user.role !== 'admin') {
+        return res.status(403).json({ error: '权限不足' });
+    }
+    
+    const updatedUser = userModel.updateUser(req.params.id, req.body);
+    const { password: _, ...userWithoutPassword } = updatedUser;
+    res.status(200).json(userWithoutPassword);
 });
 
-router.delete('/users/:id', (req, res) => {
+router.delete('/users/:id', authenticate, requireAdmin, (req, res) => {
     const deletedUser = userModel.deleteUser(req.params.id);
     if (deletedUser) {
-        res.status(200).json(deletedUser);
+        const { password: _, ...userWithoutPassword } = deletedUser;
+        res.status(200).json(userWithoutPassword);
     } else {
         res.status(404).json({ error: 'User not found' });
     }
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', sanitizeInput, validateLogin, (req, res) => {
     const { name, password } = req.body;
     const user = userModel.validateLogin(name, password);
     if (user) {
-        res.status(200).json({ message: 'Login successful', user });
+        const { password: _, ...userWithoutPassword } = user;
+        const token = generateToken(user);
+        res.status(200).json({ 
+            message: 'Login successful', 
+            user: userWithoutPassword,
+            token 
+        });
     } else {
         res.status(401).json({ error: 'Invalid name or password' });
     }

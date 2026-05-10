@@ -184,7 +184,9 @@ Railway是一个免费的Node.js部署平台，支持Node.js、PostgreSQL、Mong
     "name": "用户姓名",
     "college": "学院",
     "grade": "年级",
-    "password": "密码（明文）"
+    "password": "密码（bcrypt加密存储）",
+    "role": "用户角色",
+    "createdAt": "创建时间"
   }
 ]
 ```
