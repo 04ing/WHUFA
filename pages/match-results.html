@@ -585,11 +585,29 @@
                         const matchCard = document.getElementById(matchId);
                         
                         if (matchCard && confirm('确定要删除这场比赛吗？')) {
-                            matchCard.remove();
-                            alert('比赛删除成功！');
+                            if (!checkAuth()) return;
                             
-                            // 保存比赛数据到本地存储           
-                            saveMatchesToJson();
+                            fetch(window.Config.getApiUrl('/api/matches/' + matchId), {
+                                method: 'DELETE',
+                                headers: getAuthHeaders()
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    if (response.status === 401) {
+                                        throw new Error('未授权，请先登录');
+                                    }
+                                    throw new Error('删除失败: ' + response.status);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                matchCard.remove();
+                                alert('比赛删除成功！');
+                            })
+                            .catch(error => {
+                                console.error('删除比赛失败:', error);
+                                alert('删除比赛失败: ' + error.message);
+                            });
                         }
                     }
                     
@@ -1357,8 +1375,29 @@
                         // 显示成功消息
                         alert('事件保存成功！');
                         
-                        // 保存比赛数据到 JSON 文件          
-                        saveMatchesToJson();
+                        // 保存比赛事件到 API
+                        if (checkAuth()) {
+                            const matchCard = document.getElementById(matchId);
+                            if (matchCard) {
+                                const matchData = extractMatchData(matchCard);
+                                if (matchData) {
+                                    fetch(window.Config.getApiUrl('/api/matches/' + matchId), {
+                                        method: 'PUT',
+                                        headers: getAuthHeaders(),
+                                        body: JSON.stringify(matchData)
+                                    })
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            console.error('保存事件到服务器失败:', response.status);
+                                        }
+                                        return response.json();
+                                    })
+                                    .catch(error => {
+                                        console.error('保存事件到服务器失败:', error);
+                                    });
+                                }
+                            }
+                        }
                     }
                 });
                 
@@ -1366,6 +1405,8 @@
                 if (eventForm) {
                     eventForm.addEventListener('submit', function(e) {
                         e.preventDefault();
+                        
+                        if (!checkAuth()) return;
                         
                         // 获取表单数据
                         const matchDateInput = document.getElementById('matchDate');
@@ -1380,7 +1421,6 @@
                         const homeScoreInput = document.getElementById('homeScore');
                         const awayScoreInput = document.getElementById('awayScore');
                         
-                        // 检查所有必要的输入元素是否存在
                         if (!matchDateInput || !homeTeamInput || !awayTeamInput || !homeScoreInput || !awayScoreInput) {
                             alert('表单元素缺失，无法提交！');
                             return;
@@ -1398,134 +1438,142 @@
                         const homeScore = homeScoreInput.value;
                         const awayScore = awayScoreInput.value;
                         
-                        // 获取当前比赛ID
                         const currentMatchIdInput = document.getElementById('currentMatchId');
                         const currentMatchId = currentMatchIdInput ? currentMatchIdInput.value : '';
                         
-                        let matchId;
+                        const matchData = {
+                            date: matchDate,
+                            time: matchTime,
+                            type: matchType,
+                            referee: referee,
+                            assistantReferee1: assistantReferee1,
+                            assistantReferee2: assistantReferee2,
+                            fourthOfficial: fourthOfficial,
+                            homeTeam: homeTeam,
+                            awayTeam: awayTeam,
+                            homeScore: homeScore,
+                            awayScore: awayScore,
+                            status: 'completed',
+                            homeEvents: [],
+                            awayEvents: []
+                        };
+                        
+                        let apiUrl;
+                        let method;
                         
                         if (currentMatchId) {
-                            // 如果是修改现有比赛            
-                            matchId = currentMatchId;
+                            apiUrl = '/api/matches/' + currentMatchId;
+                            method = 'PUT';
+                            matchData.id = currentMatchId;
                             
-                            // 更新比赛卡片的基本信息?           
-                            const matchCard = document.getElementById(matchId);
-                            if (matchCard) {
-                                // 更新比赛时间和类型              
-                                const formattedDate = new Date(matchDate).toLocaleDateString('zh-CN');
-                                let matchTimeStr = '';
-                                if (matchTime) {
-                                    matchTimeStr = ' ' + matchTime;
-                                }
-                                let matchTypeStr = '';
-                                if (matchType) {
-                                    matchTypeStr = ' - ' + matchType;
-                                }
-                                let refereeStr = '';
-                                let refs = [];
-                                if (referee) {
-                                    refs.push('裁判员：' + referee);
-                                }
-                                if (assistantReferee1) {
-                                    refs.push('第一助理：' + assistantReferee1);
-                                }
-                                if (assistantReferee2) {
-                                    refs.push('第二助理：' + assistantReferee2);
-                                }
-                                if (fourthOfficial) {
-                                    refs.push('第四官员：' + fourthOfficial);
-                                }
-                                if (refs.length > 0) {
-                                    refereeStr = '<p class="mb-1"><small style="color: white;">' + refs.join(' | ') + '</small></p>';
-                                }
-                                
-                                // 更新卡片头部
-                                const cardHeader = matchCard.querySelector('.match-card-header h4');
-                                if (cardHeader) {
-                                    cardHeader.textContent = formattedDate + matchTimeStr + matchTypeStr;
-                                    // 更新裁判员信息          
-                                    const headerContent = cardHeader.parentElement;
-                                    const existingReferee = headerContent.querySelector('small');
-                                    if (existingReferee) {
-                                        existingReferee.parentElement.remove();
-                                    }
-                                    if (refereeStr) {
-                                        cardHeader.insertAdjacentHTML('afterend', refereeStr);
-                                    }
-                                }
-                                
-                                // 更新比分
-                                const scoreElement = matchCard.querySelector('.score');
-                                if (scoreElement) {
-                                    scoreElement.textContent = homeScore + ' - ' + awayScore;
-                                }
-                                
-                                // 更新队名
-                                const teamNames = matchCard.querySelectorAll('.team-name');
-                                if (teamNames.length >= 2) {
-                                    teamNames[0].textContent = homeTeam;
-                                    teamNames[1].textContent = awayTeam;
-                                }
-                                
-                                // 更新球队区域的队名              
-                                const team1Element = document.getElementById(matchId + '-team1');
-                                const team2Element = document.getElementById(matchId + '-team2');
-                                if (team1Element) {
-                                    const team1Name = team1Element.querySelector('h5');
-                                    if (team1Name) {
-                                        team1Name.textContent = homeTeam;
-                                    }
-                                }
-                                if (team2Element) {
-                                    const team2Name = team2Element.querySelector('h5');
-                                    if (team2Name) {
-                                        team2Name.textContent = awayTeam;
-                                    }
+                            const existingCard = document.getElementById(currentMatchId);
+                            if (existingCard) {
+                                const existingData = extractMatchData(existingCard);
+                                if (existingData) {
+                                    matchData.homeEvents = existingData.homeEvents;
+                                    matchData.awayEvents = existingData.awayEvents;
                                 }
                             }
                         } else {
-                            // 如果是新建比赛            // 生成比赛ID
-                            matchId = 'match_' + Date.now();
-                            
-                            // 创建比赛卡片
-                            const matchCard = createMatchCard(matchId, matchDate, matchTime, matchType, referee, assistantReferee1, assistantReferee2, fourthOfficial, homeTeam, awayTeam, homeScore, awayScore);
-                            
-                            // 找到表单元素
-                            const formElement = document.querySelector('.match-card');
-                            
-                            // 在表单后面插入比赛卡片           
-                            if (formElement) {
-                                formElement.after(matchCard);
+                            apiUrl = '/api/matches';
+                            method = 'POST';
+                        }
+                        
+                        fetch(window.Config.getApiUrl(apiUrl), {
+                            method: method,
+                            headers: getAuthHeaders(),
+                            body: JSON.stringify(matchData)
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                if (response.status === 401) {
+                                    throw new Error('未授权，请先登录');
+                                }
+                                return response.json().then(err => {
+                                    throw new Error(err.error || '操作失败: ' + response.status);
+                                });
                             }
-                        }
-                        
-                        // 重置表单
-                        eventForm.reset();
-                        
-                        // 重置当前比赛ID
-                        if (currentMatchIdInput) {
-                            currentMatchIdInput.value = '';
-                        }
-                        
-                        // 恢复表单标题
-                        const cardHeader = document.querySelector('.match-card-header h4');
-                        if (cardHeader) {
-                            cardHeader.textContent = '更新赛果';
-                        }
-                        const submitButton = document.querySelector('button[type="submit"]');
-                        if (submitButton) {
-                            submitButton.textContent = '添加比赛';
-                        }
-                        
-                        // 显示成功消息
-                        if (currentMatchId) {
-                            alert('比赛更新成功！');
-                        } else {
-                            alert('比赛添加成功！');
-                        }
-                        
-                        // 保存比赛数据到 API        
-                        saveMatchesToJson();
+                            return response.json();
+                        })
+                        .then(savedMatch => {
+                            let matchId = savedMatch.id || currentMatchId;
+                            
+                            if (currentMatchId) {
+                                const matchCard = document.getElementById(currentMatchId);
+                                if (matchCard) {
+                                    const formattedDate = new Date(matchDate).toLocaleDateString('zh-CN');
+                                    let matchTimeStr = matchTime ? ' ' + matchTime : '';
+                                    let matchTypeStr = matchType ? ' - ' + matchType : '';
+                                    
+                                    let refs = [];
+                                    if (referee) refs.push('裁判员：' + referee);
+                                    if (assistantReferee1) refs.push('第一助理：' + assistantReferee1);
+                                    if (assistantReferee2) refs.push('第二助理：' + assistantReferee2);
+                                    if (fourthOfficial) refs.push('第四官员：' + fourthOfficial);
+                                    let refereeStr = refs.length > 0 ? '<p class="mb-1"><small style="color: white;">' + refs.join(' | ') + '</small></p>' : '';
+                                    
+                                    const cardHeader = matchCard.querySelector('.match-card-header h4');
+                                    if (cardHeader) {
+                                        cardHeader.textContent = formattedDate + matchTimeStr + matchTypeStr;
+                                        const headerContent = cardHeader.parentElement;
+                                        const existingReferee = headerContent.querySelector('small');
+                                        if (existingReferee) {
+                                            existingReferee.parentElement.remove();
+                                        }
+                                        if (refereeStr) {
+                                            cardHeader.insertAdjacentHTML('afterend', refereeStr);
+                                        }
+                                    }
+                                    
+                                    const scoreElement = matchCard.querySelector('.score');
+                                    if (scoreElement) {
+                                        scoreElement.textContent = homeScore + ' - ' + awayScore;
+                                    }
+                                    
+                                    const teamNames = matchCard.querySelectorAll('.team-name');
+                                    if (teamNames.length >= 2) {
+                                        teamNames[0].textContent = homeTeam;
+                                        teamNames[1].textContent = awayTeam;
+                                    }
+                                    
+                                    const team1Element = document.getElementById(currentMatchId + '-team1');
+                                    const team2Element = document.getElementById(currentMatchId + '-team2');
+                                    if (team1Element) {
+                                        const team1Name = team1Element.querySelector('h5');
+                                        if (team1Name) team1Name.textContent = homeTeam;
+                                    }
+                                    if (team2Element) {
+                                        const team2Name = team2Element.querySelector('h5');
+                                        if (team2Name) team2Name.textContent = awayTeam;
+                                    }
+                                }
+                                alert('比赛更新成功！');
+                            } else {
+                                const matchCard = createMatchCard(
+                                    matchId, matchDate, matchTime, matchType, referee,
+                                    assistantReferee1, assistantReferee2, fourthOfficial,
+                                    homeTeam, awayTeam, homeScore, awayScore
+                                );
+                                
+                                const formElement = document.querySelector('.match-card');
+                                if (formElement) {
+                                    formElement.after(matchCard);
+                                }
+                                alert('比赛添加成功！');
+                            }
+                            
+                            eventForm.reset();
+                            if (currentMatchIdInput) currentMatchIdInput.value = '';
+                            
+                            const cardHeader = document.querySelector('.match-card-header h4');
+                            if (cardHeader) cardHeader.textContent = '更新赛果';
+                            const submitButton = document.querySelector('button[type="submit"]');
+                            if (submitButton) submitButton.textContent = '添加比赛';
+                        })
+                        .catch(error => {
+                            console.error('保存比赛失败:', error);
+                            alert('保存失败: ' + error.message);
+                        });
                     });
                 }
                 
@@ -1626,7 +1674,182 @@
                     return matchCard;
                 }
                 
-                // 保存比赛数据到 API      
+                // 获取认证请求头
+                function getAuthHeaders() {
+                    const token = localStorage.getItem('token');
+                    const headers = {
+                        'Content-Type': 'application/json'
+                    };
+                    if (token) {
+                        headers['Authorization'] = 'Bearer ' + token;
+                    }
+                    return headers;
+                }
+                
+                // 检查是否已登录
+                function checkAuth() {
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        alert('请先登录后再操作');
+                        window.location.href = 'register.html';
+                        return false;
+                    }
+                    return true;
+                }
+                
+                // 从DOM中提取单场比赛数据
+                function extractMatchData(matchCard) {
+                    const matchId = matchCard.id;
+                    const teamNames = matchCard.querySelectorAll('.team-name');
+                    
+                    if (teamNames.length < 2) return null;
+                    
+                    const homeTeam = teamNames[0].textContent.trim();
+                    const awayTeam = teamNames[1].textContent.trim();
+                    
+                    const scoreElement = matchCard.querySelector('.score');
+                    let homeScore = '0';
+                    let awayScore = '0';
+                    if (scoreElement) {
+                        const scoreText = scoreElement.textContent.trim();
+                        const scoreParts = scoreText.split(' - ');
+                        if (scoreParts.length >= 2) {
+                            homeScore = scoreParts[0].trim();
+                            awayScore = scoreParts[1].trim();
+                        }
+                    }
+                    
+                    const headerElement = matchCard.querySelector('.match-card-header h4');
+                    let matchDate = '';
+                    let matchTime = '';
+                    let matchType = '';
+                    if (headerElement) {
+                        const headerText = headerElement.textContent.trim();
+                        const parts = headerText.split(' - ');
+                        if (parts.length >= 2) {
+                            matchType = parts[1].trim();
+                            const dateTimePart = parts[0].trim();
+                            const dateTimeParts = dateTimePart.split(' ');
+                            matchDate = dateTimeParts[0].trim();
+                            if (dateTimeParts.length >= 2) {
+                                matchTime = dateTimeParts[1].trim();
+                            }
+                        } else {
+                            matchDate = headerText.trim();
+                        }
+                    }
+                    
+                    const refereeElements = matchCard.querySelectorAll('.match-card-header small');
+                    let referee = '';
+                    let assistantReferee1 = '';
+                    let assistantReferee2 = '';
+                    let fourthOfficial = '';
+                    
+                    refereeElements.forEach(element => {
+                        const text = element.textContent.trim();
+                        const refParts = text.split(' | ');
+                        refParts.forEach(part => {
+                            if (part.startsWith('裁判员：')) {
+                                referee = part.replace('裁判员：', '').trim();
+                            } else if (part.startsWith('第一助理：')) {
+                                assistantReferee1 = part.replace('第一助理：', '').trim();
+                            } else if (part.startsWith('第二助理：')) {
+                                assistantReferee2 = part.replace('第二助理：', '').trim();
+                            } else if (part.startsWith('第四官员：')) {
+                                fourthOfficial = part.replace('第四官员：', '').trim();
+                            }
+                        });
+                    });
+                    
+                    const homeEvents = [];
+                    const awayEvents = [];
+                    
+                    const homeEventElement = document.getElementById(matchId + '-team1');
+                    if (homeEventElement) {
+                        const homeTimelineItems = homeEventElement.querySelectorAll('.timeline-item');
+                        homeTimelineItems.forEach(function(item) {
+                            const eventType = getEventTypeFromClass(item.className);
+                            const strongElement = item.querySelector('strong');
+                            const minuteElement = item.querySelector('.col-md-1.text-start');
+                            
+                            if (strongElement && minuteElement) {
+                                let playerName = strongElement.textContent.trim();
+                                let playerNumber = '';
+                                
+                                const playerMatch = playerName.match(/^(.*?)\s*\((\d+)\)$/);
+                                if (playerMatch) {
+                                    playerName = playerMatch[1].trim();
+                                    playerNumber = playerMatch[2].trim();
+                                }
+                                
+                                const minuteText = minuteElement.textContent.trim();
+                                const minuteMatch = minuteText.match(/(\d+)'/);
+                                if (minuteMatch) {
+                                    const minute = minuteMatch[1].trim();
+                                    homeEvents.push({
+                                        type: eventType,
+                                        player: playerName,
+                                        number: playerNumber,
+                                        minute: minute
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    
+                    const awayEventElement = document.getElementById(matchId + '-team2');
+                    if (awayEventElement) {
+                        const awayTimelineItems = awayEventElement.querySelectorAll('.timeline-item');
+                        awayTimelineItems.forEach(function(item) {
+                            const eventType = getEventTypeFromClass(item.className);
+                            const strongElement = item.querySelector('strong');
+                            const minuteElement = item.querySelector('.col-md-1.text-start');
+                            
+                            if (strongElement && minuteElement) {
+                                let playerName = strongElement.textContent.trim();
+                                let playerNumber = '';
+                                
+                                const playerMatch = playerName.match(/^(.*?)\s*\((\d+)\)$/);
+                                if (playerMatch) {
+                                    playerName = playerMatch[1].trim();
+                                    playerNumber = playerMatch[2].trim();
+                                }
+                                
+                                const minuteText = minuteElement.textContent.trim();
+                                const minuteMatch = minuteText.match(/(\d+)'/);
+                                if (minuteMatch) {
+                                    const minute = minuteMatch[1].trim();
+                                    awayEvents.push({
+                                        type: eventType,
+                                        player: playerName,
+                                        number: playerNumber,
+                                        minute: minute
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    
+                    return {
+                        id: matchId,
+                        date: matchDate,
+                        time: matchTime,
+                        type: matchType,
+                        referee: referee,
+                        assistantReferee1: assistantReferee1,
+                        assistantReferee2: assistantReferee2,
+                        fourthOfficial: fourthOfficial,
+                        homeTeam: homeTeam,
+                        awayTeam: awayTeam,
+                        homeScore: homeScore,
+                        awayScore: awayScore,
+                        homeEvents: homeEvents,
+                        awayEvents: awayEvents,
+                        status: 'completed'
+                    };
+                }
+                
+                // 保存比赛数据到 API
                 function saveMatchesToJson() {
                     const matches = [];
                     
