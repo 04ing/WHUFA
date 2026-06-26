@@ -4,7 +4,7 @@ const https = require('https');
 const http = require('http');
 
 const SERVER_URL = 'http://47.103.29.77:3001';
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = path.join(__dirname, '../../data');
 
 // 数据类型列表
 const dataTypes = [
