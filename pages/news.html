@@ -16,17 +16,7 @@
   
   <!-- 加载导航栏脚本 -->
   <script src="../js/load-navbar.js"></script>
-  <script>
-    // 检查登录状态，未登录则重定向到登录注册页面
-    document.addEventListener('DOMContentLoaded', function() {
-      const userId = localStorage.getItem('userId');
-      const userName = localStorage.getItem('userName');
-      if (!userId || !userName) {
-        window.location.href = 'register.html';
-      }
-    });
-  </script>
-
+  
   <section class="p-5 pt-20">
     <div class="container">
       <h2 class="text-center mb-5">新闻和公告</h2>
