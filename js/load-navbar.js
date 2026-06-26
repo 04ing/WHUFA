@@ -141,7 +141,7 @@ function loadNavbar() {
             }
             
             // 重新绑定下拉菜单事件监听器
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle:not(.nested-toggle)');
             dropdownToggles.forEach(toggle => {
                 // 移除之前的事件监听器，避免重复绑定
                 toggle.onclick = null;
@@ -149,8 +149,21 @@ function loadNavbar() {
                 // 绑定新的事件监听器
                 toggle.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
                     const dropdownMenu = this.nextElementSibling;
                     dropdownMenu.classList.toggle('active');
+                });
+            });
+            
+            // 重新绑定二级下拉菜单事件监听器
+            const nestedToggles = document.querySelectorAll('.nested-toggle');
+            nestedToggles.forEach(toggle => {
+                toggle.onclick = null;
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const nestedMenu = this.nextElementSibling;
+                    nestedMenu.classList.toggle('active');
                 });
             });
         })
@@ -169,17 +182,21 @@ function checkLoginStatus() {
         const userInfo = document.getElementById('userInfo');
         const userNameDisplay = document.getElementById('userNameDisplay');
         const loginRegisterLink = document.getElementById('loginRegisterLink');
+        const matchManagementLink = document.getElementById('matchManagementLink');
         
         if (userInfo) userInfo.style.display = 'block';
         if (userNameDisplay) userNameDisplay.textContent = userName;
         if (loginRegisterLink) loginRegisterLink.style.display = 'none';
+        if (matchManagementLink) matchManagementLink.style.display = 'block';
     } else {
         // 用户未登录，显示登录/注册链接
         const userInfo = document.getElementById('userInfo');
         const loginRegisterLink = document.getElementById('loginRegisterLink');
+        const matchManagementLink = document.getElementById('matchManagementLink');
         
         if (userInfo) userInfo.style.display = 'none';
         if (loginRegisterLink) loginRegisterLink.style.display = 'block';
+        if (matchManagementLink) matchManagementLink.style.display = 'none';
     }
 }
 

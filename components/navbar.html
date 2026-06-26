@@ -16,18 +16,29 @@
             <a href="pages/events.html" class="nav-link">赛事开展</a>
             <a href="pages/departments.html" class="nav-link">部门介绍</a>
             <a href="pages/news.html" class="nav-link">新闻公告</a>
-            <a href="pages/match-management.html" class="nav-link">赛事管理</a>
             <a href="pages/contact.html" class="nav-link">联系我们</a>
             <div class="nav-dropdown">
                 <a href="#" class="nav-link dropdown-toggle">赛事查询</a>
                 <div class="dropdown-menu">
                     <a href="pages/freshmen2024search.html" class="dropdown-item">2024新生杯</a>
-                    <a href="pages/Super2024.html" class="dropdown-item">2024振兴杯男子超级组</a>
-                    <a href="pages/League2024.html" class="dropdown-item">2024振兴杯男子甲级组</a>
-                    <a href="pages/Women2024.html" class="dropdown-item">2024振兴杯女子组</a>
-                    <a href="pages/match-results.html" class="dropdown-item">赛果更新</a>
+                    <div class="nav-dropdown nested-dropdown">
+                        <a href="#" class="dropdown-item dropdown-toggle nested-toggle">2024振兴杯</a>
+                        <div class="dropdown-menu nested-menu">
+                            <a href="pages/Super2024.html" class="dropdown-item">男子超级组</a>
+                            <a href="pages/League2024.html" class="dropdown-item">男子甲级组</a>
+                            <a href="pages/Women2024.html" class="dropdown-item">女子组</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown nested-dropdown">
+                        <a href="#" class="dropdown-item dropdown-toggle nested-toggle">2025新生杯</a>
+                        <div class="dropdown-menu nested-menu">
+                            <a href="pages/match-results.html" class="dropdown-item">赛果更新</a>
+                        </div>
+                    </div>
+                    <a href="http://47.103.29.77:3002" class="dropdown-item" target="_blank">2026足协杯</a>
                 </div>
             </div>
+            <a href="pages/match-management.html" class="nav-link" id="matchManagementLink" style="display: none;">赛事管理</a>
             <div id="userInfo" style="display: none;">
                 <div class="nav-dropdown">
                     <a href="#" class="nav-link dropdown-toggle" id="userNameDisplay">用户</a>
@@ -70,12 +81,24 @@
         }
         
         // 下拉菜单控制
-        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle:not(.nested-toggle)');
         dropdownToggles.forEach(toggle => {
             toggle.addEventListener('click', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
                 const dropdownMenu = this.nextElementSibling;
                 dropdownMenu.classList.toggle('active');
+            });
+        });
+        
+        // 二级下拉菜单控制
+        const nestedToggles = document.querySelectorAll('.nested-toggle');
+        nestedToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const nestedMenu = this.nextElementSibling;
+                nestedMenu.classList.toggle('active');
             });
         });
         
@@ -101,16 +124,19 @@
         const userInfo = document.getElementById('userInfo');
         const userNameDisplay = document.getElementById('userNameDisplay');
         const loginRegisterLink = document.getElementById('loginRegisterLink');
+        const matchManagementLink = document.getElementById('matchManagementLink');
         
         if (userId && userName) {
             // 用户已登录，显示用户信息和登出按钮
             if (userInfo) userInfo.style.display = 'block';
             if (userNameDisplay) userNameDisplay.textContent = userName;
             if (loginRegisterLink) loginRegisterLink.style.display = 'none';
+            if (matchManagementLink) matchManagementLink.style.display = 'block';
         } else {
             // 用户未登录，显示登录/注册链接
             if (userInfo) userInfo.style.display = 'none';
             if (loginRegisterLink) loginRegisterLink.style.display = 'block';
+            if (matchManagementLink) matchManagementLink.style.display = 'none';
         }
     }
     
