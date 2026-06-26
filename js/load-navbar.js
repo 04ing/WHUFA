@@ -205,6 +205,8 @@ function logout() {
     // 清除本地存储中的用户信息
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
     
     // 更新导航栏显示
     checkLoginStatus();

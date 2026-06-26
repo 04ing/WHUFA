@@ -158,6 +158,8 @@
             // 登录成功处理
             localStorage.setItem('userId', data.user.id);
             localStorage.setItem('userName', data.user.name);
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userRole', data.user.role);
             console.log('登录成功，用户ID:', data.user.id);
             
             // 更新导航栏显示
