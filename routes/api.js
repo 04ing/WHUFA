@@ -9,8 +9,9 @@ const Content = require('../models/Content');
 const Interaction = require('../models/Interaction');
 
 // 导入中间件
-const { validateUser, validateLogin, validateMatch, validateComment, sanitizeInput } = require('../middleware/validation');
+const { validateUser, validateLogin, validateMatch, validateComment, validateFeedback, validateTeam, validatePlayer, validateReferee, validateNews, validateAnnouncement, validateDiscussion, validatePoll, sanitizeInput } = require('../middleware/validation');
 const { generateToken, authenticate, requireAdmin } = require('../middleware/auth');
+const { submitLimiter, strictSubmitLimiter } = require('../middleware/security');
 
 // 初始化模型实例
 const userModel = new User();
@@ -108,7 +109,7 @@ router.get('/matches/:id', (req, res) => {
     }
 });
 
-router.post('/matches', (req, res) => {
+router.post('/matches', authenticate, requireAdmin, sanitizeInput, validateMatch, (req, res) => {
     try {
         const newMatch = eventModel.createMatch(req.body);
         res.status(200).json(newMatch);
@@ -118,7 +119,7 @@ router.post('/matches', (req, res) => {
     }
 });
 
-router.put('/matches/:id', (req, res) => {
+router.put('/matches/:id', authenticate, requireAdmin, sanitizeInput, validateMatch, (req, res) => {
     const updatedMatch = eventModel.updateMatch(req.params.id, req.body);
     if (updatedMatch) {
         res.status(200).json(updatedMatch);
@@ -127,7 +128,7 @@ router.put('/matches/:id', (req, res) => {
     }
 });
 
-router.delete('/matches/:id', (req, res) => {
+router.delete('/matches/:id', authenticate, requireAdmin, (req, res) => {
     const deletedMatch = eventModel.deleteMatch(req.params.id);
     if (deletedMatch) {
         res.status(200).json(deletedMatch);
@@ -151,12 +152,12 @@ router.get('/teams/:id', (req, res) => {
     }
 });
 
-router.post('/teams', (req, res) => {
+router.post('/teams', authenticate, requireAdmin, sanitizeInput, validateTeam, (req, res) => {
     const newTeam = eventModel.createTeam(req.body);
     res.status(201).json(newTeam);
 });
 
-router.put('/teams/:id', (req, res) => {
+router.put('/teams/:id', authenticate, requireAdmin, sanitizeInput, validateTeam, (req, res) => {
     const updatedTeam = eventModel.updateTeam(req.params.id, req.body);
     if (updatedTeam) {
         res.status(200).json(updatedTeam);
@@ -165,7 +166,7 @@ router.put('/teams/:id', (req, res) => {
     }
 });
 
-router.delete('/teams/:id', (req, res) => {
+router.delete('/teams/:id', authenticate, requireAdmin, (req, res) => {
     const deletedTeam = eventModel.deleteTeam(req.params.id);
     if (deletedTeam) {
         res.status(200).json(deletedTeam);
@@ -194,12 +195,12 @@ router.get('/teams/:id/players', (req, res) => {
     res.status(200).json(players);
 });
 
-router.post('/players', (req, res) => {
+router.post('/players', authenticate, requireAdmin, sanitizeInput, validatePlayer, (req, res) => {
     const newPlayer = eventModel.createPlayer(req.body);
     res.status(201).json(newPlayer);
 });
 
-router.put('/players/:id', (req, res) => {
+router.put('/players/:id', authenticate, requireAdmin, sanitizeInput, validatePlayer, (req, res) => {
     const updatedPlayer = eventModel.updatePlayer(req.params.id, req.body);
     if (updatedPlayer) {
         res.status(200).json(updatedPlayer);
@@ -208,7 +209,7 @@ router.put('/players/:id', (req, res) => {
     }
 });
 
-router.delete('/players/:id', (req, res) => {
+router.delete('/players/:id', authenticate, requireAdmin, (req, res) => {
     const deletedPlayer = eventModel.deletePlayer(req.params.id);
     if (deletedPlayer) {
         res.status(200).json(deletedPlayer);
@@ -232,12 +233,12 @@ router.get('/referees/:id', (req, res) => {
     }
 });
 
-router.post('/referees', (req, res) => {
+router.post('/referees', authenticate, requireAdmin, sanitizeInput, validateReferee, (req, res) => {
     const newReferee = eventModel.createReferee(req.body);
     res.status(201).json(newReferee);
 });
 
-router.put('/referees/:id', (req, res) => {
+router.put('/referees/:id', authenticate, requireAdmin, sanitizeInput, validateReferee, (req, res) => {
     const updatedReferee = eventModel.updateReferee(req.params.id, req.body);
     if (updatedReferee) {
         res.status(200).json(updatedReferee);
@@ -246,7 +247,7 @@ router.put('/referees/:id', (req, res) => {
     }
 });
 
-router.delete('/referees/:id', (req, res) => {
+router.delete('/referees/:id', authenticate, requireAdmin, (req, res) => {
     const deletedReferee = eventModel.deleteReferee(req.params.id);
     if (deletedReferee) {
         res.status(200).json(deletedReferee);
@@ -286,12 +287,12 @@ router.get('/news/:id', (req, res) => {
     }
 });
 
-router.post('/news', (req, res) => {
+router.post('/news', authenticate, requireAdmin, sanitizeInput, validateNews, (req, res) => {
     const newNews = contentModel.createNews(req.body);
     res.status(201).json(newNews);
 });
 
-router.put('/news/:id', (req, res) => {
+router.put('/news/:id', authenticate, requireAdmin, sanitizeInput, validateNews, (req, res) => {
     const updatedNews = contentModel.updateNews(req.params.id, req.body);
     if (updatedNews) {
         res.status(200).json(updatedNews);
@@ -300,7 +301,7 @@ router.put('/news/:id', (req, res) => {
     }
 });
 
-router.delete('/news/:id', (req, res) => {
+router.delete('/news/:id', authenticate, requireAdmin, (req, res) => {
     const deletedNews = contentModel.deleteNews(req.params.id);
     if (deletedNews) {
         res.status(200).json(deletedNews);
@@ -324,12 +325,12 @@ router.get('/announcements/:id', (req, res) => {
     }
 });
 
-router.post('/announcements', (req, res) => {
+router.post('/announcements', authenticate, requireAdmin, sanitizeInput, validateAnnouncement, (req, res) => {
     const newAnnouncement = contentModel.createAnnouncement(req.body);
     res.status(201).json(newAnnouncement);
 });
 
-router.put('/announcements/:id', (req, res) => {
+router.put('/announcements/:id', authenticate, requireAdmin, sanitizeInput, validateAnnouncement, (req, res) => {
     const updatedAnnouncement = contentModel.updateAnnouncement(req.params.id, req.body);
     if (updatedAnnouncement) {
         res.status(200).json(updatedAnnouncement);
@@ -338,7 +339,7 @@ router.put('/announcements/:id', (req, res) => {
     }
 });
 
-router.delete('/announcements/:id', (req, res) => {
+router.delete('/announcements/:id', authenticate, requireAdmin, (req, res) => {
     const deletedAnnouncement = contentModel.deleteAnnouncement(req.params.id);
     if (deletedAnnouncement) {
         res.status(200).json(deletedAnnouncement);
@@ -362,12 +363,12 @@ router.get('/gallery/:id', (req, res) => {
     }
 });
 
-router.post('/gallery', (req, res) => {
+router.post('/gallery', authenticate, requireAdmin, sanitizeInput, (req, res) => {
     const newItem = contentModel.createGalleryItem(req.body);
     res.status(201).json(newItem);
 });
 
-router.put('/gallery/:id', (req, res) => {
+router.put('/gallery/:id', authenticate, requireAdmin, sanitizeInput, (req, res) => {
     const updatedItem = contentModel.updateGalleryItem(req.params.id, req.body);
     if (updatedItem) {
         res.status(200).json(updatedItem);
@@ -376,7 +377,7 @@ router.put('/gallery/:id', (req, res) => {
     }
 });
 
-router.delete('/gallery/:id', (req, res) => {
+router.delete('/gallery/:id', authenticate, requireAdmin, (req, res) => {
     const deletedItem = contentModel.deleteGalleryItem(req.params.id);
     if (deletedItem) {
         res.status(200).json(deletedItem);
@@ -400,12 +401,12 @@ router.get('/rules/:id', (req, res) => {
     }
 });
 
-router.post('/rules', (req, res) => {
+router.post('/rules', authenticate, requireAdmin, sanitizeInput, (req, res) => {
     const newRule = contentModel.createRule(req.body);
     res.status(201).json(newRule);
 });
 
-router.put('/rules/:id', (req, res) => {
+router.put('/rules/:id', authenticate, requireAdmin, sanitizeInput, (req, res) => {
     const updatedRule = contentModel.updateRule(req.params.id, req.body);
     if (updatedRule) {
         res.status(200).json(updatedRule);
@@ -414,7 +415,7 @@ router.put('/rules/:id', (req, res) => {
     }
 });
 
-router.delete('/rules/:id', (req, res) => {
+router.delete('/rules/:id', authenticate, requireAdmin, (req, res) => {
     const deletedRule = contentModel.deleteRule(req.params.id);
     if (deletedRule) {
         res.status(200).json(deletedRule);
@@ -445,12 +446,12 @@ router.get('/comments/:targetType/:targetId', (req, res) => {
     res.status(200).json(comments);
 });
 
-router.post('/comments', (req, res) => {
+router.post('/comments', submitLimiter, authenticate, sanitizeInput, validateComment, (req, res) => {
     const newComment = interactionModel.createComment(req.body);
     res.status(201).json(newComment);
 });
 
-router.put('/comments/:id', (req, res) => {
+router.put('/comments/:id', authenticate, sanitizeInput, validateComment, (req, res) => {
     const updatedComment = interactionModel.updateComment(req.params.id, req.body);
     if (updatedComment) {
         res.status(200).json(updatedComment);
@@ -459,7 +460,7 @@ router.put('/comments/:id', (req, res) => {
     }
 });
 
-router.delete('/comments/:id', (req, res) => {
+router.delete('/comments/:id', authenticate, (req, res) => {
     const deletedComment = interactionModel.deleteComment(req.params.id);
     if (deletedComment) {
         res.status(200).json(deletedComment);
@@ -468,7 +469,7 @@ router.delete('/comments/:id', (req, res) => {
     }
 });
 
-router.post('/comments/:id/like', (req, res) => {
+router.post('/comments/:id/like', authenticate, (req, res) => {
     const likedComment = interactionModel.likeComment(req.params.id);
     if (likedComment) {
         res.status(200).json(likedComment);
@@ -494,12 +495,12 @@ router.get('/discussions/:id', (req, res) => {
     }
 });
 
-router.post('/discussions', (req, res) => {
+router.post('/discussions', submitLimiter, authenticate, sanitizeInput, validateDiscussion, (req, res) => {
     const newDiscussion = interactionModel.createDiscussion(req.body);
     res.status(201).json(newDiscussion);
 });
 
-router.put('/discussions/:id', (req, res) => {
+router.put('/discussions/:id', authenticate, sanitizeInput, validateDiscussion, (req, res) => {
     const updatedDiscussion = interactionModel.updateDiscussion(req.params.id, req.body);
     if (updatedDiscussion) {
         res.status(200).json(updatedDiscussion);
@@ -508,7 +509,7 @@ router.put('/discussions/:id', (req, res) => {
     }
 });
 
-router.delete('/discussions/:id', (req, res) => {
+router.delete('/discussions/:id', authenticate, (req, res) => {
     const deletedDiscussion = interactionModel.deleteDiscussion(req.params.id);
     if (deletedDiscussion) {
         res.status(200).json(deletedDiscussion);
@@ -517,7 +518,7 @@ router.delete('/discussions/:id', (req, res) => {
     }
 });
 
-router.post('/discussions/:id/like', (req, res) => {
+router.post('/discussions/:id/like', authenticate, (req, res) => {
     const likedDiscussion = interactionModel.likeDiscussion(req.params.id);
     if (likedDiscussion) {
         res.status(200).json(likedDiscussion);
@@ -541,12 +542,12 @@ router.get('/polls/:id', (req, res) => {
     }
 });
 
-router.post('/polls', (req, res) => {
+router.post('/polls', authenticate, requireAdmin, sanitizeInput, validatePoll, (req, res) => {
     const newPoll = interactionModel.createPoll(req.body);
     res.status(201).json(newPoll);
 });
 
-router.put('/polls/:id', (req, res) => {
+router.put('/polls/:id', authenticate, requireAdmin, sanitizeInput, validatePoll, (req, res) => {
     const updatedPoll = interactionModel.updatePoll(req.params.id, req.body);
     if (updatedPoll) {
         res.status(200).json(updatedPoll);
@@ -555,7 +556,7 @@ router.put('/polls/:id', (req, res) => {
     }
 });
 
-router.delete('/polls/:id', (req, res) => {
+router.delete('/polls/:id', authenticate, requireAdmin, (req, res) => {
     const deletedPoll = interactionModel.deletePoll(req.params.id);
     if (deletedPoll) {
         res.status(200).json(deletedPoll);
@@ -564,7 +565,7 @@ router.delete('/polls/:id', (req, res) => {
     }
 });
 
-router.post('/polls/:id/vote', (req, res) => {
+router.post('/polls/:id/vote', authenticate, (req, res) => {
     const { optionId, userId } = req.body;
     const result = interactionModel.votePoll(req.params.id, optionId, userId);
     if (result.error) {
@@ -575,12 +576,12 @@ router.post('/polls/:id/vote', (req, res) => {
 });
 
 // 反馈相关路由
-router.get('/feedback', (req, res) => {
+router.get('/feedback', authenticate, requireAdmin, (req, res) => {
     const feedback = interactionModel.getAllFeedback();
     res.status(200).json(feedback);
 });
 
-router.get('/feedback/:id', (req, res) => {
+router.get('/feedback/:id', authenticate, requireAdmin, (req, res) => {
     const feedback = interactionModel.getFeedbackById(req.params.id);
     if (feedback) {
         res.status(200).json(feedback);
@@ -589,12 +590,12 @@ router.get('/feedback/:id', (req, res) => {
     }
 });
 
-router.post('/feedback', (req, res) => {
+router.post('/feedback', strictSubmitLimiter, sanitizeInput, validateFeedback, (req, res) => {
     const newFeedback = interactionModel.createFeedback(req.body);
     res.status(201).json(newFeedback);
 });
 
-router.put('/feedback/:id', (req, res) => {
+router.put('/feedback/:id', authenticate, requireAdmin, sanitizeInput, validateFeedback, (req, res) => {
     const updatedFeedback = interactionModel.updateFeedback(req.params.id, req.body);
     if (updatedFeedback) {
         res.status(200).json(updatedFeedback);
@@ -603,7 +604,7 @@ router.put('/feedback/:id', (req, res) => {
     }
 });
 
-router.delete('/feedback/:id', (req, res) => {
+router.delete('/feedback/:id', authenticate, requireAdmin, (req, res) => {
     const deletedFeedback = interactionModel.deleteFeedback(req.params.id);
     if (deletedFeedback) {
         res.status(200).json(deletedFeedback);

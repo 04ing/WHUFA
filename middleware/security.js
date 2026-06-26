@@ -26,6 +26,22 @@ const apiLimiter = rateLimit({
     legacyHeaders: false
 });
 
+const submitLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 10,
+    message: { error: '提交过于频繁，请一小时后再试' },
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+const strictSubmitLimiter = rateLimit({
+    windowMs: 24 * 60 * 60 * 1000,
+    max: 20,
+    message: { error: '今日提交次数已达上限，请明天再试' },
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
 const helmetHeaders = (req, res, next) => {
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -39,5 +55,7 @@ module.exports = {
     corsOptions,
     loginLimiter,
     apiLimiter,
+    submitLimiter,
+    strictSubmitLimiter,
     helmetHeaders
 };
